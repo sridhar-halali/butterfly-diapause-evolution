@@ -1,0 +1,1917 @@
+#NEXUS
+[R-package APE, Tue Dec 19 16:01:40 2023]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 952;
+	TAXLABELS
+		02_1564_Tithorea_harmonia
+		03_74_Mcclungia_cymo
+		05_1012_Hypomenitis_alphesiboea
+		05_1038_Veladyris_cytharista
+		05_1369_Godyris_dircenna
+		05_1371_Athyrtis_mechanitis
+		05_933_Napeogenes_duessa
+		05_srnp_57565_Mimoides_branchus
+		100_ADW_Dispar_compacta
+		105_ADW_Hesperilla_donnysa
+		116_ADW_Mesodina_aeluropis
+		121_ADW_Cephrenes_augiades
+		12_ADW_Pholisora_catullus
+		137_ADW_Celaenorrhinus_eligius
+		139_ADW_Proteides_mercurius
+		140_ADW_Aguna_asander
+		141_ADW_Spathilepia_clonius
+		142_ADW_Astraptes_fulgerator
+		143_ADW_Typhedanus_ampyx
+		144_ADW_Calpodes_ethlius
+		147_ADW_Polygonus_leo
+		14_ADW_Polites_themistocles
+		151_ADW_Chioides_catillus
+		160_ADW_Nyctelius_nyctelius
+		165_ADW_Isoteinon_lamprospilus
+		167_ADW_Thoressa_varia
+		173_ADW_Corticea_corticea
+		176_ADW_Mylon_pelopidas
+		177_ADW_Timochares_trifasciata
+		179_ADW_Antigonus_erosus
+		180_ADW_Gorgythion_begga
+		186_ADW_Achalarus_albociliatus
+		187_ADW_Codatractus_melon
+		188_ADW_Atarnes_sallei
+		189_ADW_Gesta_invisus
+		192_ADW_Zopyrion_sandace
+		195_ADW_Lento_xanthina
+		198_ADW_Dardarina_dardaris
+		20217_Forbestra_olivencia
+		20354_Thyridia_psidii
+		204_ADW_Conga_chydaea
+		206_ADW_Morys_micythus
+		20767_Callithomia_alexirrhoe
+		209_ADW_Mnasicles_hicetaon
+		20_ADW_Oarisma_garita
+		21025_Pteronymia_alida
+		210_ADW_Papias_phainis
+		21184_Patricia_demylus
+		21470_Ithomia_nsp
+		21497_Oleria_santineza
+		21693_Hypoleria_sarepta
+		21_ADW_Poanes_taxiles
+		220_ADW_Atalopedes_campestris
+		228_ADW_Carterocephalus_palaemon
+		229_ADW_Pseudocopaeodes_eunus
+		234_ADW_Polytremis_pellucida
+		23_ADW_Euphyes_vestris
+		250_ADW_Daimio_tethys
+		254_ADW_Celotes_nessus
+		267_ADW_Mnasilus_allubita
+		268_ADW_Copaeodes_aurantiaca
+		275_ADW_Piruna_aea
+		27_ADW_Thorybes_pylades
+		293_ADW_Taroctrocera_papyria
+		2_ADW_Pyrgus_communis
+		304_ADW_Signeta_flammeata
+		308_ADW_Oreisplanus_perornata
+		309_ADW_Sabera_caesina
+		30_ADW_Amblyscirtes_exoteria
+		311_ADW_Arrhenes_dschilus
+		312_ADW_Motasingha_trimaculata
+		331_ADW_Plastingia_naga
+		336_ADW_Suada_swerga
+		337_ADW_Astictopterus_jama
+		338_ADW_Lotongus_calathus
+		341_ADW_Virga_austrinus
+		342_ADW_Viola_minor
+		343_ADW_Cumbre_belli
+		344_ADW_Appia_appia
+		346_ADW_Saturnus_metonidia
+		348_ADW_Lindra_brasus
+		349_ADW_Vidius_catarinae
+		350_ADW_Lucida_ranesus
+		351_ADW_Hansa_devergens
+		352_ADW_Libra_aligula
+		36_ADW_Megathymus_streckeri
+		370_ADW_Badamia_exclamationis
+		379_ADW_Suniana_sunias
+		37_ADW_Anatrytone_logan
+		383_ADW_Burara_aquilina
+		390_ADW_Spialia_sertorius
+		392_ADW_Potanthus_sp_
+		394_ADW_Idmon_obliquans
+		396_ADW_Iambrix_salsala
+		399_ADW_Unkana_mytheca
+		400_ADW_Ancistroides_nigrita
+		403_ADW_Bungalotis_erythus
+		407_ADW_Dyscophellus_phraxanor
+		410_ADW_Orses_cynisca
+		426_ADW_Sarbia_xanthippe
+		42_ADW_Hesperia_leonardus
+		435_ADW_Helias_phalaenoides
+		437_ADW_Passova_gellias
+		441_ADW_Phocides_lilea
+		448_ADW_Perichares_philetes
+		451_ADW_Thracides_phidon
+		454_ADW_Drephalys_kidonoi
+		468_ADW_Decinea_decinea
+		477_ADW_Vettius_artona
+		480_ADW_Vinius_letis
+		481_ADW_Pachyneuria_lineatopunctata
+		483_ADW_Theagenes_dichrous
+		485_ADW_Ebrietas_anacreon
+		491_ADW_Sodalia_coler
+		499_ADW_Cabares_potrillo
+		501_ADW_Remella_rita
+		502_ADW_Thespieus_macareus
+		504_ADW_Zestusa_elwesi
+		506_ADW_Panoquina_hecebolus
+		507_ADW_Monca_crispinus
+		508_ADW_Udranomia_kikkawai
+		509_ADW_Telemiades_fides
+		510_ADW_Quadrus_cerialis
+		511_ADW_Pythonides_jovianus
+		512_ADW_Talides_sinois
+		514_ADW_Saliana_esperi
+		516_ADW_Pyrrhopyge_zenodorus
+		521_ADW_Aethilla_lavochrea
+		523_ADW_Elbella_scylla
+		525_ADW_Parelbella_macleannani
+		527_ADW_Narcosius_colossus
+		529_ADW_Calliades_zeutus
+		52_ADW_Erynnis_afranius
+		533_ADW_Coeliades_forestan
+		542_ADW_Tagiades_flesus
+		545_ADW_Eagris_tetrastigma
+		546_ADW_Sarangesa_bouvieri
+		548_ADW_Ceratrichia_clara
+		549_ADW_Osmodes_lindseyi
+		550_ADW_Xanthodisca_astrape
+		551_ADW_Celaenorrhinus_leona
+		553_ADW_Paracleros_biguttulus
+		555_ADW_Andronymus_evander
+		562_ADW_Meza_meza
+		566_ADW_Caenides_dacela
+		570_ADW_Pelopidas_thrax
+		572_ADW_Eretis_plistonicus
+		573_ADW_Gamia_shelleyi
+		587_ADW_Agathymus_mariae
+		589_MCZ_Darpa_striata
+		594_MCZ_Suastus_minutus
+		595_MCZ_Choaspes_stigmata
+		597_MCZ_Lobocla_liliana
+		598_MCZ_Halpe_porus
+		600_MCZ_Iton_watsonii
+		602_MCZ_Hidari_irava
+		603_MCZ_Pseudocoladenia_dan
+		605_MCZ_Hyarotis_adrastus
+		607_MCZ_Zela_excellens
+		608_MCZ_Gangara_thyrsis
+		60_ADW_Pompeius_pompeius
+		611_MCZ_Ancyloxypha_numitor
+		614_MCZ_Systasea_zampa
+		615_MCZ_Ampittia_discorides
+		616_MCZ_Antipodia_atralba
+		619_MCZ_Alenia_namaqua
+		625_MCZ_Cyclosemia_anastomosis
+		626_MCZ_Creonpyge_creon
+		628_MCZ_Apyrrothrix_araxes
+		630_AVZB_Hylephila_phyleus
+		631_ADW_Metisella_metis
+		632_ADW_Kedestes_barberae
+		633_MCZ_Bibasis_sena
+		634_ADW_Synapte_silius
+		635_ADW_Niconiades_xanthaphes
+		636_ADW_Milanion_marciana
+		637_ADW_Sostrata_nordica
+		638_ADW_Myscelus_belti
+		639_ADW_Nascus_paulliniae
+		63_ADW_Anthoptus_epictetus
+		640_ADW_Carcharodus_alceae
+		64_ADW_Pyrrhopygopsis_crates
+		65_ADW_Hyalothyrus_mimicus
+		67_ADW_Autochton_longipennis
+		74_ADW_Heliopetes_alana
+		77_ADW_Cymaenes_alumna
+		78_ADW_Cogia_calchas
+		79_ADW_Vehilius_putus
+		80_ADW_Callimormus_radiola
+		81_ADW_Camptopleura_auxo
+		82_ADW_Staphylus_ceos
+		85_ADW_Euschemon_rafflesia
+		88_ADW_Toxidia_doubledayi
+		92_ADW_Telicota_argeus
+		99_ADW_Netrocoryne_repanda
+		AAM98V076_Oraidium_barberae
+		AD00P266_Albulina_loewii
+		AD00P540_Cupido_minimus
+		AD02W094_Glaucopsyche_lycormas
+		ADW05I826_Euphilotes_centralis
+		ADW199_Quasimellana_eulogius
+		ADW258_Chiomara_georgina
+		ADW291_Xenophanes_tryxus
+		ADW299_Anisynta_dominula
+		ADW345_Mucia_gulala
+		ADW371_Odontoptilum_angulata
+		ADW413_Jemadia_hewitsonii
+		ADW429_Xeniades_orchamus
+		ADW445_Cephise_aelius
+		ADW465_Mimoniades_montana
+		ADW479_Parphorus_fartuga
+		ADW492_Nastra_lurida
+		ADW518_Yaguna_cosyra
+		ADW535_Pteroteinon_laufella
+		ADW560_Gretna_cylinda
+		ADW586_Tsitana_tulbagha
+		ADW591_Notocrypta_curvifasciata
+		ADW596_Pemara_pugnans
+		ADW599_Gerosis_phisara
+		ADW610_Pyroneura_sp_
+		ADW621_Neohesperilla_xanthomera
+		ADW641_Lerodea_eufala
+		ADW642_Halotus_jonaveriorum
+		AF_94_A022_Euchloe_ausonides
+		AH00T289_Zintha_hintza
+		AH95Y685_Cacyreus_marshalli
+		AH98Y715_Lepidochrysops_dukei
+		ALHU86.1_Maculinea_alcon
+		AP98W773_Actizera_lucida
+		AS92Z005_Lycaeides_melissa
+		AS92Z184_Aricia_acmon
+		AS_92_Z034_Callipsyche_behrii
+		AW138_Mysoria_ambigua
+		AW280_Urbanus_dorantes
+		AW50_Ochlodes_sylvanoides
+		AW89_Trapezites_symmomus
+		AW97_Hasora_khoda
+		BAKU_22_Scada_karschina
+		BAKU_23_Sais_rosalia
+		BAKU_43_Heterosais_edessa
+		BAKU_4_Hyalenna_pascua
+		BAKU_66_Melinaea_ludovica
+		BB08_Nessaea_obrinus
+		BD02B788_Pseudolucia_andina
+		BMC_1622_Ceratinia_iolaia
+		BR_AVLF_1_Prenda_clarissa
+		CD_1_1_Neominois_ridingsii
+		CLT_OB_003_Teracolus_eris
+		CP01_11_Caeruleuptychia_helios
+		CP01_23_Rareuptychia_clio
+		CP01_33_Euptychia_spn2
+		CP01_36_Magneuptychia_moderata
+		CP01_68_Chloreuptychia_catharina
+		CP01_78_Bia_actorion
+		CP01_84_Haetera_piera
+		CP02_19_Paryphthimoides_poltys
+		CP02_24_Erichthodes_antonina
+		CP02_39_Splendeuptychia_furina
+		CP03_63_Manerebia_cyclopina
+		CP03_70_Pronophila_thelebe
+		CP03_71_Steroma_modesta
+		CP04_01_Pseudomaniola_phaselis
+		CP04_06_Corades_enyo
+		CP04_36_Lasiophila_cirta
+		CP04_39_Dagon_pusillus
+		CP04_51_Euptychoides_hotchkissi
+		CP04_67_Oxeoschistus_leucospilos
+		CP04_88_Forsterinaria_boliviana
+		CP05_41_Anaeomorpha_splendida
+		CP06_67_Pareuptychia_metaleuca
+		CP06_70_Megeuptychia_monopunctata
+		CP06_88_Polygrapha_tyrianthina
+		CP06_89_Oressinoma_sorata
+		CP06_93_Hermeuptychia_harmonia
+		CP06_94_Junea_dorinda
+		CP07_15_Proboscis_propylea
+		CP07_51_Parapedaliodes_parepa
+		CP07_58_Cissia_penelope
+		CP07_87_Punapedaliodes_flavopunctata
+		CP07_89_Steremnia_umbracina
+		CP09_53_Panyapedaliodes_drymaea
+		CP09_56_Caerois_chorinaeus
+		CP09_66_Pedaliodes_spn117
+		CP09_78_Apexacuta_astoreth
+		CP10_04_Praepedaliodes_phanias
+		CP10_05_Hallelesis_halyma
+		CP10_07_Hyponephele_cadusia
+		CP10_09_Kirinia_roxelana
+		CP10_11_Pseudochazara_mamurra
+		CP11_01_Satyrodes_eurydice
+		CP11_06_Arethusana_arethusa
+		CP12_04_Moneuptychia_itapeva
+		CP12_06_Pharneuptychia_innocentia
+		CP13_01_Aeropetes_tulbaghia
+		CP13_03_Paralethe_dendrophilus
+		CP13_07_Punargentus_lamna
+		CP13_08_Thiemeia_phoronea
+		CP14_02_Zischkaia_pacarus
+		CP15_04_Dira_clytus
+		CP15_06_Torynesis_magna
+		CP15_09_Cercyonis_meadii
+		CP16_09_Ragadia_makuta
+		CP16_13_Erites_argentina
+		CP16_14_Coelites_euptychioides
+		CP16_16_Acrophtalmia_leuce
+		CP16_19_Callerebia_polyphemus
+		CP17_01_Steromapedaliodes_albonotata
+		CP17_02_Redonda_empetrus
+		CP17_03_Diaphanos_curvignathos
+		CP17_04_Mygona_irmina
+		CP17_06_Cheimas_opalinus
+		CP21_04_Megisto_cymela
+		CP22_01_Coeruleotaygetis_peribaea
+		CP22_03_Neonympha_areolatus
+		CP22_04_Taygetomorpha_puritana
+		CP_B01_Brintesia_circe
+		CP_B02_Penthema_darlisa
+		CP_DNACI107_Harjesia_oreba
+		CP_DNACI64_Pseudodebis_valentina
+		CP_M264_Prepona_hewitsonius
+		CP_M269_Coenophlebia_archidona
+		CR_1_5_Genus2_annette
+		D30_Zipaetis_saitis
+		DC_98_U711_Nathalis_iole
+		DHJ_02_2492_Parides_iphidamas
+		DL01_Q637_Algia_fasciata
+		DL02P705_Una_usta
+		DL99T242_Chilades_lajus
+		DL_00_Q546_Belenois_java
+		DL_00_Q581_Ixias_pyrene
+		DL_00_Q610_Prioneris_philonome
+		DL_01_N104_Delias_belladonna
+		DNA97_006_Satyrotaygetis_satyrina
+		DS_CJ8833_Hyposcada_virginiana
+		DW_92_Z084_Eurema_mexicana
+		DY_93_G038_Thecla_coelicolor
+		EW10_4_Heteronympha_merope
+		EW10_5_Bicyclus_anynana
+		EW11_1_Manataria_hercyna
+		EW1_1_Pararge_aegeria
+		EW24_17_Melanargia_galathea
+		EW24_23_Lasiommata_megera
+		EW24_7_Erebia_oeme
+		EW25_17_Orsotriaena_medus
+		EW25_21_Palaeonympha_opalina
+		EW25_23_Neope_bremeri
+		EW25_24_Hipparchia_fatua
+		EW26_19_Chazara_briseis
+		EW26_29_Berberia_lambessanus
+		EW28_1_Celastrina_neglecta
+		EW2_1_Aphantopus_hyperantus
+		EW3_6_Lopinga_achine
+		EW4_1_Oeneis_jutta
+		EW4_2_Pyronia_cecilia
+		EW4_5_Maniola_jurtina
+		EW7_3_Coenonympha_pamphilus
+		E_12_1_Elzunia_pavoni
+		E_32_1_Ollantaya_aeginata
+		E_39_32_Velamysta_phengites
+		FM_50_Abisara_rutherfordi
+		FS.a_167_Baronia_brevicornis
+		FS.b_900_Graphium_agamemnon
+		FS.b_983_Macrosoma_heliconiaria
+		FS_a_335_Luehdorfia_japonica
+		FS_a_342_Allancastria_cerisyi
+		FS_a_399_Sericinus_montela
+		FS_a_3_Battus_philenor
+		FS_a_6_Iphiclides_podalirius
+		FS_a_7_Protographium_marcellus
+		FS_a_88_Zerynthia_rumina
+		FS_b_1589_Bhutanitis_mansfieldi
+		FS_b_1597_Hypermnestra_helios
+		FS_b_1646_Pharmacophagus_antenor
+		FS_b_1827_Cressida_cressida
+		FS_b_1868_Archon_apollinus
+		FS_b_1918_Eurytides_serville
+		FS_b_3706_Losaria_neptunus
+		FS_b_3714_Lamproptera_meges
+		FS_b_3721_Euryades_duponchelli
+		FS_b_3776_Ornithoptera_euphorion
+		FS_b_974_Troides_helena
+		G104_Aremfoxia_ferra
+		G109_Haenschia_derama
+		GA_93_Z024_Gideona_lucasi
+		GA_93_Z028_Pinacopteryx_eriphia
+		JC96Q003_Iolana_iolas
+		JE01C283_Cyclargus_ammon
+		JL10_14_Lycaena_alciphron
+		JM11_1_Pseudathyma_sibyllina
+		JM4_12_Zemeros_sp
+		JXM99T709_Talicada_nyseus
+		KA119_Ianussiusa_maso
+		KA193_Lymanopoda_albomaculata
+		KA_P511_Mycalesis_orseis
+		KA_P513_Mydosama_maianeas
+		KA_P557_Heteropsis_obscura
+		KA_P631_Gnophodes_chelys
+		KA_P869_Strabena_tamatabia
+		KB339_Hypocysta_adiante
+		KD93C021_Psychonotis_caelius
+		KD93C044_Catochrysops_panormus
+		KD93C045_Euchrysops_cnejus
+		KD94Q064_Zizeeria_karsandra
+		KD94R033_Zizula_hylax
+		KD95Z506_Famegana_alsulus
+		KD_93_Q030_Theclinesthes_miskini
+		KD_94_Q002_Lucia_limbaria
+		KD_94_T063_Liphyra_brassolis
+		KED05I833_Philotes_sonorensis
+		KF_94_P022_Miletus_ancon
+		KK_02_2001_Pe_Eueides_lybia
+		KK_2921_P_Dryadula_phaetusa
+		KK_8146_E_Podotricha_telesiphe
+		KK_8554_P_Agraulis_vanillae
+		KK_8648_Pe_Dryas_iulia
+		KK_8700_Pe_Philaethria_dido
+		KK_NCS2556_FG_Heliconius_erato
+		KK_fj55_3_Telchinia_encedon
+		KSP_4486_Miriamica_sp_
+		LEP_00435_Taygetina_banghaasi
+		LEP_06463_Athesis_acrisione
+		LEP_08924_Pseudohaetera_hypaesia
+		LS02_16_Pseudoscada_florula
+		MAT99Q841_Agrodiaetus_damon
+		MC04Z114_Pseudochrysops_bornoi
+		MC11_19_Paititia_neglecta
+		MC11_63_Pachacutia_mantura
+		MD_2_Aeria_olena
+		ME10_356_Eutresis_hypereia
+		ME10_359_Brevioleria_coenina
+		ME10_414_Olyras_crathis
+		ME10_471_Episcada_mira
+		ME11_113_Pagyris_cymothoe
+		ME11_7_Hyalyris_praxilla
+		MFB00N166_Itylos_mashenka
+		MFB_00_P059_Catopsilia_pomona
+		MFB_00_P131_Cepora_perimale
+		MFB_00_P133_Elodina_angulipennis
+		MFB_00_P170_Ascia_monuste
+		MFB_00_P188_Anteos_clorinde
+		MFB_00_P189_Leptophobia_aripa
+		MFB_00_P195_Appias_drusilla
+		MFB_00_P197_Phoebis_sennae
+		MFB_00_P199_Aphrissa_statira
+		MFB_00_P201_Ganyra_josephina
+		MFB_00_P202_Perrhybris_pamela
+		MFB_00_P204_Zerene_cesonia
+		MFB_00_P211_Pyrisitia_proterpia
+		MFB_00_P215_Kricogonia_lyside
+		MFB_00_P221_Pieriballia_viardi
+		MFB_00_P234_Lieinix_nemesis
+		MFB_00_P263_Archonias_brassolis
+		MFB_00_P265_Leodonta_tellane
+		MFB_00_P266_Catasticta_cerberus
+		MFB_00_P268_Hesperocharis_crocea
+		MFB_00_P277_Itaballia_demophile
+		MFB_00_P283_Pereute_charops
+		MFB_00_P284_Eucheira_socialis
+		MFB_00_P306_Tatochila_autodice
+		MFB_00_P312_Pseudopieris_nehemia
+		MFB_00_P316_Melete_lycimnia
+		MFB_00_P353_Patia_orize
+		MFB_00_P395_Charonias_eurytele
+		MFB_00_P398_Cunizza_hirlanda
+		MFB_00_P403_Moschoneura_pinthous
+		MFB_00_P405_Enantia_lina
+		MFB_00_P410_Pierphulia_rosea
+		MFB_00_P419_Teriocolias_zelia
+		MFB_00_P432_Hypsochila_wagenknechti
+		MFB_00_P442_Pareronia_valeria
+		MFB_00_P467_Talbotia_naganum
+		MFB_00_P468_Leuciacria_acuta
+		MFB_00_P469_Aoa_affinis
+		MFB_00_P475_Dercas_gobrias
+		MFB_00_R059_Gandaca_harina
+		MH01I001_Hemiargus_ceraunus
+		MJ07_701_Genus1_nsp1
+		MM03233_Colias_palaeno
+		MM03333_Thymelicus_lineola
+		MM04799_Favonius_quercus
+		MM06585_Pieris_rapae
+		MWT93A041_Pithecops_corvus
+		MWT93A051_Anthene_emolus
+		MWT93A070_Jamides_alecto
+		MWT93B024_Castalius_rosimon
+		MWT93B038_Lycaenopsis_haraldus
+		MWT93B058_Nacaduba_angusta
+		MWT93D027_Caleta_elna
+		MWT93E012_Lampides_boeticus
+		MWT_93_B007_Poritia_erycinoides
+		NGK_02_C419_Neophasia_menapia
+		NK00P562_Polyommatus_icarus
+		NK00P594_Tongeia_fischeri
+		NN58_Parataygetis_lineata
+		NN77_Styx_infernalis
+		NP95_Y227_Eulaceura_osteria
+		NP95_Y308_Laringa_castelnaui
+		NP95_Y318_Ideopsis_gaura
+		NP_95_Y239_Saletara_liberia
+		NP_95_Y248_Leptosia_nina
+		NP_95_Y258_Hebomoia_glaucippe
+		NP_99_T476_Pontia_helice
+		NP_99_T486_Mylothris_agathina
+		NS0004_Theope_
+		NS0012_Emesis_lucinda
+		NS0015_Lasaia_agesilas
+		NS0038_Baeotis_cf_johannae
+		NS0046_Argyrogrammana_caesarion
+		NS0047_Ionotus_alector
+		NS0052_Catocyclotes_aemulius
+		NS0053_Mesosemia_rhodia
+		NS0058_Leucochimona_icare
+		NS0061_Pirascca_sagaris
+		NS0074_Parcella_amarynthina
+		NS0081_Thisbe_spn
+		NS0090_Eurybia_rubeolata
+		NS0093_Lemonias_stalachtioides
+		NS0103_Menander_menander
+		NS0104_Sertania_guttata
+		NS0105_Stichelia_bocchoris
+		NS0106_Zabuella_castanea
+		NS0107_Halonympha_paucipuncta
+		NS0108_Melanis_aegates
+		NS0110_Riodina_lysisca
+		NS0111_Calephelis_ayaman
+		NS0115_Harveyope_eudocia
+		NS0116_Ariconias_glaphyra
+		NS0119_Alesa_amesis
+		NS0127_Livendula_epixante
+		NS0137_Calospila_rhesa
+		NS0138_Zelotaea_phasma
+		NS0140_Themone_pais
+		NS0141_Sarota_
+		NS0142_Semomesia_marisa
+		NS0181_Setabis_
+		NS0191_Mesophthalma_idotea
+		NS0192_Echydna_chaseba
+		NS0195_Crocozona_coecias
+		NS0214_Charis_anius
+		NS0227_Euselasia_euromus
+		NS0248_Ithomeis_aurantiaca
+		NS0288_Rhetus_periander
+		NS0290_Echenais_thelephus
+		NS0291_Chamaelimnas_doryphora
+		NS0303_Notheme_erota
+		NS0308_Mesene_croceella
+		NS0313_Hyphilaria_thasus
+		NS0316_Chorinea_amazon
+		NS0318_Juditha_azan
+		NS0326_Caria_plutargus
+		NS0332_Eunogyra_curupira
+		NS0334_Ancyluris_aulestes
+		NS0340_Cartea_vitula
+		NS0347_Helicopis_cupido
+		NS0348_Perophthalma_tullius
+		NS0358_Nymphidium_cf_olinda
+		NS0361_Calydna_cea
+		NS0362_Roeberella_
+		NS0365_Panara_soana
+		NS0370_Barbicornis_basilis
+		NS0372_Zabuella_tenellus
+		NS0375_Voltinia_cebrenia
+		NS0378_Ithomiola_nepos
+		NS0379_Mycastor_leucarpis
+		NS0381_Chalodeta_chelonis
+		NS0383_Synargis_regulus
+		NS0386_Anteros_formosus
+		NS0398_Pheles_heliconides
+		NS0401_Symmachia_praxila
+		NS0409_Lyropteryx_therpsichore
+		NS0415_Detritivora_ma
+		NS0417_Dachetola_azora
+		NS0420_Stalachtis_calliope
+		NS0432_Isapsis_argyrtus
+		NS0435_Napaea_heteroea
+		NS0457_Pseudotinea_hemis
+		NS0462_Pandemus_pasiphae
+		NS0463_Syrmatia_nyx
+		NS0477_Siseme_aristoteles
+		NS0481_Mesenopsis_jordana
+		NS0483_Metacharis_nigrella
+		NS0495_Phaenochitonia_cingulus
+		NS0497_Protonymphidia_senta
+		NS0501_Panaropsis_
+		NW100_10_Stibochiona_nicea
+		NW100_11_Cyrestis_thyodamas
+		NW100_12_Cethosia_cyane
+		NW100_13_Lebadea_martha
+		NW100_14_Euthalia_monina
+		NW100_15_Tanaecia_julii
+		NW101_1_Amnosia_decora
+		NW101_2_Zeuxidia_dorhni
+		NW101_6_Discophora_necho
+		NW102_15_Bebearia_sophus
+		NW102_16_Cymothoe_caenis
+		NW102_1_Morphotenaris_schoenbergi
+		NW102_4_Taenaris_cyclops
+		NW102_5_Hyantis_hodeva
+		NW102_8_Harma_theobene
+		NW102_9_Aterica_galene
+		NW103_16_Lachnoptera_anticlia
+		NW103_3_Dophla_evelina
+		NW103_5_Prothoe_franck
+		NW106_10_Zethera_incerta
+		NW106_16_Chersonesia_rahria
+		NW106_1_Fountainea_ryphea
+		NW106_3_Biblis_hyperia
+		NW107_16_Adelpha_californica
+		NW107_18_Euryphura_chalcis
+		NW107_2_Elphinstonia_charlonia
+		NW108_21_Danaus_plexippus
+		NW108_3_Taygetis_virgilia
+		NW108_8_Phystis_simois
+		NW108_9_Tegosa_claudina
+		NW109_11_Dynastor_darius
+		NW109_12_Antirrhea_philoctetes
+		NW109_16_Consul_fabius
+		NW109_4_Myscelia_capenas
+		NW109_5_Batesia_hypochlora
+		NW109_8_Panacea_regina
+		NW111_10_Dichorragia_nesimachus
+		NW111_14_Amathuxidia_amythaon
+		NW111_15_Thauria_aliris
+		NW111_8_Agatasa_calydonia
+		NW112_20_Euripus_nyctelius
+		NW112_4_Bassarona_dunya
+		NW112_8_Parantica_aspasia
+		NW113_6_Sephisa_dichroa
+		NW114_16_Catuna_crithea
+		NW114_17_Amathusia_phidippus
+		NW114_18_Moduza_procris
+		NW114_1_Placidina_euryanassa
+		NW114_2_Methona_themisto
+		NW114_3_Ectima_thecla
+		NW114_4_Temenis_laothoe
+		NW114_6_Castilia_castilla
+		NW115_1_Pantoporia_paraka
+		NW115_3_Pyrrhogyra_crameri
+		NW115_8_Acraea_andromacha
+		NW117_22_Aphysoneura_pigmentaria
+		NW117_23_Ypthimomorpha_itonia
+		NW118_19_Faunis_menado
+		NW118_1_Pseudergolis_wedah
+		NW119_1_Doxocopa_laure
+		NW119_21_Atlantea_pantoni
+		NW119_3_Paulogramma_tolima
+		NW11_4_Phyciodes_cocyta
+		NW121_17_Lethe_minerva
+		NW121_20_Elymnias_casiphone
+		NW121_24_Polyura_alphius
+		NW121_7_Ethope_noirei
+		NW122_19_Lycorea_halia
+		NW122_20_Dircenna_dero
+		NW122_21_Brassolis_sophorae
+		NW122_22_Hypothyris_ninonia
+		NW122_6_Mallika_jacksoni
+		NW123_15_Dodonidia_helmsii
+		NW123_17_Percnodaimon_merula
+		NW123_18_Argyrophenga_antipodium
+		NW123_20_Hamanumida_daedalus
+		NW123_21_Pseudoneptis_bugandensis
+		NW124_21_Tisiphone_abeona
+		NW124_24_Argynnina_cyrila
+		NW124_6_Siderone_galanthis
+		NW124_7_Palla_decius
+		NW126_13_Posttaygetis_penelea
+		NW126_21_Amphidecta_calliomma
+		NW126_29_Diaethria_clymena
+		NW126_30_Haematera_pyrame
+		NW126_3_Opoptera_syme
+		NW126_4_Dasyophthalma_creusa
+		NW127_11_Hypna_clytemnestra
+		NW127_19_Foetterleia_schreineri
+		NW127_21_Eteona_tisiphone
+		NW127_3_Mechanitis_lysimnia
+		NW127_4_Epityches_eupompe
+		NW127_6_Memphis_appias
+		NW127_8_Godartiana_muscosa
+		NW129_18_Vila_azeka
+		NW129_22_Mestra_hypermestra
+		NW129_25_Epiphile_orea
+		NW12_6_Anthanassa_texana
+		NW130_15_Baeotus_beotus
+		NW131_10_Euxanthe_eurinome
+		NW131_4_Issoria_eugenia
+		NW131_6_Cirrochroa_tyche
+		NW134_9_Terinos_atlita
+		NW135_1_Lexias_pardalis
+		NW136_11_Harsiesis_hygea
+		NW136_14_Atlanteuptychia_ernestina
+		NW136_2_Argyronympha_ugiensis
+		NW136_8_Algiachroa_woodfordi
+		NW13_3_Euphydryas_phaeton
+		NW140_8_Ninguta_schrenkii
+		NW142_8_Xanthotaenia_busiris
+		NW143_6_Hestina_mena
+		NW143_7_Proterebia_afra
+		NW144_1_Pseudonympha_magus
+		NW144_2_Cassionympha_cassius
+		NW144_3_Tarsocera_fulvina
+		NW144_5_Stygionympha_vigilans
+		NW146_16_Bematistes_epaea
+		NW148_1_Ortilia_liriope
+		NW149_11_Taydebis_peculiaris
+		NW149_4_Aporia_crataegi
+		NW149_5_Leptidea_sinapis
+		NW149_9_Archeuptychia_cluena
+		NW150_3_Macrosoma_tipulata
+		NW151_2_Anthocharis_cardamine
+		NW152_10_Dynamine_serina
+		NW152_12_Marpesia_eleuchea
+		NW152_13_Asterocampa_idyja
+		NW152_14_Antillea_pelops
+		NW152_15_Libytheana_terena
+		NW152_19_Protesilaus_zonarius
+		NW152_6_Anetia_briarea
+		NW152_7_Lucinia_cadma
+		NW152_8_Archimestra_teleboas
+		NW153_20_Pyrrhocalles_antiqua
+		NW153_23_Dismorphia_spio
+		NW154_2_Pardopsis_punctatissima
+		NW155_20_Selenophanes_cassiope
+		NW155_22_Caligopsis_seleucida
+		NW155_3_Blepolenis_batea
+		NW155_5_Penetes_pamphanis
+		NW155_7_Pycina_zamba
+		NW156_15_Hestinalis_divona
+		NW156_7_Apaturopsis_cleochares
+		NW156_9_Tirumala_limniacea
+		NW158_1_Smerina_manoro
+		NW160_3_Araschnia_levana
+		NW161_1_Altiapa_klossi
+		NW161_3_Erycinidia_virgo
+		NW161_4_Platypthima_ornata
+		NW161_5_Mynes_katharina
+		NW162_1_Paratisiphone_lyrnessa
+		NW162_21_Satyrus_actaea
+		NW162_6_Catoblepia_amphiroe
+		NW164_1_Kaniska_canace
+		NW165_3_Cyllopsis_pertepida
+		NW165_5_Pindis_squamistriga
+		NW166_9_Enodia_anthedon
+		NW167_15_Parnassius_phoebus
+		NW167_5_Capronnieria_galesus
+		NW17718_Gonepteryx_rhamni
+		NW27_4_Poladryas_arachne
+		NW27_7_Dymasia_dymas
+		NW62_1_Chlosyne_janais
+		NW62_2_Nymphalis_polychloros
+		NW62_3_Hamadryas_februa
+		NW62_5_Catonephele_numilia
+		NW62_6_Hypolimnas_bolina
+		NW62_8_Kallima_paralekta
+		NW63_21_Vanessa_atalanta
+		NW63_3_Aglais_urticae
+		NW64_3_Calinaga_buddha
+		NW64_5_Doleschallia_bisaltide
+		NW65_6_Polygonia_comma
+		NW66_5_Morpho_helenor
+		NW66_6_Melanitis_leda
+		NW67_2_Limenitis_reducta
+		NW68_11_Colobura_dirce
+		NW68_1_Junonia_oenone
+		NW68_5_Anartia_amathea
+		NW68_9_Precis_octavia
+		NW69_3_Papilio_glaucus
+		NW69_4_Vindula_arsinoe
+		NW69_5_Siproeta_stelenes
+		NW69_6_Apatura_iris
+		NW70_10_Caligo_telamonius
+		NW70_7_Parthenos_sylvia
+		NW70_8_Euploea_camaralzeman
+		NW70_9_Greta_morgane
+		NW71_1_Libythea_celtis
+		NW71_7_Cupha_prosope
+		NW71_8_Vagrans_egista
+		NW73_14_Melitaea_cinxia
+		NW73_15_Protogoniomorpha_anacardii
+		NW76_12_Argynnis_paphia
+		NW76_6_Mazia_amazonica
+		NW78_3_Charaxes_castor
+		NW7_1_Texola_perse
+		NW80_13_Yoma_sabina
+		NW81_5_Rhinopalpa_polynice
+		NW81_7_Historis_odius
+		NW81_9_Archaeoprepona_demophon
+		NW82_10_Ariadne_enotrea
+		NW82_3_Salamis_cacta
+		NW82_4_Antanartia_delius
+		NW82_6_Eurytela_dryope
+		NW83_5_Mesoxantha_ethosea
+		NW84_13_Hamearis_lucina
+		NW84_14_Idea_leuconoe
+		NW84_7_Mimathyma_schrenckii
+		NW85_11_Nica_flavilla
+		NW85_16_Janatella_leucodesma
+		NW85_1_Napeocles_jucunda
+		NW85_2_Smyrna_blomfildia
+		NW85_8_Achlyodes_busiris
+		NW85_9_Amarynthis_meneria
+		NW86_3_Phalanta_phalantha
+		NW86_5_Amauris_ellioti
+		NW87_1_Higginsius_fasciata
+		NW87_2_Metamorpha_elissa
+		NW87_3_Tigridia_acesta
+		NW88_14_Byblia_anvatara
+		NW88_15_Sevenia_boisduvali
+		NW88_1_Catacroptera_cloanthe
+		NW89_13_Hypanartia_dione
+		NW89_9_Gnathotriche_exclamationis
+		NW90_14_Actinote_stratonice
+		NW91_5_Neocoenyra_petersi
+		NW92_12_Telenassa_teletusa
+		NW92_2_Anaea_troglodyta
+		NW92_5_Eresia_eunice
+		NW94_15_Euptoieta_claudia
+		NW95_16_Euphaedra_herberti
+		NW95_1_Brenthis_ino
+		NW96_16_Boloria_aquilonaris
+		NW96_5_Vanessula_milca
+		NW96_8_Kallimoides_rumia
+		NW97_11_Chitoria_ulupi
+		NW97_3_Symbrenthia_lilaea
+		NW97_7_Stichophthalma_howqua
+		NW98_3_Neptis_ida
+		NW98_5_Ypthima_baldus
+		NW99_10_Euriphene_tadema_
+		NW99_11_Euptera_elabontas
+		NW99_14_Neptidopsis_ophione
+		NW99_4_Athyma_selenophora
+		NW99_8_Pseudacraea_poggei
+		PDV_94_B004_Leucidia_brephos
+		PDV_94_T013_Uraneis_hyalina
+		PE_22_1_Yramea_inca
+		PE_5_7_Dione_glycera
+		PM01_24_Narope_cyllabarus
+		PM03_05_Bolboneura_sylphis
+		PM03_11_Allotinus_leogoron
+		PM03_14_Curetis_barsine
+		PM06_06_Eryphanis_lycomedon
+		PM06_12_Opsiphanes_cassina
+		PM07_22_Calisto_herophile
+		PM11_05_Dulcedo_polita
+		PM14_20_Pierella_lamia
+		PM14_21_Cithaerias_bandusia
+		PM15_09_Morphopsis_albertisi
+		PM16_02_Sumalia_daraxa
+		PM19_26_Zaretis_itys
+		PNG_1_10_Lamprolenis_nitida
+		QL5_Tellervo_zoilus
+		RA61_Nesoxenica_leprea
+		RA64_Geitoneura_klugii
+		RDJ001_Ortholexis_holocausta
+		RE01H234_Echinargus_huntingtoni
+		RE_01_H030_Jalmenus_daemeli
+		RS8_Caltoris_sp
+		RS_hsp_01_Monza_cretacea
+		RS_hsp_03_Teniorhinus_ignita
+		RS_hsp_04_Netrobalane_canopus
+		RS_hsp_05_Hypoleucis_sp
+		RS_hsp_06_Zophopetes_dysmephila
+		RS_hsp_07_Gorgyra_sp
+		RS_hsp_09_Mopala_orme
+		RS_hsp_10_Calleagris_lacteus
+		RS_hsp_11_Paronymus_nevea
+		RS_hsp_12_Platylesches_picanini
+		RS_hsp_13_Fresna_nyassae
+		RS_hsp_14_Pardaleodes_sp
+		RS_hsp_17_Gegenes_nigo
+		RS_hsp_18_Osphantes_ogowena
+		RS_hsp_24_Zenonia_zeno
+		RS_hsp_26_Procampta_rara
+		RS_hsp_27_Abantis_sp
+		RS_hsp_30_Chondrolepis_niveicornis
+		RV03H454_Lysandra_coridon
+		RV03V095_Leptotes_trigemmatus
+		RV03V234_Nabokovia_cuzquenha
+		RV04G317_Turanana_endymion
+		RV05M735_Eldoradina_cyanea
+		RV06H852_Pseudophilotes_panoptes
+		RV_08_H240_Zegris_eupheme
+		RWH_96_0878_Macrosoma_bahiata
+		SA_3_2_Thaumantis_klugius
+		SC_01_T380_Pseudopontia_paradoxa
+		SC_01_T400_Dixeia_charina
+		SC_01_T403_Nepheronia_thalassina
+		SC_01_T424_Eronia_cleodora
+		SC_01_T434_Colotis_hetaera
+		SPM044_Auzakia_danava
+		SPM046_Pandita_sinope
+		SPM047_Parasarpa_zayla
+		SPM049_Lelecella_limenitoides
+		SP_93_P006_Baliochila_minima
+		SW_125_Dingana_clara
+		TL96W903_Azanus_mirza
+		TL96W908_Uranothauma_falkensteini
+		TL96W917_Phlyaria_cyara
+		TL97W507_Pseudonacaduba_aethiops
+		TL97W513_Eicochrysops_hippocrates
+		UK17_Artitropa_comus
+		UK1_20_Oreixenica_latialis
+		UK23_Heteropterus_morpheus
+		UK26_Molo_mango
+		UK27_Aides_duma
+		UK28_Ridens_pacasa
+		UK29_Phanus_vitreu
+		UK30_Noctuana_haematospila
+		UK32_Euriphellus_euribates
+		UK33_Cornuphallus_sp_
+		UK34_Cabirus_procas
+		UK35_Cycloglypha_sp_
+		UK37_Pheraeus_odilia
+		UK38_Phanes_abaris
+		UK39_Zera_nolckeni
+		UK41_Ouleus_narycus
+		UK42_Tromba_tromba
+		UK43_Charidia_lucaria
+		UK44_Tarsoctenus_corytus
+		UK45_Paracarystus_menestries
+		UK46_Phareas_coeleste
+		UK47_Anastrus_sp_
+		UK48_Carrhenes_sp_
+		UK49_Eantis_thraso
+		UK4_Leona_lota
+		UK50_Chrysoplectrum_perniciosus
+		UK51_Polythrix_sp_
+		UK52_Entheus_sp_
+		UK54_Potamanaxas_sp_
+		UK55_Racta_sp_
+		UK57_Justinia_sp_
+		UK59_Wallengrenia_otho
+		UK5_2_Lohora_imatrix
+		UK64_Cobalus_calvina
+		UK67_Eburuncus_trifasciata
+		UK71_Spioniades_artemides
+		UK74_Serdis_viridicans
+		UK75_Salatis_sp_
+		UK77_Vacerra_hermesia
+		UK78_Iliana_sp_
+		UK84_Buzyges_rolla
+		UK86_Sophista_latifasciata
+		UK87_Atrytonopsis_sp
+		UK88_Asbolis_capucinus
+		V37_Idioneurula_eremita
+		VC1_Erionota_thrax
+		VL02L518_Scolitantides_orion
+		bb17_Peria_lamis
+		bb19_Eunica_bechina
+		bb21_Asterope_markii
+		bb30_Cybdelis_phaisile
+		bb40_Perisama_cabirnia
+		bb62_Callicore_excelsior
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	02_1564_Tithorea_harmonia,
+		2	03_74_Mcclungia_cymo,
+		3	05_1012_Hypomenitis_alphesiboea,
+		4	05_1038_Veladyris_cytharista,
+		5	05_1369_Godyris_dircenna,
+		6	05_1371_Athyrtis_mechanitis,
+		7	05_933_Napeogenes_duessa,
+		8	05_srnp_57565_Mimoides_branchus,
+		9	100_ADW_Dispar_compacta,
+		10	105_ADW_Hesperilla_donnysa,
+		11	116_ADW_Mesodina_aeluropis,
+		12	121_ADW_Cephrenes_augiades,
+		13	12_ADW_Pholisora_catullus,
+		14	137_ADW_Celaenorrhinus_eligius,
+		15	139_ADW_Proteides_mercurius,
+		16	140_ADW_Aguna_asander,
+		17	141_ADW_Spathilepia_clonius,
+		18	142_ADW_Astraptes_fulgerator,
+		19	143_ADW_Typhedanus_ampyx,
+		20	144_ADW_Calpodes_ethlius,
+		21	147_ADW_Polygonus_leo,
+		22	14_ADW_Polites_themistocles,
+		23	151_ADW_Chioides_catillus,
+		24	160_ADW_Nyctelius_nyctelius,
+		25	165_ADW_Isoteinon_lamprospilus,
+		26	167_ADW_Thoressa_varia,
+		27	173_ADW_Corticea_corticea,
+		28	176_ADW_Mylon_pelopidas,
+		29	177_ADW_Timochares_trifasciata,
+		30	179_ADW_Antigonus_erosus,
+		31	180_ADW_Gorgythion_begga,
+		32	186_ADW_Achalarus_albociliatus,
+		33	187_ADW_Codatractus_melon,
+		34	188_ADW_Atarnes_sallei,
+		35	189_ADW_Gesta_invisus,
+		36	192_ADW_Zopyrion_sandace,
+		37	195_ADW_Lento_xanthina,
+		38	198_ADW_Dardarina_dardaris,
+		39	20217_Forbestra_olivencia,
+		40	20354_Thyridia_psidii,
+		41	204_ADW_Conga_chydaea,
+		42	206_ADW_Morys_micythus,
+		43	20767_Callithomia_alexirrhoe,
+		44	209_ADW_Mnasicles_hicetaon,
+		45	20_ADW_Oarisma_garita,
+		46	21025_Pteronymia_alida,
+		47	210_ADW_Papias_phainis,
+		48	21184_Patricia_demylus,
+		49	21470_Ithomia_nsp,
+		50	21497_Oleria_santineza,
+		51	21693_Hypoleria_sarepta,
+		52	21_ADW_Poanes_taxiles,
+		53	220_ADW_Atalopedes_campestris,
+		54	228_ADW_Carterocephalus_palaemon,
+		55	229_ADW_Pseudocopaeodes_eunus,
+		56	234_ADW_Polytremis_pellucida,
+		57	23_ADW_Euphyes_vestris,
+		58	250_ADW_Daimio_tethys,
+		59	254_ADW_Celotes_nessus,
+		60	267_ADW_Mnasilus_allubita,
+		61	268_ADW_Copaeodes_aurantiaca,
+		62	275_ADW_Piruna_aea,
+		63	27_ADW_Thorybes_pylades,
+		64	293_ADW_Taroctrocera_papyria,
+		65	2_ADW_Pyrgus_communis,
+		66	304_ADW_Signeta_flammeata,
+		67	308_ADW_Oreisplanus_perornata,
+		68	309_ADW_Sabera_caesina,
+		69	30_ADW_Amblyscirtes_exoteria,
+		70	311_ADW_Arrhenes_dschilus,
+		71	312_ADW_Motasingha_trimaculata,
+		72	331_ADW_Plastingia_naga,
+		73	336_ADW_Suada_swerga,
+		74	337_ADW_Astictopterus_jama,
+		75	338_ADW_Lotongus_calathus,
+		76	341_ADW_Virga_austrinus,
+		77	342_ADW_Viola_minor,
+		78	343_ADW_Cumbre_belli,
+		79	344_ADW_Appia_appia,
+		80	346_ADW_Saturnus_metonidia,
+		81	348_ADW_Lindra_brasus,
+		82	349_ADW_Vidius_catarinae,
+		83	350_ADW_Lucida_ranesus,
+		84	351_ADW_Hansa_devergens,
+		85	352_ADW_Libra_aligula,
+		86	36_ADW_Megathymus_streckeri,
+		87	370_ADW_Badamia_exclamationis,
+		88	379_ADW_Suniana_sunias,
+		89	37_ADW_Anatrytone_logan,
+		90	383_ADW_Burara_aquilina,
+		91	390_ADW_Spialia_sertorius,
+		92	392_ADW_Potanthus_sp_,
+		93	394_ADW_Idmon_obliquans,
+		94	396_ADW_Iambrix_salsala,
+		95	399_ADW_Unkana_mytheca,
+		96	400_ADW_Ancistroides_nigrita,
+		97	403_ADW_Bungalotis_erythus,
+		98	407_ADW_Dyscophellus_phraxanor,
+		99	410_ADW_Orses_cynisca,
+		100	426_ADW_Sarbia_xanthippe,
+		101	42_ADW_Hesperia_leonardus,
+		102	435_ADW_Helias_phalaenoides,
+		103	437_ADW_Passova_gellias,
+		104	441_ADW_Phocides_lilea,
+		105	448_ADW_Perichares_philetes,
+		106	451_ADW_Thracides_phidon,
+		107	454_ADW_Drephalys_kidonoi,
+		108	468_ADW_Decinea_decinea,
+		109	477_ADW_Vettius_artona,
+		110	480_ADW_Vinius_letis,
+		111	481_ADW_Pachyneuria_lineatopunctata,
+		112	483_ADW_Theagenes_dichrous,
+		113	485_ADW_Ebrietas_anacreon,
+		114	491_ADW_Sodalia_coler,
+		115	499_ADW_Cabares_potrillo,
+		116	501_ADW_Remella_rita,
+		117	502_ADW_Thespieus_macareus,
+		118	504_ADW_Zestusa_elwesi,
+		119	506_ADW_Panoquina_hecebolus,
+		120	507_ADW_Monca_crispinus,
+		121	508_ADW_Udranomia_kikkawai,
+		122	509_ADW_Telemiades_fides,
+		123	510_ADW_Quadrus_cerialis,
+		124	511_ADW_Pythonides_jovianus,
+		125	512_ADW_Talides_sinois,
+		126	514_ADW_Saliana_esperi,
+		127	516_ADW_Pyrrhopyge_zenodorus,
+		128	521_ADW_Aethilla_lavochrea,
+		129	523_ADW_Elbella_scylla,
+		130	525_ADW_Parelbella_macleannani,
+		131	527_ADW_Narcosius_colossus,
+		132	529_ADW_Calliades_zeutus,
+		133	52_ADW_Erynnis_afranius,
+		134	533_ADW_Coeliades_forestan,
+		135	542_ADW_Tagiades_flesus,
+		136	545_ADW_Eagris_tetrastigma,
+		137	546_ADW_Sarangesa_bouvieri,
+		138	548_ADW_Ceratrichia_clara,
+		139	549_ADW_Osmodes_lindseyi,
+		140	550_ADW_Xanthodisca_astrape,
+		141	551_ADW_Celaenorrhinus_leona,
+		142	553_ADW_Paracleros_biguttulus,
+		143	555_ADW_Andronymus_evander,
+		144	562_ADW_Meza_meza,
+		145	566_ADW_Caenides_dacela,
+		146	570_ADW_Pelopidas_thrax,
+		147	572_ADW_Eretis_plistonicus,
+		148	573_ADW_Gamia_shelleyi,
+		149	587_ADW_Agathymus_mariae,
+		150	589_MCZ_Darpa_striata,
+		151	594_MCZ_Suastus_minutus,
+		152	595_MCZ_Choaspes_stigmata,
+		153	597_MCZ_Lobocla_liliana,
+		154	598_MCZ_Halpe_porus,
+		155	600_MCZ_Iton_watsonii,
+		156	602_MCZ_Hidari_irava,
+		157	603_MCZ_Pseudocoladenia_dan,
+		158	605_MCZ_Hyarotis_adrastus,
+		159	607_MCZ_Zela_excellens,
+		160	608_MCZ_Gangara_thyrsis,
+		161	60_ADW_Pompeius_pompeius,
+		162	611_MCZ_Ancyloxypha_numitor,
+		163	614_MCZ_Systasea_zampa,
+		164	615_MCZ_Ampittia_discorides,
+		165	616_MCZ_Antipodia_atralba,
+		166	619_MCZ_Alenia_namaqua,
+		167	625_MCZ_Cyclosemia_anastomosis,
+		168	626_MCZ_Creonpyge_creon,
+		169	628_MCZ_Apyrrothrix_araxes,
+		170	630_AVZB_Hylephila_phyleus,
+		171	631_ADW_Metisella_metis,
+		172	632_ADW_Kedestes_barberae,
+		173	633_MCZ_Bibasis_sena,
+		174	634_ADW_Synapte_silius,
+		175	635_ADW_Niconiades_xanthaphes,
+		176	636_ADW_Milanion_marciana,
+		177	637_ADW_Sostrata_nordica,
+		178	638_ADW_Myscelus_belti,
+		179	639_ADW_Nascus_paulliniae,
+		180	63_ADW_Anthoptus_epictetus,
+		181	640_ADW_Carcharodus_alceae,
+		182	64_ADW_Pyrrhopygopsis_crates,
+		183	65_ADW_Hyalothyrus_mimicus,
+		184	67_ADW_Autochton_longipennis,
+		185	74_ADW_Heliopetes_alana,
+		186	77_ADW_Cymaenes_alumna,
+		187	78_ADW_Cogia_calchas,
+		188	79_ADW_Vehilius_putus,
+		189	80_ADW_Callimormus_radiola,
+		190	81_ADW_Camptopleura_auxo,
+		191	82_ADW_Staphylus_ceos,
+		192	85_ADW_Euschemon_rafflesia,
+		193	88_ADW_Toxidia_doubledayi,
+		194	92_ADW_Telicota_argeus,
+		195	99_ADW_Netrocoryne_repanda,
+		196	AAM98V076_Oraidium_barberae,
+		197	AD00P266_Albulina_loewii,
+		198	AD00P540_Cupido_minimus,
+		199	AD02W094_Glaucopsyche_lycormas,
+		200	ADW05I826_Euphilotes_centralis,
+		201	ADW199_Quasimellana_eulogius,
+		202	ADW258_Chiomara_georgina,
+		203	ADW291_Xenophanes_tryxus,
+		204	ADW299_Anisynta_dominula,
+		205	ADW345_Mucia_gulala,
+		206	ADW371_Odontoptilum_angulata,
+		207	ADW413_Jemadia_hewitsonii,
+		208	ADW429_Xeniades_orchamus,
+		209	ADW445_Cephise_aelius,
+		210	ADW465_Mimoniades_montana,
+		211	ADW479_Parphorus_fartuga,
+		212	ADW492_Nastra_lurida,
+		213	ADW518_Yaguna_cosyra,
+		214	ADW535_Pteroteinon_laufella,
+		215	ADW560_Gretna_cylinda,
+		216	ADW586_Tsitana_tulbagha,
+		217	ADW591_Notocrypta_curvifasciata,
+		218	ADW596_Pemara_pugnans,
+		219	ADW599_Gerosis_phisara,
+		220	ADW610_Pyroneura_sp_,
+		221	ADW621_Neohesperilla_xanthomera,
+		222	ADW641_Lerodea_eufala,
+		223	ADW642_Halotus_jonaveriorum,
+		224	AF_94_A022_Euchloe_ausonides,
+		225	AH00T289_Zintha_hintza,
+		226	AH95Y685_Cacyreus_marshalli,
+		227	AH98Y715_Lepidochrysops_dukei,
+		228	ALHU86.1_Maculinea_alcon,
+		229	AP98W773_Actizera_lucida,
+		230	AS92Z005_Lycaeides_melissa,
+		231	AS92Z184_Aricia_acmon,
+		232	AS_92_Z034_Callipsyche_behrii,
+		233	AW138_Mysoria_ambigua,
+		234	AW280_Urbanus_dorantes,
+		235	AW50_Ochlodes_sylvanoides,
+		236	AW89_Trapezites_symmomus,
+		237	AW97_Hasora_khoda,
+		238	BAKU_22_Scada_karschina,
+		239	BAKU_23_Sais_rosalia,
+		240	BAKU_43_Heterosais_edessa,
+		241	BAKU_4_Hyalenna_pascua,
+		242	BAKU_66_Melinaea_ludovica,
+		243	BB08_Nessaea_obrinus,
+		244	BD02B788_Pseudolucia_andina,
+		245	BMC_1622_Ceratinia_iolaia,
+		246	BR_AVLF_1_Prenda_clarissa,
+		247	CD_1_1_Neominois_ridingsii,
+		248	CLT_OB_003_Teracolus_eris,
+		249	CP01_11_Caeruleuptychia_helios,
+		250	CP01_23_Rareuptychia_clio,
+		251	CP01_33_Euptychia_spn2,
+		252	CP01_36_Magneuptychia_moderata,
+		253	CP01_68_Chloreuptychia_catharina,
+		254	CP01_78_Bia_actorion,
+		255	CP01_84_Haetera_piera,
+		256	CP02_19_Paryphthimoides_poltys,
+		257	CP02_24_Erichthodes_antonina,
+		258	CP02_39_Splendeuptychia_furina,
+		259	CP03_63_Manerebia_cyclopina,
+		260	CP03_70_Pronophila_thelebe,
+		261	CP03_71_Steroma_modesta,
+		262	CP04_01_Pseudomaniola_phaselis,
+		263	CP04_06_Corades_enyo,
+		264	CP04_36_Lasiophila_cirta,
+		265	CP04_39_Dagon_pusillus,
+		266	CP04_51_Euptychoides_hotchkissi,
+		267	CP04_67_Oxeoschistus_leucospilos,
+		268	CP04_88_Forsterinaria_boliviana,
+		269	CP05_41_Anaeomorpha_splendida,
+		270	CP06_67_Pareuptychia_metaleuca,
+		271	CP06_70_Megeuptychia_monopunctata,
+		272	CP06_88_Polygrapha_tyrianthina,
+		273	CP06_89_Oressinoma_sorata,
+		274	CP06_93_Hermeuptychia_harmonia,
+		275	CP06_94_Junea_dorinda,
+		276	CP07_15_Proboscis_propylea,
+		277	CP07_51_Parapedaliodes_parepa,
+		278	CP07_58_Cissia_penelope,
+		279	CP07_87_Punapedaliodes_flavopunctata,
+		280	CP07_89_Steremnia_umbracina,
+		281	CP09_53_Panyapedaliodes_drymaea,
+		282	CP09_56_Caerois_chorinaeus,
+		283	CP09_66_Pedaliodes_spn117,
+		284	CP09_78_Apexacuta_astoreth,
+		285	CP10_04_Praepedaliodes_phanias,
+		286	CP10_05_Hallelesis_halyma,
+		287	CP10_07_Hyponephele_cadusia,
+		288	CP10_09_Kirinia_roxelana,
+		289	CP10_11_Pseudochazara_mamurra,
+		290	CP11_01_Satyrodes_eurydice,
+		291	CP11_06_Arethusana_arethusa,
+		292	CP12_04_Moneuptychia_itapeva,
+		293	CP12_06_Pharneuptychia_innocentia,
+		294	CP13_01_Aeropetes_tulbaghia,
+		295	CP13_03_Paralethe_dendrophilus,
+		296	CP13_07_Punargentus_lamna,
+		297	CP13_08_Thiemeia_phoronea,
+		298	CP14_02_Zischkaia_pacarus,
+		299	CP15_04_Dira_clytus,
+		300	CP15_06_Torynesis_magna,
+		301	CP15_09_Cercyonis_meadii,
+		302	CP16_09_Ragadia_makuta,
+		303	CP16_13_Erites_argentina,
+		304	CP16_14_Coelites_euptychioides,
+		305	CP16_16_Acrophtalmia_leuce,
+		306	CP16_19_Callerebia_polyphemus,
+		307	CP17_01_Steromapedaliodes_albonotata,
+		308	CP17_02_Redonda_empetrus,
+		309	CP17_03_Diaphanos_curvignathos,
+		310	CP17_04_Mygona_irmina,
+		311	CP17_06_Cheimas_opalinus,
+		312	CP21_04_Megisto_cymela,
+		313	CP22_01_Coeruleotaygetis_peribaea,
+		314	CP22_03_Neonympha_areolatus,
+		315	CP22_04_Taygetomorpha_puritana,
+		316	CP_B01_Brintesia_circe,
+		317	CP_B02_Penthema_darlisa,
+		318	CP_DNACI107_Harjesia_oreba,
+		319	CP_DNACI64_Pseudodebis_valentina,
+		320	CP_M264_Prepona_hewitsonius,
+		321	CP_M269_Coenophlebia_archidona,
+		322	CR_1_5_Genus2_annette,
+		323	D30_Zipaetis_saitis,
+		324	DC_98_U711_Nathalis_iole,
+		325	DHJ_02_2492_Parides_iphidamas,
+		326	DL01_Q637_Algia_fasciata,
+		327	DL02P705_Una_usta,
+		328	DL99T242_Chilades_lajus,
+		329	DL_00_Q546_Belenois_java,
+		330	DL_00_Q581_Ixias_pyrene,
+		331	DL_00_Q610_Prioneris_philonome,
+		332	DL_01_N104_Delias_belladonna,
+		333	DNA97_006_Satyrotaygetis_satyrina,
+		334	DS_CJ8833_Hyposcada_virginiana,
+		335	DW_92_Z084_Eurema_mexicana,
+		336	DY_93_G038_Thecla_coelicolor,
+		337	EW10_4_Heteronympha_merope,
+		338	EW10_5_Bicyclus_anynana,
+		339	EW11_1_Manataria_hercyna,
+		340	EW1_1_Pararge_aegeria,
+		341	EW24_17_Melanargia_galathea,
+		342	EW24_23_Lasiommata_megera,
+		343	EW24_7_Erebia_oeme,
+		344	EW25_17_Orsotriaena_medus,
+		345	EW25_21_Palaeonympha_opalina,
+		346	EW25_23_Neope_bremeri,
+		347	EW25_24_Hipparchia_fatua,
+		348	EW26_19_Chazara_briseis,
+		349	EW26_29_Berberia_lambessanus,
+		350	EW28_1_Celastrina_neglecta,
+		351	EW2_1_Aphantopus_hyperantus,
+		352	EW3_6_Lopinga_achine,
+		353	EW4_1_Oeneis_jutta,
+		354	EW4_2_Pyronia_cecilia,
+		355	EW4_5_Maniola_jurtina,
+		356	EW7_3_Coenonympha_pamphilus,
+		357	E_12_1_Elzunia_pavoni,
+		358	E_32_1_Ollantaya_aeginata,
+		359	E_39_32_Velamysta_phengites,
+		360	FM_50_Abisara_rutherfordi,
+		361	FS.a_167_Baronia_brevicornis,
+		362	FS.b_900_Graphium_agamemnon,
+		363	FS.b_983_Macrosoma_heliconiaria,
+		364	FS_a_335_Luehdorfia_japonica,
+		365	FS_a_342_Allancastria_cerisyi,
+		366	FS_a_399_Sericinus_montela,
+		367	FS_a_3_Battus_philenor,
+		368	FS_a_6_Iphiclides_podalirius,
+		369	FS_a_7_Protographium_marcellus,
+		370	FS_a_88_Zerynthia_rumina,
+		371	FS_b_1589_Bhutanitis_mansfieldi,
+		372	FS_b_1597_Hypermnestra_helios,
+		373	FS_b_1646_Pharmacophagus_antenor,
+		374	FS_b_1827_Cressida_cressida,
+		375	FS_b_1868_Archon_apollinus,
+		376	FS_b_1918_Eurytides_serville,
+		377	FS_b_3706_Losaria_neptunus,
+		378	FS_b_3714_Lamproptera_meges,
+		379	FS_b_3721_Euryades_duponchelli,
+		380	FS_b_3776_Ornithoptera_euphorion,
+		381	FS_b_974_Troides_helena,
+		382	G104_Aremfoxia_ferra,
+		383	G109_Haenschia_derama,
+		384	GA_93_Z024_Gideona_lucasi,
+		385	GA_93_Z028_Pinacopteryx_eriphia,
+		386	JC96Q003_Iolana_iolas,
+		387	JE01C283_Cyclargus_ammon,
+		388	JL10_14_Lycaena_alciphron,
+		389	JM11_1_Pseudathyma_sibyllina,
+		390	JM4_12_Zemeros_sp,
+		391	JXM99T709_Talicada_nyseus,
+		392	KA119_Ianussiusa_maso,
+		393	KA193_Lymanopoda_albomaculata,
+		394	KA_P511_Mycalesis_orseis,
+		395	KA_P513_Mydosama_maianeas,
+		396	KA_P557_Heteropsis_obscura,
+		397	KA_P631_Gnophodes_chelys,
+		398	KA_P869_Strabena_tamatabia,
+		399	KB339_Hypocysta_adiante,
+		400	KD93C021_Psychonotis_caelius,
+		401	KD93C044_Catochrysops_panormus,
+		402	KD93C045_Euchrysops_cnejus,
+		403	KD94Q064_Zizeeria_karsandra,
+		404	KD94R033_Zizula_hylax,
+		405	KD95Z506_Famegana_alsulus,
+		406	KD_93_Q030_Theclinesthes_miskini,
+		407	KD_94_Q002_Lucia_limbaria,
+		408	KD_94_T063_Liphyra_brassolis,
+		409	KED05I833_Philotes_sonorensis,
+		410	KF_94_P022_Miletus_ancon,
+		411	KK_02_2001_Pe_Eueides_lybia,
+		412	KK_2921_P_Dryadula_phaetusa,
+		413	KK_8146_E_Podotricha_telesiphe,
+		414	KK_8554_P_Agraulis_vanillae,
+		415	KK_8648_Pe_Dryas_iulia,
+		416	KK_8700_Pe_Philaethria_dido,
+		417	KK_NCS2556_FG_Heliconius_erato,
+		418	KK_fj55_3_Telchinia_encedon,
+		419	KSP_4486_Miriamica_sp_,
+		420	LEP_00435_Taygetina_banghaasi,
+		421	LEP_06463_Athesis_acrisione,
+		422	LEP_08924_Pseudohaetera_hypaesia,
+		423	LS02_16_Pseudoscada_florula,
+		424	MAT99Q841_Agrodiaetus_damon,
+		425	MC04Z114_Pseudochrysops_bornoi,
+		426	MC11_19_Paititia_neglecta,
+		427	MC11_63_Pachacutia_mantura,
+		428	MD_2_Aeria_olena,
+		429	ME10_356_Eutresis_hypereia,
+		430	ME10_359_Brevioleria_coenina,
+		431	ME10_414_Olyras_crathis,
+		432	ME10_471_Episcada_mira,
+		433	ME11_113_Pagyris_cymothoe,
+		434	ME11_7_Hyalyris_praxilla,
+		435	MFB00N166_Itylos_mashenka,
+		436	MFB_00_P059_Catopsilia_pomona,
+		437	MFB_00_P131_Cepora_perimale,
+		438	MFB_00_P133_Elodina_angulipennis,
+		439	MFB_00_P170_Ascia_monuste,
+		440	MFB_00_P188_Anteos_clorinde,
+		441	MFB_00_P189_Leptophobia_aripa,
+		442	MFB_00_P195_Appias_drusilla,
+		443	MFB_00_P197_Phoebis_sennae,
+		444	MFB_00_P199_Aphrissa_statira,
+		445	MFB_00_P201_Ganyra_josephina,
+		446	MFB_00_P202_Perrhybris_pamela,
+		447	MFB_00_P204_Zerene_cesonia,
+		448	MFB_00_P211_Pyrisitia_proterpia,
+		449	MFB_00_P215_Kricogonia_lyside,
+		450	MFB_00_P221_Pieriballia_viardi,
+		451	MFB_00_P234_Lieinix_nemesis,
+		452	MFB_00_P263_Archonias_brassolis,
+		453	MFB_00_P265_Leodonta_tellane,
+		454	MFB_00_P266_Catasticta_cerberus,
+		455	MFB_00_P268_Hesperocharis_crocea,
+		456	MFB_00_P277_Itaballia_demophile,
+		457	MFB_00_P283_Pereute_charops,
+		458	MFB_00_P284_Eucheira_socialis,
+		459	MFB_00_P306_Tatochila_autodice,
+		460	MFB_00_P312_Pseudopieris_nehemia,
+		461	MFB_00_P316_Melete_lycimnia,
+		462	MFB_00_P353_Patia_orize,
+		463	MFB_00_P395_Charonias_eurytele,
+		464	MFB_00_P398_Cunizza_hirlanda,
+		465	MFB_00_P403_Moschoneura_pinthous,
+		466	MFB_00_P405_Enantia_lina,
+		467	MFB_00_P410_Pierphulia_rosea,
+		468	MFB_00_P419_Teriocolias_zelia,
+		469	MFB_00_P432_Hypsochila_wagenknechti,
+		470	MFB_00_P442_Pareronia_valeria,
+		471	MFB_00_P467_Talbotia_naganum,
+		472	MFB_00_P468_Leuciacria_acuta,
+		473	MFB_00_P469_Aoa_affinis,
+		474	MFB_00_P475_Dercas_gobrias,
+		475	MFB_00_R059_Gandaca_harina,
+		476	MH01I001_Hemiargus_ceraunus,
+		477	MJ07_701_Genus1_nsp1,
+		478	MM03233_Colias_palaeno,
+		479	MM03333_Thymelicus_lineola,
+		480	MM04799_Favonius_quercus,
+		481	MM06585_Pieris_rapae,
+		482	MWT93A041_Pithecops_corvus,
+		483	MWT93A051_Anthene_emolus,
+		484	MWT93A070_Jamides_alecto,
+		485	MWT93B024_Castalius_rosimon,
+		486	MWT93B038_Lycaenopsis_haraldus,
+		487	MWT93B058_Nacaduba_angusta,
+		488	MWT93D027_Caleta_elna,
+		489	MWT93E012_Lampides_boeticus,
+		490	MWT_93_B007_Poritia_erycinoides,
+		491	NGK_02_C419_Neophasia_menapia,
+		492	NK00P562_Polyommatus_icarus,
+		493	NK00P594_Tongeia_fischeri,
+		494	NN58_Parataygetis_lineata,
+		495	NN77_Styx_infernalis,
+		496	NP95_Y227_Eulaceura_osteria,
+		497	NP95_Y308_Laringa_castelnaui,
+		498	NP95_Y318_Ideopsis_gaura,
+		499	NP_95_Y239_Saletara_liberia,
+		500	NP_95_Y248_Leptosia_nina,
+		501	NP_95_Y258_Hebomoia_glaucippe,
+		502	NP_99_T476_Pontia_helice,
+		503	NP_99_T486_Mylothris_agathina,
+		504	NS0004_Theope_,
+		505	NS0012_Emesis_lucinda,
+		506	NS0015_Lasaia_agesilas,
+		507	NS0038_Baeotis_cf_johannae,
+		508	NS0046_Argyrogrammana_caesarion,
+		509	NS0047_Ionotus_alector,
+		510	NS0052_Catocyclotes_aemulius,
+		511	NS0053_Mesosemia_rhodia,
+		512	NS0058_Leucochimona_icare,
+		513	NS0061_Pirascca_sagaris,
+		514	NS0074_Parcella_amarynthina,
+		515	NS0081_Thisbe_spn,
+		516	NS0090_Eurybia_rubeolata,
+		517	NS0093_Lemonias_stalachtioides,
+		518	NS0103_Menander_menander,
+		519	NS0104_Sertania_guttata,
+		520	NS0105_Stichelia_bocchoris,
+		521	NS0106_Zabuella_castanea,
+		522	NS0107_Halonympha_paucipuncta,
+		523	NS0108_Melanis_aegates,
+		524	NS0110_Riodina_lysisca,
+		525	NS0111_Calephelis_ayaman,
+		526	NS0115_Harveyope_eudocia,
+		527	NS0116_Ariconias_glaphyra,
+		528	NS0119_Alesa_amesis,
+		529	NS0127_Livendula_epixante,
+		530	NS0137_Calospila_rhesa,
+		531	NS0138_Zelotaea_phasma,
+		532	NS0140_Themone_pais,
+		533	NS0141_Sarota_,
+		534	NS0142_Semomesia_marisa,
+		535	NS0181_Setabis_,
+		536	NS0191_Mesophthalma_idotea,
+		537	NS0192_Echydna_chaseba,
+		538	NS0195_Crocozona_coecias,
+		539	NS0214_Charis_anius,
+		540	NS0227_Euselasia_euromus,
+		541	NS0248_Ithomeis_aurantiaca,
+		542	NS0288_Rhetus_periander,
+		543	NS0290_Echenais_thelephus,
+		544	NS0291_Chamaelimnas_doryphora,
+		545	NS0303_Notheme_erota,
+		546	NS0308_Mesene_croceella,
+		547	NS0313_Hyphilaria_thasus,
+		548	NS0316_Chorinea_amazon,
+		549	NS0318_Juditha_azan,
+		550	NS0326_Caria_plutargus,
+		551	NS0332_Eunogyra_curupira,
+		552	NS0334_Ancyluris_aulestes,
+		553	NS0340_Cartea_vitula,
+		554	NS0347_Helicopis_cupido,
+		555	NS0348_Perophthalma_tullius,
+		556	NS0358_Nymphidium_cf_olinda,
+		557	NS0361_Calydna_cea,
+		558	NS0362_Roeberella_,
+		559	NS0365_Panara_soana,
+		560	NS0370_Barbicornis_basilis,
+		561	NS0372_Zabuella_tenellus,
+		562	NS0375_Voltinia_cebrenia,
+		563	NS0378_Ithomiola_nepos,
+		564	NS0379_Mycastor_leucarpis,
+		565	NS0381_Chalodeta_chelonis,
+		566	NS0383_Synargis_regulus,
+		567	NS0386_Anteros_formosus,
+		568	NS0398_Pheles_heliconides,
+		569	NS0401_Symmachia_praxila,
+		570	NS0409_Lyropteryx_therpsichore,
+		571	NS0415_Detritivora_ma,
+		572	NS0417_Dachetola_azora,
+		573	NS0420_Stalachtis_calliope,
+		574	NS0432_Isapsis_argyrtus,
+		575	NS0435_Napaea_heteroea,
+		576	NS0457_Pseudotinea_hemis,
+		577	NS0462_Pandemus_pasiphae,
+		578	NS0463_Syrmatia_nyx,
+		579	NS0477_Siseme_aristoteles,
+		580	NS0481_Mesenopsis_jordana,
+		581	NS0483_Metacharis_nigrella,
+		582	NS0495_Phaenochitonia_cingulus,
+		583	NS0497_Protonymphidia_senta,
+		584	NS0501_Panaropsis_,
+		585	NW100_10_Stibochiona_nicea,
+		586	NW100_11_Cyrestis_thyodamas,
+		587	NW100_12_Cethosia_cyane,
+		588	NW100_13_Lebadea_martha,
+		589	NW100_14_Euthalia_monina,
+		590	NW100_15_Tanaecia_julii,
+		591	NW101_1_Amnosia_decora,
+		592	NW101_2_Zeuxidia_dorhni,
+		593	NW101_6_Discophora_necho,
+		594	NW102_15_Bebearia_sophus,
+		595	NW102_16_Cymothoe_caenis,
+		596	NW102_1_Morphotenaris_schoenbergi,
+		597	NW102_4_Taenaris_cyclops,
+		598	NW102_5_Hyantis_hodeva,
+		599	NW102_8_Harma_theobene,
+		600	NW102_9_Aterica_galene,
+		601	NW103_16_Lachnoptera_anticlia,
+		602	NW103_3_Dophla_evelina,
+		603	NW103_5_Prothoe_franck,
+		604	NW106_10_Zethera_incerta,
+		605	NW106_16_Chersonesia_rahria,
+		606	NW106_1_Fountainea_ryphea,
+		607	NW106_3_Biblis_hyperia,
+		608	NW107_16_Adelpha_californica,
+		609	NW107_18_Euryphura_chalcis,
+		610	NW107_2_Elphinstonia_charlonia,
+		611	NW108_21_Danaus_plexippus,
+		612	NW108_3_Taygetis_virgilia,
+		613	NW108_8_Phystis_simois,
+		614	NW108_9_Tegosa_claudina,
+		615	NW109_11_Dynastor_darius,
+		616	NW109_12_Antirrhea_philoctetes,
+		617	NW109_16_Consul_fabius,
+		618	NW109_4_Myscelia_capenas,
+		619	NW109_5_Batesia_hypochlora,
+		620	NW109_8_Panacea_regina,
+		621	NW111_10_Dichorragia_nesimachus,
+		622	NW111_14_Amathuxidia_amythaon,
+		623	NW111_15_Thauria_aliris,
+		624	NW111_8_Agatasa_calydonia,
+		625	NW112_20_Euripus_nyctelius,
+		626	NW112_4_Bassarona_dunya,
+		627	NW112_8_Parantica_aspasia,
+		628	NW113_6_Sephisa_dichroa,
+		629	NW114_16_Catuna_crithea,
+		630	NW114_17_Amathusia_phidippus,
+		631	NW114_18_Moduza_procris,
+		632	NW114_1_Placidina_euryanassa,
+		633	NW114_2_Methona_themisto,
+		634	NW114_3_Ectima_thecla,
+		635	NW114_4_Temenis_laothoe,
+		636	NW114_6_Castilia_castilla,
+		637	NW115_1_Pantoporia_paraka,
+		638	NW115_3_Pyrrhogyra_crameri,
+		639	NW115_8_Acraea_andromacha,
+		640	NW117_22_Aphysoneura_pigmentaria,
+		641	NW117_23_Ypthimomorpha_itonia,
+		642	NW118_19_Faunis_menado,
+		643	NW118_1_Pseudergolis_wedah,
+		644	NW119_1_Doxocopa_laure,
+		645	NW119_21_Atlantea_pantoni,
+		646	NW119_3_Paulogramma_tolima,
+		647	NW11_4_Phyciodes_cocyta,
+		648	NW121_17_Lethe_minerva,
+		649	NW121_20_Elymnias_casiphone,
+		650	NW121_24_Polyura_alphius,
+		651	NW121_7_Ethope_noirei,
+		652	NW122_19_Lycorea_halia,
+		653	NW122_20_Dircenna_dero,
+		654	NW122_21_Brassolis_sophorae,
+		655	NW122_22_Hypothyris_ninonia,
+		656	NW122_6_Mallika_jacksoni,
+		657	NW123_15_Dodonidia_helmsii,
+		658	NW123_17_Percnodaimon_merula,
+		659	NW123_18_Argyrophenga_antipodium,
+		660	NW123_20_Hamanumida_daedalus,
+		661	NW123_21_Pseudoneptis_bugandensis,
+		662	NW124_21_Tisiphone_abeona,
+		663	NW124_24_Argynnina_cyrila,
+		664	NW124_6_Siderone_galanthis,
+		665	NW124_7_Palla_decius,
+		666	NW126_13_Posttaygetis_penelea,
+		667	NW126_21_Amphidecta_calliomma,
+		668	NW126_29_Diaethria_clymena,
+		669	NW126_30_Haematera_pyrame,
+		670	NW126_3_Opoptera_syme,
+		671	NW126_4_Dasyophthalma_creusa,
+		672	NW127_11_Hypna_clytemnestra,
+		673	NW127_19_Foetterleia_schreineri,
+		674	NW127_21_Eteona_tisiphone,
+		675	NW127_3_Mechanitis_lysimnia,
+		676	NW127_4_Epityches_eupompe,
+		677	NW127_6_Memphis_appias,
+		678	NW127_8_Godartiana_muscosa,
+		679	NW129_18_Vila_azeka,
+		680	NW129_22_Mestra_hypermestra,
+		681	NW129_25_Epiphile_orea,
+		682	NW12_6_Anthanassa_texana,
+		683	NW130_15_Baeotus_beotus,
+		684	NW131_10_Euxanthe_eurinome,
+		685	NW131_4_Issoria_eugenia,
+		686	NW131_6_Cirrochroa_tyche,
+		687	NW134_9_Terinos_atlita,
+		688	NW135_1_Lexias_pardalis,
+		689	NW136_11_Harsiesis_hygea,
+		690	NW136_14_Atlanteuptychia_ernestina,
+		691	NW136_2_Argyronympha_ugiensis,
+		692	NW136_8_Algiachroa_woodfordi,
+		693	NW13_3_Euphydryas_phaeton,
+		694	NW140_8_Ninguta_schrenkii,
+		695	NW142_8_Xanthotaenia_busiris,
+		696	NW143_6_Hestina_mena,
+		697	NW143_7_Proterebia_afra,
+		698	NW144_1_Pseudonympha_magus,
+		699	NW144_2_Cassionympha_cassius,
+		700	NW144_3_Tarsocera_fulvina,
+		701	NW144_5_Stygionympha_vigilans,
+		702	NW146_16_Bematistes_epaea,
+		703	NW148_1_Ortilia_liriope,
+		704	NW149_11_Taydebis_peculiaris,
+		705	NW149_4_Aporia_crataegi,
+		706	NW149_5_Leptidea_sinapis,
+		707	NW149_9_Archeuptychia_cluena,
+		708	NW150_3_Macrosoma_tipulata,
+		709	NW151_2_Anthocharis_cardamine,
+		710	NW152_10_Dynamine_serina,
+		711	NW152_12_Marpesia_eleuchea,
+		712	NW152_13_Asterocampa_idyja,
+		713	NW152_14_Antillea_pelops,
+		714	NW152_15_Libytheana_terena,
+		715	NW152_19_Protesilaus_zonarius,
+		716	NW152_6_Anetia_briarea,
+		717	NW152_7_Lucinia_cadma,
+		718	NW152_8_Archimestra_teleboas,
+		719	NW153_20_Pyrrhocalles_antiqua,
+		720	NW153_23_Dismorphia_spio,
+		721	NW154_2_Pardopsis_punctatissima,
+		722	NW155_20_Selenophanes_cassiope,
+		723	NW155_22_Caligopsis_seleucida,
+		724	NW155_3_Blepolenis_batea,
+		725	NW155_5_Penetes_pamphanis,
+		726	NW155_7_Pycina_zamba,
+		727	NW156_15_Hestinalis_divona,
+		728	NW156_7_Apaturopsis_cleochares,
+		729	NW156_9_Tirumala_limniacea,
+		730	NW158_1_Smerina_manoro,
+		731	NW160_3_Araschnia_levana,
+		732	NW161_1_Altiapa_klossi,
+		733	NW161_3_Erycinidia_virgo,
+		734	NW161_4_Platypthima_ornata,
+		735	NW161_5_Mynes_katharina,
+		736	NW162_1_Paratisiphone_lyrnessa,
+		737	NW162_21_Satyrus_actaea,
+		738	NW162_6_Catoblepia_amphiroe,
+		739	NW164_1_Kaniska_canace,
+		740	NW165_3_Cyllopsis_pertepida,
+		741	NW165_5_Pindis_squamistriga,
+		742	NW166_9_Enodia_anthedon,
+		743	NW167_15_Parnassius_phoebus,
+		744	NW167_5_Capronnieria_galesus,
+		745	NW17718_Gonepteryx_rhamni,
+		746	NW27_4_Poladryas_arachne,
+		747	NW27_7_Dymasia_dymas,
+		748	NW62_1_Chlosyne_janais,
+		749	NW62_2_Nymphalis_polychloros,
+		750	NW62_3_Hamadryas_februa,
+		751	NW62_5_Catonephele_numilia,
+		752	NW62_6_Hypolimnas_bolina,
+		753	NW62_8_Kallima_paralekta,
+		754	NW63_21_Vanessa_atalanta,
+		755	NW63_3_Aglais_urticae,
+		756	NW64_3_Calinaga_buddha,
+		757	NW64_5_Doleschallia_bisaltide,
+		758	NW65_6_Polygonia_comma,
+		759	NW66_5_Morpho_helenor,
+		760	NW66_6_Melanitis_leda,
+		761	NW67_2_Limenitis_reducta,
+		762	NW68_11_Colobura_dirce,
+		763	NW68_1_Junonia_oenone,
+		764	NW68_5_Anartia_amathea,
+		765	NW68_9_Precis_octavia,
+		766	NW69_3_Papilio_glaucus,
+		767	NW69_4_Vindula_arsinoe,
+		768	NW69_5_Siproeta_stelenes,
+		769	NW69_6_Apatura_iris,
+		770	NW70_10_Caligo_telamonius,
+		771	NW70_7_Parthenos_sylvia,
+		772	NW70_8_Euploea_camaralzeman,
+		773	NW70_9_Greta_morgane,
+		774	NW71_1_Libythea_celtis,
+		775	NW71_7_Cupha_prosope,
+		776	NW71_8_Vagrans_egista,
+		777	NW73_14_Melitaea_cinxia,
+		778	NW73_15_Protogoniomorpha_anacardii,
+		779	NW76_12_Argynnis_paphia,
+		780	NW76_6_Mazia_amazonica,
+		781	NW78_3_Charaxes_castor,
+		782	NW7_1_Texola_perse,
+		783	NW80_13_Yoma_sabina,
+		784	NW81_5_Rhinopalpa_polynice,
+		785	NW81_7_Historis_odius,
+		786	NW81_9_Archaeoprepona_demophon,
+		787	NW82_10_Ariadne_enotrea,
+		788	NW82_3_Salamis_cacta,
+		789	NW82_4_Antanartia_delius,
+		790	NW82_6_Eurytela_dryope,
+		791	NW83_5_Mesoxantha_ethosea,
+		792	NW84_13_Hamearis_lucina,
+		793	NW84_14_Idea_leuconoe,
+		794	NW84_7_Mimathyma_schrenckii,
+		795	NW85_11_Nica_flavilla,
+		796	NW85_16_Janatella_leucodesma,
+		797	NW85_1_Napeocles_jucunda,
+		798	NW85_2_Smyrna_blomfildia,
+		799	NW85_8_Achlyodes_busiris,
+		800	NW85_9_Amarynthis_meneria,
+		801	NW86_3_Phalanta_phalantha,
+		802	NW86_5_Amauris_ellioti,
+		803	NW87_1_Higginsius_fasciata,
+		804	NW87_2_Metamorpha_elissa,
+		805	NW87_3_Tigridia_acesta,
+		806	NW88_14_Byblia_anvatara,
+		807	NW88_15_Sevenia_boisduvali,
+		808	NW88_1_Catacroptera_cloanthe,
+		809	NW89_13_Hypanartia_dione,
+		810	NW89_9_Gnathotriche_exclamationis,
+		811	NW90_14_Actinote_stratonice,
+		812	NW91_5_Neocoenyra_petersi,
+		813	NW92_12_Telenassa_teletusa,
+		814	NW92_2_Anaea_troglodyta,
+		815	NW92_5_Eresia_eunice,
+		816	NW94_15_Euptoieta_claudia,
+		817	NW95_16_Euphaedra_herberti,
+		818	NW95_1_Brenthis_ino,
+		819	NW96_16_Boloria_aquilonaris,
+		820	NW96_5_Vanessula_milca,
+		821	NW96_8_Kallimoides_rumia,
+		822	NW97_11_Chitoria_ulupi,
+		823	NW97_3_Symbrenthia_lilaea,
+		824	NW97_7_Stichophthalma_howqua,
+		825	NW98_3_Neptis_ida,
+		826	NW98_5_Ypthima_baldus,
+		827	NW99_10_Euriphene_tadema_,
+		828	NW99_11_Euptera_elabontas,
+		829	NW99_14_Neptidopsis_ophione,
+		830	NW99_4_Athyma_selenophora,
+		831	NW99_8_Pseudacraea_poggei,
+		832	PDV_94_B004_Leucidia_brephos,
+		833	PDV_94_T013_Uraneis_hyalina,
+		834	PE_22_1_Yramea_inca,
+		835	PE_5_7_Dione_glycera,
+		836	PM01_24_Narope_cyllabarus,
+		837	PM03_05_Bolboneura_sylphis,
+		838	PM03_11_Allotinus_leogoron,
+		839	PM03_14_Curetis_barsine,
+		840	PM06_06_Eryphanis_lycomedon,
+		841	PM06_12_Opsiphanes_cassina,
+		842	PM07_22_Calisto_herophile,
+		843	PM11_05_Dulcedo_polita,
+		844	PM14_20_Pierella_lamia,
+		845	PM14_21_Cithaerias_bandusia,
+		846	PM15_09_Morphopsis_albertisi,
+		847	PM16_02_Sumalia_daraxa,
+		848	PM19_26_Zaretis_itys,
+		849	PNG_1_10_Lamprolenis_nitida,
+		850	QL5_Tellervo_zoilus,
+		851	RA61_Nesoxenica_leprea,
+		852	RA64_Geitoneura_klugii,
+		853	RDJ001_Ortholexis_holocausta,
+		854	RE01H234_Echinargus_huntingtoni,
+		855	RE_01_H030_Jalmenus_daemeli,
+		856	RS8_Caltoris_sp,
+		857	RS_hsp_01_Monza_cretacea,
+		858	RS_hsp_03_Teniorhinus_ignita,
+		859	RS_hsp_04_Netrobalane_canopus,
+		860	RS_hsp_05_Hypoleucis_sp,
+		861	RS_hsp_06_Zophopetes_dysmephila,
+		862	RS_hsp_07_Gorgyra_sp,
+		863	RS_hsp_09_Mopala_orme,
+		864	RS_hsp_10_Calleagris_lacteus,
+		865	RS_hsp_11_Paronymus_nevea,
+		866	RS_hsp_12_Platylesches_picanini,
+		867	RS_hsp_13_Fresna_nyassae,
+		868	RS_hsp_14_Pardaleodes_sp,
+		869	RS_hsp_17_Gegenes_nigo,
+		870	RS_hsp_18_Osphantes_ogowena,
+		871	RS_hsp_24_Zenonia_zeno,
+		872	RS_hsp_26_Procampta_rara,
+		873	RS_hsp_27_Abantis_sp,
+		874	RS_hsp_30_Chondrolepis_niveicornis,
+		875	RV03H454_Lysandra_coridon,
+		876	RV03V095_Leptotes_trigemmatus,
+		877	RV03V234_Nabokovia_cuzquenha,
+		878	RV04G317_Turanana_endymion,
+		879	RV05M735_Eldoradina_cyanea,
+		880	RV06H852_Pseudophilotes_panoptes,
+		881	RV_08_H240_Zegris_eupheme,
+		882	RWH_96_0878_Macrosoma_bahiata,
+		883	SA_3_2_Thaumantis_klugius,
+		884	SC_01_T380_Pseudopontia_paradoxa,
+		885	SC_01_T400_Dixeia_charina,
+		886	SC_01_T403_Nepheronia_thalassina,
+		887	SC_01_T424_Eronia_cleodora,
+		888	SC_01_T434_Colotis_hetaera,
+		889	SPM044_Auzakia_danava,
+		890	SPM046_Pandita_sinope,
+		891	SPM047_Parasarpa_zayla,
+		892	SPM049_Lelecella_limenitoides,
+		893	SP_93_P006_Baliochila_minima,
+		894	SW_125_Dingana_clara,
+		895	TL96W903_Azanus_mirza,
+		896	TL96W908_Uranothauma_falkensteini,
+		897	TL96W917_Phlyaria_cyara,
+		898	TL97W507_Pseudonacaduba_aethiops,
+		899	TL97W513_Eicochrysops_hippocrates,
+		900	UK17_Artitropa_comus,
+		901	UK1_20_Oreixenica_latialis,
+		902	UK23_Heteropterus_morpheus,
+		903	UK26_Molo_mango,
+		904	UK27_Aides_duma,
+		905	UK28_Ridens_pacasa,
+		906	UK29_Phanus_vitreu,
+		907	UK30_Noctuana_haematospila,
+		908	UK32_Euriphellus_euribates,
+		909	UK33_Cornuphallus_sp_,
+		910	UK34_Cabirus_procas,
+		911	UK35_Cycloglypha_sp_,
+		912	UK37_Pheraeus_odilia,
+		913	UK38_Phanes_abaris,
+		914	UK39_Zera_nolckeni,
+		915	UK41_Ouleus_narycus,
+		916	UK42_Tromba_tromba,
+		917	UK43_Charidia_lucaria,
+		918	UK44_Tarsoctenus_corytus,
+		919	UK45_Paracarystus_menestries,
+		920	UK46_Phareas_coeleste,
+		921	UK47_Anastrus_sp_,
+		922	UK48_Carrhenes_sp_,
+		923	UK49_Eantis_thraso,
+		924	UK4_Leona_lota,
+		925	UK50_Chrysoplectrum_perniciosus,
+		926	UK51_Polythrix_sp_,
+		927	UK52_Entheus_sp_,
+		928	UK54_Potamanaxas_sp_,
+		929	UK55_Racta_sp_,
+		930	UK57_Justinia_sp_,
+		931	UK59_Wallengrenia_otho,
+		932	UK5_2_Lohora_imatrix,
+		933	UK64_Cobalus_calvina,
+		934	UK67_Eburuncus_trifasciata,
+		935	UK71_Spioniades_artemides,
+		936	UK74_Serdis_viridicans,
+		937	UK75_Salatis_sp_,
+		938	UK77_Vacerra_hermesia,
+		939	UK78_Iliana_sp_,
+		940	UK84_Buzyges_rolla,
+		941	UK86_Sophista_latifasciata,
+		942	UK87_Atrytonopsis_sp,
+		943	UK88_Asbolis_capucinus,
+		944	V37_Idioneurula_eremita,
+		945	VC1_Erionota_thrax,
+		946	VL02L518_Scolitantides_orion,
+		947	bb17_Peria_lamis,
+		948	bb19_Eunica_bechina,
+		949	bb21_Asterope_markii,
+		950	bb30_Cybdelis_phaisile,
+		951	bb40_Perisama_cabirnia,
+		952	bb62_Callicore_excelsior
+	;
+	TREE * UNTITLED = [&R] ((361:68.445077,(((743:19.22975512,372:19.22975512):21.99784479,((375:15.80274141,364:15.80274141):19.03159559,(366:25.58875585,(371:19.16533235,(365:8.944178892,370:8.944178892):10.22115345):6.423423499):9.245581161):6.393262902):17.67989172,((368:33.7619231,(378:30.86172664,(362:22.68133895,(376:17.2297811,(8:10.79676277,(369:8.861133389,715:8.861133389):1.935629385):6.433018326):5.451557849):8.180387695):2.900196457):19.37502166,(766:46.54335769,(367:39.54394584,(379:32.51145036,(373:26.89432816,((374:19.28367826,325:19.28367826):2.706684852,(377:16.99484818,(381:11.25763061,380:11.25763061):5.737217563):4.995514947):4.903965034):5.617122204):7.03249548):6.999411854):6.593587061):5.770546871):9.537585366):39.15870203,(((708:32.80731491,(882:25.29195745,363:25.29195745):7.515357466):66.38319116,((237:27.13296985,(87:25.63956855,((173:16.55791597,90:16.55791597):6.632843779,(152:15.15122988,134:15.15122988):8.039529873):2.448808805):1.4934013):38.11314654,((((35:10.45384979,133:10.45384979):16.19106917,((177:18.62823409,(921:16.81701668,(928:11.07877327,28:11.07877327):5.738243412):1.811217402):4.786070808,((112:12.34344014,(31:10.11868594,202:10.11868594):2.224754197):5.104578956,((29:10.54709849,190:10.54709849):2.729625117,(102:11.08581655,(911:9.372962302,113:9.372962302):1.712854244):2.190907065):4.171295479):5.966285805):3.23061406):17.86098524,(((923:20.02751001,(799:14.77804833,128:14.77804833):5.249461676):16.36460736,((935:29.85020023,910:29.85020023):5.177994879,((124:18.24449085,(914:10.12619323,123:10.12619323):8.118297619):12.24714152,(917:12.52896843,(34:7.606737301,(934:4.159654339,176:4.159654339):3.447082961):4.92223113):17.96266393):4.536562748):1.363922266):5.832605018,((203:27.03282353,((36:20.81857848,(163:17.63473942,922:17.63473942):3.18383906):3.102864255,(30:22.57743648,(59:18.168117,(65:10.59688317,185:10.59688317):7.571233826):4.409319485):1.344006248):3.111380799):14.22798051,(167:32.58238872,(909:28.88489732,((77:13.41976664,(939:9.122171629,(941:7.958086422,111:7.958086422):1.164085207):4.297595011):13.46130697,((181:17.11985858,91:17.11985858):6.061337724,(907:21.82425168,(915:14.69413975,(191:11.69985385,13:11.69985385):2.9942859):7.130111932):1.356944628):3.699877299):2.003823714):3.697491401):8.67841531):0.9639183635):2.281181803):7.398415565,((853:45.67522518,((103:9.26717185,178:9.26717185):19.99944513,((129:7.953509651,130:7.953509651):10.73030168,(((168:9.236813612,169:9.236813612):3.838616875,(213:9.802655263,127:9.802655263):3.272775222):2.394164773,((207:10.1399083,210:10.1399083):0.9633780949,(100:8.256196896,233:8.256196896):2.847089503):4.366308861):3.214216067):10.58280565):16.4086082):4.658960134,((((141:27.46211329,166:27.46211329):6.124945699,(14:29.50760205,(157:21.85989653,(137:19.80492025,147:19.80492025):2.054976277):7.647705513):4.079456943):9.407784911,(195:40.20460117,(219:34.87437234,((864:29.00762554,136:29.00762554):3.745925299,((135:18.96645197,58:18.96645197):12.10318743,((872:24.86957777,150:24.86957777):3.462949248,(206:15.78309581,(873:8.981183133,859:8.981183133):6.801912683):12.5494312):2.737112375):1.683911439):2.1208215):5.330228835):2.790242731):5.534097966,((192:43.81896187,(((19:17.49808254,187:17.49808254):15.29370918,((918:26.69222107,121:26.69222107):1.624556251,(107:27.10193745,(927:24.44169049,(183:19.11478138,906:19.11478138):5.326909113):2.660246964):1.214839865):4.475014409):2.42497317,(((937:18.56945607,97:18.56945607):7.715596102,((179:14.75643574,104:14.75643574):9.849133499,(920:21.73404831,(98:8.149718091,908:8.149718091):13.58433022):2.871520934):1.679482933):2.492099474,((209:25.37994106,((925:7.068656432,926:7.068656432):13.54179755,(21:13.50397429,122:13.50397429):7.106479693):4.769487073):2.008080338,((132:19.16171719,(16:17.86406091,(33:15.74614075,(905:14.02553319,(118:12.50810883,153:12.50810883):1.517424356):1.72060756):2.117920169):1.297656276):2.930360992,((15:15.15951551,(23:13.22179725,131:13.22179725):1.937718255):2.142608185,(17:16.39469805,(115:14.87909177,(18:12.73245944,(184:9.23942237,(32:7.489918328,(63:6.450163281,234:6.450163281):1.039755046):1.749504042):3.493037074):2.146632321):1.515606285):0.907425646):4.78995449):5.295943211):1.389130255):6.439613249):8.602196974):3.375556488,((902:30.58806762,((171:20.64380547,54:20.64380547):6.759198566,(62:21.73554676,38:21.73554676):5.667457266):3.185063589):12.99223537,((236:20.56638425,((66:12.96463363,(193:8.328285046,221:8.328285046):4.63634858):6.250812832,((67:11.96695059,(71:10.4330382,10:10.4330382):1.533912396):6.233256022,((11:16.25395686,165:16.25395686):1.288663106,(204:8.163106189,9:8.163106189):9.379513771):0.6575866569):1.015239842):1.350937795):20.83382538,((164:25.17951734,(154:17.35427293,26:17.35427293):7.825244412):13.24281066,((((194:10.74353664,12:10.74353664):3.368283544,(68:12.66516034,70:12.66516034):1.446659846):6.396910629,(64:10.89193579,(92:8.244413836,88:8.244413836):2.647521957):9.616795022):15.28574837,((138:26.62964057,(144:23.58344947,868:23.58344947):3.046191101):8.054111109,((((220:29.37174285,(139:26.32645583,866:26.32645583):3.04528702):2.219043356,((870:20.29607064,862:20.29607064):9.262772604,((865:15.70927861,867:15.70927861):9.330026458,(858:24.06376397,(143:20.4876981,142:20.4876981):3.576065876):0.9755410854):4.519538182):2.031942964):1.239156929,(215:32.1003063,((860:25.52338639,(140:20.50403944,145:20.50403944):5.019346947):4.992653938,((172:19.00991611,(216:17.36559253,(25:14.60547661,74:14.60547661):2.760115911):1.644323576):7.814351226,(((148:10.57833055,900:10.57833055):14.19269231,(861:22.03766221,874:22.03766221):2.733360656):0.7565618767,((863:14.42526799,924:14.42526799):9.716192146,(156:21.67139608,(214:15.69784252,857:15.69784252):5.973553566):2.470064046):1.386124608):1.29668259):3.691773):1.58426597):0.7296368372):0.7670550873,(((73:29.02379856,(218:25.10806099,(151:21.04410224,72:21.04410224):4.063958747):3.915737572):1.85444895,((75:22.75310676,95:22.75310676):6.040573504,(159:23.97854822,(945:21.83567822,160:21.83567822):2.142869998):4.815132043):2.084567241):1.84676635,(((93:23.71511949,94:23.71511949):5.201564602,(158:26.11824658,(96:14.58542233,217:14.58542233):11.53282425):2.798437514):2.867503046,((99:9.676038519,105:9.676038519):20.34239072,((871:13.50203636,(56:11.90330621,(155:11.26004434,(856:9.711559883,(146:9.010039901,869:9.010039901):0.7015199814):1.548484458):0.643261866):1.59873015):15.7371524,((86:7.543326173,149:7.543326173):21.01775181,((((479:16.63554434,(61:12.18779172,45:12.18779172):4.447752626):5.989042885,(119:16.19624628,(126:7.806053326,20:7.806053326):8.390192962):6.428340938):2.773582721,(125:23.58897866,((182:12.06851294,916:12.06851294):10.01458358,(933:17.30099986,(904:15.33175705,106:15.33175705):1.969242806):4.782096665):1.505882134):1.809191293):0.7954860649,(((57:16.52401599,((84:13.49420355,81:13.49420355):1.132113427,(85:13.69288,936:13.69288):0.9334369804):1.89769901):2.23105082,((117:12.65054299,(942:11.03765111,(208:8.016317197,938:8.016317197):3.021333913):1.612891879):5.211128442,((89:13.65039993,(108:10.85063244,(201:9.092559782,940:9.092559782):1.758072658):2.799767492):3.44905204,((235:10.43652886,52:10.43652886):5.318412551,(((41:7.134984299,24:7.134984299):4.440545708,(53:9.641148302,(101:9.069620125,55:9.069620125):0.5715281778):1.934381705):2.021098747,(170:11.11251998,((161:4.293951342,79:4.293951342):5.28525581,(931:6.893866186,22:6.893866186):2.685340965):1.533312829):2.484108773):2.158312658):1.344510559):0.762219458):0.8933953756):6.894433534,(((930:15.65663945,174:15.65663945):7.020709435,((903:3.839031062,929:3.839031062):12.95442714,((27:9.701945069,180:9.701945069):3.062052008,(719:5.193929295,943:5.193929295):7.570067782):4.029461123):5.88389068):1.559986107,(162:23.09512409,((69:11.86527724,(116:9.101905573,44:9.101905573):2.763371667):8.547113991,((189:18.44109135,(37:12.4636828,76:12.4636828):5.977408544):1.42405326,((110:17.21583532,(919:13.54924955,(175:9.628752643,(223:8.265314895,205:8.265314895):1.363437748):3.920496912):3.666585767):1.967458392,((114:14.61669254,(913:11.30967726,(83:10.4907685,(912:8.530164149,78:8.530164149):1.960604356):0.818908759):3.30701528):3.533072151,((80:6.950391037,211:6.950391037):8.619968922,(42:12.3054588,((186:3.587778664,82:3.587778664):7.496491415,((188:9.287139164,(60:7.572527308,47:7.572527308):1.714611856):1.340751485,(212:10.25900066,(109:9.48874758,(222:8.712068863,120:8.712068863):0.7766787161):0.7702530853):0.3688899843):0.4563794301):1.221188722):3.264901157):2.579404737):1.03352902):0.6818508933):0.5472466237):2.682732855):1.142210899):1.412165354):0.5441556732):2.367421966):0.6781107715):0.7792404873):1.7657579):0.9408267207):0.8719843659):1.086753461):1.110727493):2.62784882):2.977881641):2.180093355):3.614215368):1.334423504):1.805243449):1.570134448):13.34179663):33.94438968):7.273668872,(((706:43.0891313,(460:25.37147688,(465:14.5275488,((720:9.164464804,451:9.164464804):1.925496179,(466:8.864748033,462:8.864748033):2.22521295):3.43758782):10.84392808):17.71765442):33.80778945,(884:71.02980881,((((449:33.163519,324:33.163519):8.161617178,(448:28.57015568,(468:19.90988849,(335:16.25895405,832:16.25895405):3.650934444):8.660267188):12.7549805):6.624812357,(475:36.4131884,(745:32.97244433,((443:12.22136035,444:12.22136035):15.44731328,((474:15.9345011,436:15.9345011):5.090300373,(440:18.5831116,(478:10.9677739,447:10.9677739):7.6153377):2.441689877):6.643872156):5.303770698):3.440744076):11.53676013):18.77397923,((886:35.07799214,470:35.07799214):23.76034628,((((385:29.00437909,(248:26.71531077,384:26.71531077):2.289068316):12.75480619,(888:36.22784845,(330:23.12858876,887:23.12858876):13.09925969):5.531336829):9.334191768,(501:41.82235091,((464:6.639068203,455:6.639068203):27.56466863,(610:15.98856941,(709:12.85284277,(881:10.45343876,224:10.45343876):2.399404012):3.135726641):18.21516742):7.618614076):9.271026142):4.159440782,((500:42.44572516,438:42.44572516):7.98431368,((473:35.32055209,(499:27.79489431,442:27.79489431):7.525657779):6.842469768,(((481:19.05951305,471:19.05951305):4.43929993,((441:18.20866163,(450:12.37788,(456:9.783190624,446:9.783190624):2.594689376):5.830781621):3.928792275,(502:21.29330344,(439:16.83591071,(445:14.52859587,((459:3.888630795,469:3.888630795):1.698186657,467:5.586817452):8.941778417):2.307314847):4.457392734):0.8441504474):1.361359088):16.75703143,((329:28.06574227,885:28.06574227):7.862875182,((437:29.6758634,331:29.6758634):3.083387656,(503:27.95244486,((332:15.48687745,472:15.48687745):10.30581295,(705:24.23559996,(461:19.78246918,((453:7.289277882,457:7.289277882):10.71455384,((458:11.8524522,491:11.8524522):2.637770673,(452:13.64926384,(463:11.99654591,454:11.99654591):1.652717932):0.8409590296):3.513608852):1.778637462):4.453130786):1.557090429):2.159754462):4.806806196):3.169366393):4.327226965):1.907177442):8.267016984):4.822778989):3.585520597):7.88558934):4.305881044):5.867111938):24.25146713,(((839:70.99135515,(((893:36.20650062,490:36.20650062):21.39949223,(408:44.690496,(838:25.84428604,410:25.84428604):18.84620995):12.91549686):6.285597031,(388:56.44850001,(((407:29.04909214,855:29.04909214):13.0403044,(480:38.68001496,(336:15.88293512,232:15.88293512):22.79707985):3.409381583):12.51931327,(483:48.03029111,(482:38.42928195,(((487:23.39172302,895:23.39172302):3.212004682,(327:16.9697846,898:16.9697846):9.63394311):7.915761813,(((400:15.36660839,(488:13.31362214,(485:9.874457932,225:9.874457932):3.439164207):2.052986255):10.78455653,((403:17.42097242,401:17.42097242):5.12994155,((484:16.76922734,(899:13.42965392,(486:10.03782997,350:10.03782997):3.391823952):3.339573419):3.933253846,((229:16.14727,((489:11.51268319,226:11.51268319):2.458536557,(897:6.459816531,896:6.459816531):7.511403219):2.17605025):2.000739737,(228:12.8983307,(946:11.58011641,((199:9.504131216,(200:7.819602683,386:7.819602683):1.684528534):0.9356833411,(409:9.807637352,(880:8.422290346,878:8.422290346):1.385347006):0.6321772044):1.140301854):1.318214285):5.249679043):2.554471447):1.848432794):3.600250944):7.23381959,((405:27.21007373,406:27.21007373):3.849239456,((196:20.69060822,404:20.69060822):8.24040112,((227:14.83547591,402:14.83547591):12.13806464,(876:24.65793868,((198:10.44482472,(391:7.454068388,493:7.454068388):2.990756328):9.519395127,(328:15.18989352,((231:8.925998744,(230:7.214716726,(197:6.505717543,(875:5.561627967,(492:3.289128064,424:3.289128064):2.272499904):0.9440895753):0.7089991829):1.711282018):4.59939194,((387:7.593671422,(476:3.689646711,854:3.689646711):3.904024711):4.411793078,(425:10.98904967,((244:8.985127234,(879:5.262747644,877:5.262747644):3.72237959):1.038156474,435:10.02328371):0.9657659599):1.016414831):1.519926185):1.664502833):4.774326326):4.693718834):2.315601875):1.957468785):2.12830385):2.325671325):1.134505003):3.909792435):9.601009163):6.578418702):1.83979019):7.443089878):7.099765264):16.78103376,((540:58.46948844,(360:47.22740499,(390:41.8528019,(792:29.56710813,495:29.56710813):12.28569377):5.374603083):11.24208346):14.94176764,(((528:29.32556364,516:29.32556364):19.14756461,(551:40.97788963,((547:24.11590581,((563:18.48829189,562:18.48829189):2.632127924,(575:11.0274253,509:11.0274253):10.09299451):2.995485994):12.81300487,(512:19.32467672,((536:14.4062274,511:14.4062274):2.115865727,(555:13.67340985,534:13.67340985):2.848683278):2.802583592):17.60423395):4.048978958):7.495238619):9.800864166,(((522:24.68525085,(526:21.99966594,(521:14.84547339,561:14.84547339):7.154192539):2.685584917):18.50896512,(((576:30.30801638,504:30.30801638):9.002800499,(558:34.27561667,(583:25.1669024,573:25.1669024):9.108714284):5.035200194):2.062905711,((556:22.76554347,(564:11.4233671,510:11.4233671):11.34217637):12.88658435,((529:18.15025156,(577:11.18049274,(531:10.20642014,(530:8.668776493,535:8.668776493):1.537643646):0.9740725992):6.969758824):11.17611468,(518:25.97945229,((549:16.64016421,566:16.64016421):2.175092605,(833:17.47212352,(527:16.45189015,(515:10.81063181,517:10.81063181):5.641258336):1.020233374):1.343133289):7.164195469):3.346913959):6.325761574):5.721594768):1.820493384):3.229909489,((557:38.13144059,(537:35.94990487,543:35.94990487):2.181535724):5.704316471,(((533:33.30354094,(567:27.21242055,554:27.21242055):6.09112039):6.479009146,(508:32.96139518,(582:22.46532706,((513:14.25838094,584:14.25838094):4.933805831,(546:17.79861091,(580:12.17666902,(569:9.625249664,520:9.625249664):2.551419353):5.621941894):1.393575857):3.2731403):10.49606811):6.821154906):2.16957778,((505:35.04616901,519:35.04616901):5.043038143,((550:23.16280392,(560:13.52832774,544:13.52832774):9.634476175):9.807024339,(((507:25.13835278,572:25.13835278):2.676256867,(553:25.37148232,581:25.37148232):2.443127328):0.9553841164,(((514:17.41065755,(568:11.58079958,578:11.58079958):5.829857973):8.594770909,(506:19.54089743,(571:16.75480658,(539:13.86670106,(525:10.79605821,538:10.79605821):3.070642848):2.888105522):2.786090855):6.464531032):1.270713354,(565:22.1359444,((524:15.5050829,545:15.5050829):1.929187344,(((541:12.6986693,800:12.6986693):2.584731546,(542:13.91436823,(552:9.767281391,570:9.767281391):4.147086837):1.369032613):0.9139035467,((579:13.02201878,532:13.02201878):2.639495095,((574:9.37578655,523:9.37578655):5.463211635,(559:11.410344,548:11.410344):3.428654185):0.8225156953):0.5357905094):1.236965854):4.701674155):5.140197422):1.493851944):4.199834493):7.119378892):1.862920715):1.883629201):2.588368392):11.84986696):15.13726367):14.36113283):9.583468092,((((771:48.71440047,((599:13.47106101,595:13.47106101):30.56845528,((588:34.11905245,(637:18.05987847,825:18.05987847):16.05917398):7.146478681,(((831:30.22600533,661:30.22600533):4.375314285,((761:11.44150894,(889:10.14611169,608:10.14611169):1.295397245):4.832717864,(891:14.35609789,(631:13.83115418,(890:10.90097334,(830:9.012332155,847:9.012332155):1.888641187):2.930180843):0.5249437067):1.918128911):18.32709282):3.718451595,((629:30.03031633,(626:21.41136589,(688:18.35693898,(602:16.50973668,(589:11.37666568,590:11.37666568):5.133070996):1.847202304):3.054426908):8.618950434):2.183465022,((389:26.56895719,828:26.56895719):3.883783963,((817:16.43184588,594:16.43184588):10.22175393,(609:13.60246539,(660:12.39837332,(600:9.888906904,827:9.888906904):2.509466413):1.204092078):13.05113442):3.799141341):1.761040189):6.105989866):2.945759916):2.773985161):4.674884185):12.28832738,(((587:34.87547108,(639:23.6194942,(702:22.23546625,(811:13.84080425,418:13.84080425):8.39466201):1.384027949):11.25597687):2.910742196,((411:15.43686256,417:15.43686256):7.853313126,((414:12.01466118,835:12.01466118):9.28400424,((416:15.14401187,412:15.14401187):2.260955342,(413:15.48566471,415:15.48566471):1.919302491):3.893698212):1.991510265):14.49603759):9.917287483,((767:36.82942728,(601:26.95200906,(326:8.188131361,(692:7.008063454,686:7.008063454):1.180067907):18.7638777):9.877418211):4.127594168,((730:29.65963483,(775:13.67476193,(801:11.10819252,776:11.10819252):2.566569413):15.9848729):4.720737125,(687:31.75940919,(816:29.20375983,(834:23.16478091,(721:20.2728447,(819:14.59558397,(685:11.81267603,(818:9.179839572,779:9.179839572):2.632836456):2.782907941):5.677260737):2.89193621):6.038978914):2.555649358):2.620962767):6.576649486):6.746479317):13.29922709):11.4281666,((591:44.15947032,(643:35.32575581,(621:28.0177318,585:28.0177318):7.308024015):8.833714514):18.24258978,((((892:30.3286416,(728:21.01225717,(712:16.78340506,(496:15.14054278,822:15.14054278):1.642862278):4.228852109):9.316384431):3.321681813,((696:10.55318358,625:10.55318358):7.73860272,(644:17.34007021,((628:14.75169184,769:14.75169184):1.476395843,(727:9.94232262,794:9.94232262):6.285765063):1.111982522):0.9517160948):15.35853711):18.89598953,(((607:9.885123171,679:9.885123171):15.53037747,(787:20.11068563,(497:18.98418674,((680:14.76054423,718:14.76054423):2.872433552,(790:15.60175534,(806:12.92582569,(791:9.998827033,829:9.998827033):2.926998662):2.675929638):2.03122245):1.351208959):1.126498883):5.304815018):14.70441202,(((634:25.29557714,750:25.29557714):5.829215638,(619:8.665613426,620:8.665613426):22.45917935):5.175117578,((618:16.26484697,(751:13.02950815,243:13.02950815):3.235338821):19.19272629,((950:27.8552427,710:27.8552427):5.99161551,((807:21.2982688,948:21.2982688):10.8554391,((717:19.62965933,(669:17.08406544,(646:15.38971979,(952:10.47460503,(668:6.942790833,951:6.942790833):3.5318142):4.915114753):1.694345652):2.545593892):7.136199715,(638:22.79431067,(681:18.44839654,(837:15.47789233,(947:12.03919771,(795:10.86054035,(635:8.291109531,949:8.291109531):2.569430814):1.178657361):3.438694619):2.970504211):4.345914132):3.971548376):5.387848862):1.693150313):1.610715031):0.842337104):3.820002306):12.42640028):3.877511251,((711:33.45161146,(605:27.52550851,586:27.52550851):5.92610295):18.21768036,(726:47.43190908,((683:10.86318025,785:10.86318025):34.95467068,(((798:29.90324496,(762:16.60744415,805:16.60744415):13.29580082):5.058087858,((731:21.3126137,(823:19.01525211,735:19.01525211):2.2973616):3.364237584,(754:19.99064355,(809:18.80833929,(789:16.29155579,(755:11.10371203,(758:6.95389634,(749:5.719725751,739:5.719725751):1.234170589):4.149815693):5.18784376):2.516783496):1.182304269):4.686207732):10.28448153):7.392292866,(784:40.43919922,((753:22.09511981,(656:10.2697755,808:10.2697755):11.82534431):15.58779757,((821:34.28793676,(((797:9.745272448,768:9.745272448):14.99450366,(804:21.18204799,764:21.18204799):3.55772812):7.499344867,(820:29.67813751,((765:12.25695034,752:12.25695034):10.61026937,(788:19.55605399,(763:15.23426649,(783:12.31540685,778:12.31540685):2.918859639):4.321787491):3.311165729):6.810917794):2.560983464):2.048815793):1.911291059,(757:33.21708732,(693:27.44257649,((777:20.59160455,(746:17.12836961,(748:15.29347512,(747:8.832907956,782:8.832907956):6.460567168):1.834894491):3.46323494):2.684631822,((810:18.74645019,803:18.74645019):3.529904119,(713:20.4691982,(645:17.45137731,(613:15.90956685,(780:14.80988539,(703:13.84290712,(647:11.26096982,(614:10.377224,((682:7.53061749,(265:6.875900604,636:6.875900604):0.6547168853):0.8095294261,(813:7.205607418,(796:5.382885855,815:5.382885855):1.822721563):1.134539498):2.037077084):0.8837458162):2.581937304):0.9669782723):1.099681455):1.541810463):3.017820888):1.807156117):0.9998820601):4.166340109):5.774510834):2.982140504):1.483689554):2.756281844):1.914426463):3.464225252):1.614058144):4.237382734):4.754532375):5.978235909):10.02883436):9.606114777,(((714:20.89591888,774:20.89591888):49.37141742,(((716:12.08235591,652:12.08235591):21.29005615,((793:10.34201597,772:10.34201597):16.02510471,((611:12.46163793,729:12.46163793):11.29937343,(802:14.18912788,(627:10.39138676,(498:9.20355267,419:9.20355267):1.187834086):3.797741126):9.571883479):2.606109322):7.005291385):8.661807786,(850:37.87188586,((428:14.95381275,357:14.95381275):10.68568123,((40:20.50310191,(239:14.91179618,(238:14.28169734,(39:3.884565374,675:3.884565374):10.39713196):0.6300988396):5.591305736):3.041209801,(((1:18.71569879,633:18.71569879):2.237749992,(429:13.69764318,((426:3.021728882,431:3.021728882):9.096286122,(6:10.81050095,242:10.81050095):1.307514057):1.579628177):7.2558056):1.014417861,((421:11.2498363,48:11.2498363):9.174635381,((334:10.75291337,(358:8.555425974,50:8.555425974):2.197487392):6.949699154,(((49:11.75351055,(632:6.895343319,433:6.895343319):4.858167231):2.979463017,((434:2.620886695,655:2.620886695):10.96890966,(7:12.10226264,(382:5.382642155,676:5.382642155):6.719620482):1.487533717):1.143177213):2.140680761,(((653:4.601307926,241:4.601307926):5.369633278,(43:9.085443694,(383:8.660871445,(46:7.686861843,(432:4.964030338,245:4.964030338):2.722831505):0.9740096027):0.4245722485):0.8854975108):5.054621582,((4:9.898947752,359:9.898947752):1.691484646,(((423:6.271855655,322:6.271855655):2.419470788,(773:7.623628436,3:7.623628436):1.067698007):1.060686318,((5:6.237661751,477:6.237661751):1.236807568,(240:6.523386798,((430:3.471136602,51:3.471136602):1.313448424,(427:1.851175355,2:1.851175355):2.933409671):1.738801774):0.9510825209):2.277543442):1.838419636):3.435130389):1.848091541):0.8289581919):2.721859159):1.543394964):1.576445073):2.095182263):12.23239188):4.162333997):28.23311645):8.775066654,(756:68.13879074,((((603:25.22315608,624:25.22315608):13.83316402,(665:33.6988464,(684:17.50359899,(650:14.29067694,781:14.29067694):3.212922045):16.19524741):5.357473692):1.949185635,((320:24.75798041,786:24.75798041):14.16993894,(269:36.31220071,(672:34.89123062,(321:31.06529811,((848:9.607039451,664:9.607039451):19.25714404,(617:20.14146063,(677:17.04334366,(814:12.69981709,(606:6.845358479,272:6.845358479):5.854458611):4.343526574):3.098116965):8.722722859):2.201114613):3.825932516):1.420970095):2.615718647):2.077586372):22.77083238,((((616:32.55891747,(282:29.08262806,759:29.08262806):3.476289402):9.029797374,(254:31.22513471,((615:10.71818373,671:10.71818373):14.48939628,(((836:17.92551217,670:17.92551217):4.415793395,(770:14.01153662,(840:8.453121745,723:8.453121745):5.558414875):8.329768946):1.967352565,(654:22.4323346,((841:8.378766262,724:8.378766262):6.962173337,(725:14.22742808,(738:6.815142795,722:6.815142795):7.412285287):1.113511518):7.091395002):1.87632353):0.8989218848):6.017554687):10.36358013):6.791142671,((844:26.44417709,(843:17.79719472,(422:14.74964038,(845:10.01403356,255:10.01403356):4.735606821):3.047554335):8.646982375):18.35916608,(((846:11.96484409,598:11.96484409):28.21433035,(649:38.446003,(339:35.46951236,((397:10.20863244,760:10.20863244):23.30953461,((295:12.7018869,300:12.7018869):2.183108947,(299:13.51134275,(894:12.55420702,(294:9.482133167,700:9.482133167):3.072073853):0.9571357271):1.373653102):18.6331712):1.951345313):2.976490631):1.733171443):1.625050683,((695:23.45126004,(317:16.14767119,(651:8.644919463,604:8.644919463):7.502751723):7.303588864):15.47854941,((593:24.12089675,(642:12.68544135,(596:5.266324283,597:5.266324283):7.419117069):11.4354554):6.432771411,(824:26.41143874,(623:22.30152637,(883:19.76687329,(592:9.772901665,(630:9.165044422,622:9.165044422):0.6078572428):9.993971625):2.534653079):4.109912378):4.142229412):8.376141299):2.874415665):2.999118055):3.576514331):6.054642148,(302:47.49720931,(((288:21.56821863,((342:17.77059476,340:17.77059476):1.533105772,352:19.30370054):2.264518087):16.73399952,((694:30.42555562,(640:26.09296595,(648:14.4843906,(742:6.935676178,290:6.935676178):7.548714419):11.60857536):4.332589665):3.803073603,(346:32.7434038,((286:21.31363356,338:21.31363356):2.844045543,(932:18.32709455,(396:17.21393358,(394:15.18614637,395:15.18614637):2.027787208):1.113160971):5.83058456):8.58572469):1.485225423):4.073588926):7.47911999,(((305:29.10399293,304:29.10399293):13.60900965,((323:30.84657078,(303:26.73166145,344:26.73166145):4.114909331):10.05944201,(691:37.03320637,((273:30.191626,356:30.191626):5.372840919,((849:27.75920797,(399:19.29345141,732:19.29345141):8.465756557):6.504114491,(851:32.80061486,((337:29.37086934,(663:24.70042239,852:24.70042239):4.670446948):2.40494628,((736:26.32497866,662:26.32497866):4.52526188,(((689:11.00594815,734:11.00594815):16.21178161,(733:19.02197432,901:19.02197432):8.195755433):2.774979258,(657:22.30538529,(659:11.44499267,658:11.44499267):10.86039262):7.68732372):0.8575315262):0.925575083):1.024799235):1.462707602):1.301144464):1.468739446):3.872806426):1.806989784):1.516059992,(((((697:14.35598131,306:14.35598131):17.80764203,(251:27.82226999,842:27.82226999):4.34135335):1.519664989,((398:20.55774268,(641:9.716638096,826:9.716638096):10.84110459):8.978110205,(701:21.15985197,(699:17.61297844,(698:14.06710661,812:14.06710661):3.545871824):3.546873531):8.37600092):4.147435441):1.851284366,((343:27.73344891,((301:11.93214284,287:11.93214284):14.57708299,(355:12.78216634,(354:11.24465194,351:11.24465194):1.537514408):13.72705949):1.22422308):4.51344602,(341:25.36003142,((349:13.60948802,347:13.60948802):3.191038745,((247:6.928991955,353:6.928991955):5.277205972,((291:8.713633201,316:8.713633201):2.005783418,(737:9.225462632,(348:7.609487109,289:7.609487109):1.615975524):1.493953987):1.486781307):4.59432884):8.559504655):6.886863509):3.287677764):1.677879401,((((277:12.64001024,(285:11.47738547,279:11.47738547):1.162624769):4.660581142,(283:15.85350654,(281:14.29809541,(307:3.05215604,308:3.05215604):11.24593937):1.555411133):1.447084839):7.723712509,((311:15.58103255,263:15.58103255):1.756551183,((673:12.83623452,674:12.83623452):3.263549017,((260:13.19463089,275:13.19463089):2.613327299,((297:10.8376068,(262:8.626516933,284:8.626516933):2.21108987):2.376167647,(267:11.97823417,(264:11.47013978,(276:8.353406682,310:8.353406682):3.116733102):0.5080943851):1.235540281):2.594183735):0.2918253471):1.237800201):7.686720158):11.33459139,(((261:20.6575922,280:20.6575922):9.944025622,((259:23.80324432,(309:20.09850373,(392:15.40275967,(944:12.21008754,393:12.21008754):3.192672125):4.695744058):3.704740597):5.406753421,296:29.20999774):1.391620082):4.704683149,((690:27.92590379,740:27.92590379):3.957995633,(((345:15.69212919,312:15.69212919):7.28269975,(292:18.5279708,278:18.5279708):4.446858133):3.335031862,((253:23.56315181,((250:14.0553842,667:14.0553842):8.629854506,(293:19.35133508,298:19.35133508):3.333903631):0.8779130982):1.187319375,((274:21.7184088,(678:19.23482533,741:19.23482533):2.48358347):2.40093842,(((612:13.10305065,(313:11.9210319,(318:8.182613738,420:8.182613738):3.738418166):1.182018742):1.414956995,(268:13.82974146,((494:11.33468223,666:11.33468223):1.417363105,(319:8.874114153,315:8.874114153):3.877931181):1.077696124):0.6882661828):6.287312323,(((249:13.08419272,744:13.08419272):0.9797561572,(256:12.81105345,(266:11.52221404,252:11.52221404):1.288839415):1.252895424):5.28187693,(707:17.77727811,(258:15.39380458,((704:6.343317591,246:6.343317591):8.420894475,(257:12.12725951,(270:10.94953997,(271:10.08887496,(314:7.353721676,333:7.353721676):2.735153287):0.8606650119):1.177719541):2.636952551):0.629592518):2.383473522):1.568547699):1.45949416):3.314027259):0.6311239601):1.559389613):5.574038622):3.422401554):1.052594311):0.853556813):7.016610473):1.552275571):1.715871164):6.937290352):9.341838456):4.362452627):10.90361222):2.994606276):15.31884776):3.792530887):5.315787068):1.139604078);
+END;

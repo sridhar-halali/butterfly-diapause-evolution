@@ -1,0 +1,1127 @@
+---
+title: "hidden rates models_using_corHMM"
+author: "Sridhar Halali"
+date: "2023-12-13"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Loading required packages
+```{r setup, message=FALSE}
+library(phytools)
+library(tidyverse)
+library(ape)
+library(openxlsx)
+library(plotrix)
+library(corHMM)
+library(conflicted)
+library(geiger)
+```
+
+# Setting the working directory
+```{r}
+# Mac directory
+setwd("/Users/sridhar/Library/CloudStorage/OneDrive-LundUniversity/LU box backup/Evolution of diapause/evo of diapause/Updated_diapause_analyses_19_sep_2023/Manuscript/GitHub_uploading_codes_8 Mar 2024")
+```
+
+# Importing processed diapause data and the pruned phylogeny (see 'ver2_fitMK & ASR_phytools' script for preprocessing steps)
+```{r}
+# Importing the pruned diapause classification file
+dat_diapause <- read.xlsx("diapause_classification_data_PROCESSED.xlsx")
+
+# Convert all character columns to factor
+dat_diapause <- dat_diapause %>% mutate_if(is.character, as.factor)
+
+dat_diapause <- data.frame(dat_diapause, row.names = 1)
+
+# Importing pruned phylogeny
+ButterflyPhylo <- read.nexus("butterfly_phylogeny_pruned.trees")
+ButterflyPhylo
+
+# Chekcking if tips match
+name.check(ButterflyPhylo, dat_diapause)
+
+# Extracting required variables and assigning column values to rownames
+DiapauseFive <- setNames(dat_diapause$diapause_five_state, rownames(dat_diapause)) 
+DiapauseThree <- setNames(dat_diapause$diapause_three_state, rownames(dat_diapause)) 
+DiapauseBinary <- setNames(dat_diapause$diapause_binary, rownames(dat_diapause)) 
+
+```
+
+
+# Using corHMM() from corHMM package for fitting hidden rate models
+```{r}
+# Preparing the data set. Converting factors to numeric as required by the package
+
+# Five state classification 
+dat_FiveState <- data.frame(Genus.species= names(DiapauseFive), DiapauseFiveState = DiapauseFive)
+dat_FiveState$DiapauseFiveState <- as.numeric(dat_FiveState$DiapauseFiveState)
+
+# Three state classification
+dat_ThreeState <- data.frame(Genus.species= names(DiapauseThree), DiapauseThreeState = DiapauseThree)
+dat_ThreeState$DiapauseThreeState <- as.numeric(dat_ThreeState$DiapauseThreeState)
+
+# Binary state classification
+dat_BinaryState <- data.frame(Genus.species= names(DiapauseBinary),DiapauseBinaryState = DiapauseBinary)
+dat_BinaryState$DiapauseBinaryState <- as.numeric(dat_BinaryState$DiapauseBinaryState)
+
+```
+
+
+# Fitting standard Mk (just compare with phytools) hidden rates models only the all rates different models since this was overwhelmingly best fitting model 
+Note that 'root.p' argument is for choosing the root prior. Similar to the analyses carried out in phytools, we are fitting both 'flat' (which is NULL in corHMM) and 'fitzjohn' (which is maddfitz in corHMM)
+
+
+##* Five state diapause classification 
+```{r}
+# All rates different model (flat root prior)
+mod_5State_ARD_flat <- corHMM(ButterflyPhylo, data= dat_FiveState, rate.cat = 1, rate.mat=NULL, 
+                       model = "ARD", node.states = "marginal", root.p=  "NULL", nstarts = 5)
+
+# All rates different model (fitzjohn root prior)                         
+mod_5State_ARD_maddfitz <- corHMM(phy= ButterflyPhylo, data= dat_FiveState, rate.cat = 1,  rate.mat=NULL ,
+                           model = "ARD", node.states = "marginal", root.p="maddfitz", nstarts = 5)
+```
+
+##* Three state diapause classification 
+```{r}
+# flat root prior
+mod_3State_ARD_flat <- corHMM(ButterflyPhylo, data= dat_ThreeState, rate.cat = 1, rate.mat=NULL, 
+                       model = "ARD", node.states = "marginal", root.p=  "NULL", nstarts = 5)
+
+# fitzjohn root prior
+mod_3State_ARD_fitz <- corHMM(ButterflyPhylo, data= dat_ThreeState, rate.cat = 1, rate.mat=NULL, 
+                       model = "ARD", node.states = "marginal", root.p=  "maddfitz", nstarts = 5)
+```
+
+
+##* Binary state diapause classification 
+```{r}
+# flat root prior
+mod_2State_ARD_flat <- corHMM(ButterflyPhylo, data= dat_BinaryState, rate.cat = 1, rate.mat=NULL, 
+                       model = "ARD", node.states = "marginal", root.p=  "NULL", nstarts = 5)
+
+# fitzjohn root prior
+mod_2State_ARD_fitz <- corHMM(ButterflyPhylo, data= dat_BinaryState, rate.cat = 1, rate.mat=NULL, 
+                       model = "ARD", node.states = "marginal", root.p=  "maddfitz", nstarts = 5)
+```
+
+# Saving fitted objects as .RDS fules
+```{r}
+saveRDS(mod_5State_ARD_flat, file="corHMM_5State_stdMK_ARD_flat.RDS")
+saveRDS(mod_5State_ARD_maddfitz, file="corHMM_5State_stdMK_ARD_fitz.RDS")
+
+saveRDS(mod_3State_ARD_flat, file="corHMM_3State_stdMK_ARD_flat.RDS")
+saveRDS(mod_3State_ARD_fitz, file="corHMM_3State_stdMK_ARD_fitz.RDS")
+
+saveRDS(mod_2State_ARD_flat, file="corHMM_2State_stdMK_ARD_flat.RDS")
+saveRDS(mod_2State_ARD_fitz, file="corHMM_2State_stdMK_ARD_fitz.RDS")
+```
+
+
+# Fitting full hidden rate model
+Hidden rate model with two rate classes with ARD model (ARD/ARD). Transitions between rate classes (R1 & R2) occur at different rates. This model is same as when using fitHRM function in phytools with corHMM_model=T. root.p=NULL is as the flat prior in phytools and root.p=maddfitz is same as the fitzjohn prior in phytools**
+
+
+##* Five state diapause classification
+```{r}
+# This is only for checking the model. corHMM's by default full model doesn't require this to be done but is required for custom models
+RateCat1_five <- getStateMat4Dat(dat_FiveState)$rate.mat # matrix for rate categories
+RateCat1_five
+
+RateCat2_five <- getStateMat4Dat(dat_FiveState)$rate.mat
+RateCat2_five
+
+RateClassMat_five <- getRateCatMat(2) # matrix for rate classes
+RateClassMat_five
+
+
+# flat root prior
+mod_5state_ARD_full_hrm_flat <- corHMM(phy= ButterflyPhylo, data= dat_FiveState, rate.cat = 2,  
+                          rate.mat=NULL, model = "ARD", node.states = "marginal",  
+                          root.p="NULL", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+# fitzjohn root prior
+mod_5state_ARD_full_hrm_fitz <- corHMM(phy= ButterflyPhylo, data= dat_FiveState, rate.cat = 2,  
+                          rate.mat=NULL, model = "ARD", node.states = "marginal",  
+                          root.p="maddfitz", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+# Saving the object
+saveRDS(mod_5state_ARD_full_hrm_flat, file = "corhmm_5State_full_hrm_flat.RDS")
+saveRDS(mod_5state_ARD_full_hrm_flat, file = "corhmm_5State_full_hrm_fitz.RDS")
+```
+
+##* Three state diapause classification
+```{r}
+# flat root prior
+mod_3state_ARD_hrm_full_flat <- corHMM(phy= ButterflyPhylo, data= dat_ThreeState, rate.cat = 2,  
+                          rate.mat=NULL, model = "ARD", node.states = "marginal",  
+                          root.p="NULL", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+# fitzjohn root prior
+mod_3state_ARD_hrm_full_fitz <- corHMM(phy= ButterflyPhylo, data= dat_ThreeState, rate.cat = 2,  
+                          rate.mat=NULL, model = "ARD", node.states = "marginal",  
+                          root.p="maddfitz", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+
+saveRDS(mod_3state_ARD_hrm_full_fitz, file = "corhmm_3State_full_hrm_fitz.RDS")
+saveRDS(mod_3state_ARD_hrm_full_flat, file = "corhmm_3State_full_hrm_flat.RDS")
+```
+
+
+##* Binary state diapause classification
+```{r}
+# flat root prior
+mod_2state_ARD_hrm_full_flat <- corHMM(phy= ButterflyPhylo, data= dat_BinaryState, rate.cat = 2,  
+                          rate.mat=NULL, model = "ARD", node.states = "marginal",  
+                          root.p="NULL", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+# fitzjohn root prior
+mod_2state_ARD_hrm_full_fitz <- corHMM(phy= ButterflyPhylo, data= dat_BinaryState, rate.cat = 2,  
+                          rate.mat=NULL, model = "ARD", node.states = "marginal",  
+                          root.p="maddfitz", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+saveRDS(mod_2state_ARD_hrm_full_fitz, file = "corhmm_2State_full_hrm_fitz.RDS")
+saveRDS(mod_2state_ARD_hrm_full_flat, file = "corhmm_2State_full_hrm_flat.RDS")
+```
+
+
+
+# Fitting hidden rate model with transition between rate classes are equal
+Fitting another hidden rate model with two rate classes with ARD model (ARD/ARD). However, here the transition between rate classes is set to be equal unlike in the full hidden rates model**
+
+Modifying rate categories or rate classes were carried out  following the tutorial for corHMM: https://cran.r-project.org/web/packages/corHMM/vignettes/corHMMv2.1-vignette.pdf
+
+
+##* Five state diapause classification
+```{r}
+# Extracting matrix for rate categories 
+RateCat1_five <- getStateMat4Dat(dat_FiveState)$rate.mat # Rate category 1
+RateCat1_five
+
+RateCat2_five <- getStateMat4Dat(dat_FiveState)$rate.mat # # Rate category 2
+RateCat2_five
+
+# Matrix for rate classes
+RateClassMat_five <- getRateCatMat(2) # matrix for rate classes
+RateClassMat_five
+
+# Making transitions between rate classes similar
+RateClassMat_five <- equateStateMatPars(RateClassMat_five, c(1,2)) 
+RateClassMat_five
+
+# Merge rate classes together
+StateMats_five <- list(RateCat1_five, RateCat2_five)
+StateMats_five
+
+# Creating full rate matrix (note that dual transitions e.g. 1R1 -> 2R2 are not allowed by default)
+FullMat_five_equal <- getFullMat(StateMats_five, RateClassMat_five)
+FullMat_five_equal
+
+plotMKmodel(FullMat_five_equal, rate.cat = 2, text.scale = 0.7)
+
+
+# Now fitting the model with the flat and fitzjohn root prior
+mod_5state_ARD_EqualRateClass_hrm_flat <- corHMM(phy= ButterflyPhylo, data= dat_FiveState, rate.cat = 2,  
+                       rate.mat=FullMat_five_equal, model = "ARD", node.states = "marginal",  
+                       root.p="NULL", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+mod_5state_ARD_EqualRateClass_hrm_fitz <- corHMM(phy= ButterflyPhylo, data= dat_FiveState, rate.cat = 2,  
+                       rate.mat=FullMat_five_equal, model = "ARD", node.states = "marginal",  
+                       root.p="maddfitz", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+
+saveRDS(mod_5state_ARD_EqualRateClass_hrm_flat, file= "corhmm_5State_EqualRate_hrm_flat.RDS")
+saveRDS(mod_5state_ARD_EqualRateClass_hrm_flat, file= "corhmm_5State_EqualRate_hrm_fitz.RDS")
+```
+
+
+##* Three state diapause classification
+The steps are exactly as done for the five state classification above 
+
+```{r}
+# Extracting matrix for rate categories 
+RateCat1_three <- getStateMat4Dat(dat_ThreeState)$rate.mat # matrix for rate categories
+RateCat1_three
+
+RateCat2_three <- getStateMat4Dat(dat_ThreeState)$rate.mat
+RateCat2_three
+
+# Matrix for rate classes
+RateClassMat_three <- getRateCatMat(2) 
+RateClassMat_three
+
+# Making transitions between rate classes similar
+RateClassMat_three <- equateStateMatPars(RateClassMat_three, c(1,2)) # Making both rates to be similar
+RateClassMat_three
+
+# Merge rate classes together
+StateMats_three <- list(RateCat1_three, RateCat2_three)
+StateMats_three
+
+# Creating full rate matrix
+FullMat_three_equal <- getFullMat(StateMats_three, RateClassMat_three)
+FullMat_three_equal
+
+plotMKmodel(FullMat_three_equal, rate.cat = 2, display = "row", text.scale = 0.7)
+
+
+# Now fitting the model with the flat and fitzjohn root prior
+mod_3state_ARD_EqualRateClass_hrm_flat <- corHMM(phy= ButterflyPhylo, data= dat_ThreeState, rate.cat = 2,  
+                       rate.mat= FullMat_three_equal, model = "ARD", node.states = "marginal",  
+                       root.p="NULL", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+mod_3state_ARD_EqualRateClass_hrm_fitz <- corHMM(phy= ButterflyPhylo, data= dat_ThreeState, rate.cat = 2,  
+                       rate.mat= FullMat_three_equal, model = "ARD", node.states = "marginal",  
+                       root.p="maddfitz", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+
+saveRDS(mod_3state_ARD_EqualRateClass_hrm_flat, file= "corhmm_3State_EqualRate_hrm_flat.RDS")
+saveRDS(mod_3state_ARD_EqualRateClass_hrm_flat, file= "corhmm_3State_EqualRate_hrm_fitz.RDS")
+
+```
+
+
+##* Binary state diapause classification
+```{r}
+# Extracting matrix for rate categories 
+RateCat1_two <- getStateMat4Dat(dat_BinaryState)$rate.mat # matrix for rate categories
+RateCat1_two
+
+RateCat2_two <- getStateMat4Dat(dat_BinaryState)$rate.mat
+RateCat2_two
+
+# Matrix for rate classes
+RateClassMat_two <- getRateCatMat(2) 
+RateClassMat_two
+
+# Making transitions between rate classes similar
+RateClassMat_two <- equateStateMatPars(RateClassMat_two, c(1,2)) 
+RateClassMat_two
+
+# Merge rate classes together
+StateMats_two <- list(RateCat1_two, RateCat2_two)
+StateMats_two
+
+# Creating full rate matrix
+FullMat_two_equal <- getFullMat(StateMats_two, RateClassMat_two)
+FullMat_two_equal
+
+plotMKmodel(FullMat_two_equal, rate.cat = 2, display = "row", text.scale = 0.7)
+
+
+# Now fitting the model with the flat and fitzjohn root prior
+mod_2state_ARD_EqualRateClass_hrm_flat <- corHMM(phy= ButterflyPhylo, data= dat_BinaryState, rate.cat = 2,  
+                       rate.mat= FullMat_two_equal, model = "ARD", node.states = "marginal",  
+                       root.p="NULL", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+mod_2state_ARD_EqualRateClass_hrm_fitz <- corHMM(phy= ButterflyPhylo, data= dat_BinaryState, rate.cat = 2,  
+                       rate.mat= FullMat_two_equal, model = "ARD", node.states = "marginal",  
+                       root.p="maddfitz", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+
+saveRDS(mod_2state_ARD_EqualRateClass_hrm_flat, file= "corhmm_2State_EqualRate_hrm_flat.RDS")
+saveRDS(mod_2state_ARD_EqualRateClass_hrm_flat, file= "corhmm_2State_EqualRate_hrm_fitz.RDS")
+```
+
+
+# Fitting the 'umbral' hidden rates model
+See Methods section for the details on this model
+
+
+##* Five state diapause classification
+```{r}
+# Using index matrix of the five state model for creating the index matrix for the umbral model
+umbralMat_five <- FullMat_five_equal
+umbralMat_five
+
+# Setting all values to 0
+umbralMat_five[] <- 0
+umbralMat_five
+
+# Now modifying the model matrix- no transitions are allowed between the rate classes (R1 & R2)
+umbralMatFive_final <- matrix(c(
+  0,	1,	0,	0,	0,	2,	0,	0,	0,	0,
+  3,	0,	4,	0,	0,	0,	5,	0,	0,	0,
+  0,	6,	0,	7,	0,	0,	0,	8,	0,	0,
+  0,	0,	9,	0,	10,	0,	0,	0,	11,	0,
+  0,	0,	0,	12,	0,	0,	0,	0,	0,	13,
+  14, 0, 0, 0 , 0, 0, 0, 0, 0, 0,
+  0, 15, 0, 0 , 0, 0, 0, 0, 0, 0,
+  0, 0, 16, 0 , 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 17, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 18, 0, 0, 0, 0, 0), 
+  10, 10, 
+  byrow = T,
+  dimnames = list(colnames(umbralMat_five),
+                  rownames(umbralMat_five)))
+
+umbralMatFive_final
+
+plotMKmodel(umbralMatFive_final, rate.cat = 2)
+
+
+# Now fitting the model using the flat and fitzjohn root prior
+mod_5state_ARD_Umbral_hrm_flat <- corHMM(phy= ButterflyPhylo, data= dat_FiveState, rate.cat = 2,  
+                       rate.mat=umbralMatFive_final, model = "ARD", node.states = "marginal",  
+                       root.p="NULL", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+mod_5state_ARD_Umbral_hrm_fitz <- corHMM(phy= ButterflyPhylo, data= dat_FiveState, rate.cat = 2,  
+                       rate.mat=umbralMatFive_final, model = "ARD", node.states = "marginal",  
+                       root.p="maddfitz", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+
+saveRDS(mod_5state_ARD_Umbral_hrm_flat, file="corhmm_5State_Umbral_hrm_flat.RDS")
+saveRDS(mod_5state_ARD_Umbral_hrm_fitz, file="corhmm_5State_Umbral_hrm_fitz.RDS")
+```
+
+
+##* Three state diapause classification
+Using steps as above
+```{r}
+# Using structure of the three state model matrix for the purposes
+umbralMat_three <- FullMat_three_equal
+umbralMat_three
+
+# Setting all values to 0
+umbralMat_three[] <- 0
+umbralMat_three
+
+# Now modifying the model matrix- no transitions are allowed between the rate classes (R1 & R2)
+umbralMatThree_final <- matrix(c(
+  0, 1, 0, 2, 0, 0, 
+  3, 0, 4, 0, 5, 0, 
+  0, 6, 0, 0, 0, 7, 
+  8, 0, 0, 0, 0, 0, 
+  0, 9, 0, 0, 0, 0, 
+  0, 0, 10, 0, 0, 0),
+  byrow = T,
+  6, 6,
+  dimnames = list(colnames(umbralMat_three),
+                  rownames(umbralMat_three)))
+
+umbralMatThree_final
+
+plotMKmodel(umbralMatThree_final, rate.cat = 2)
+
+
+# Now fitting the model using the flat and fitzjohn root prior
+mod_3state_ARD_Umbral_hrm_flat <- corHMM(phy= ButterflyPhylo, data= dat_ThreeState, rate.cat = 2,  
+                       rate.mat=umbralMatThree_final, model = "ARD", node.states = "marginal",  
+                       root.p="NULL", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+mod_3state_ARD_Umbral_hrm_fitz <- corHMM(phy= ButterflyPhylo, data= dat_ThreeState, rate.cat = 2,  
+                       rate.mat=umbralMatThree_final, model = "ARD", node.states = "marginal",  
+                       root.p="maddfitz", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+saveRDS(mod_3state_ARD_Umbral_hrm_flat, file="corhmm_3State_Umbral_hrm_flat.RDS")
+saveRDS(mod_3state_ARD_Umbral_hrm_fitz, file="corhmm_3State_Umbral_hrm_fitz.RDS")
+```
+
+
+##* Binary state diapause classification
+Using steps as above
+```{r}
+# Using structure of the five state model matrix for the purposes
+umbralMat_binary <- FullMat_two_equal
+umbralMat_binary
+
+# Setting all values to 0
+umbralMat_binary[] <- 0
+umbralMat_binary
+
+# now modifying the model matrix- no transitions are allowed between the rate classes (R1 & R2)
+umbralMatBinary_final <- matrix(c(
+  0, 1, 2, 0, 
+  3, 0, 0, 4, 
+  5, 0, 0, 0, 
+  0, 6, 0, 0),
+  byrow = T,
+  4, 4,
+  dimnames = list(colnames(umbralMat_binary),
+                  rownames(umbralMat_binary)
+))
+
+umbralMatBinary_final
+
+
+# Now fitting the model using the flat and fitzjohn root prior
+
+# Binary State
+mod_2state_ARD_Umbral_hrm_flat <- corHMM(phy= ButterflyPhylo, data= dat_BinaryState, rate.cat = 2,  
+                       rate.mat=umbralMatBinary_final, model = "ARD", node.states = "marginal",  
+                       root.p="NULL", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+mod_2state_ARD_Umbral_hrm_fitz <- corHMM(phy= ButterflyPhylo, data= dat_BinaryState, rate.cat = 2,  
+                       rate.mat=umbralMatBinary_final, model = "ARD", node.states = "marginal",  
+                       root.p="maddfitz", get.tip.states = T, nstarts = 5, n.cores = 6)
+
+saveRDS(mod_2state_ARD_Umbral_hrm_flat, file= "corhmm_2State_Umbral_hrm_flat.RDS")
+saveRDS(mod_2state_ARD_Umbral_hrm_fitz, file= "corhmm_2State_Umbral_hrm_fitz.RDS")
+```
+
+
+# Loading all fitted models saved as .RDS files 
+```{r}
+# Five states
+mod_5State_ARD_StdMK_flat <- readRDS("corHMM_5State_stdMK_ARD_flat.RDS")
+mod_5state_ARD_full_hrm_flat <- readRDS("corhmm_5State_full_hrm_flat.RDS")
+mod_5state_ARD_EqualRateClass_hrm_flat <- readRDS("corhmm_5State_EqualRate_hrm_flat.RDS")
+mod_5state_ARD_Umbral_hrm_flat <- readRDS("corhmm_5State_Umbral_hrm_flat.RDS")
+
+mod_5State_ARD_StdMK_fitz <- readRDS("corHMM_5State_stdMK_ARD_fitz.RDS")
+mod_5state_ARD_full_hrm_fitz <- readRDS("corhmm_5State_full_hrm_fitz.RDS")
+mod_5state_ARD_EqualRateClass_hrm_fitz <- readRDS("corhmm_5State_EqualRate_hrm_flat.RDS")
+mod_5state_ARD_Umbral_hrm_fitz <- readRDS("corhmm_5State_Umbral_hrm_fitz.RDS")
+
+# Three states
+mod_3State_ARD_StdMK_flat <- readRDS("corHMM_3State_stdMK_ARD_flat.RDS")
+mod_3state_ARD_full_hrm_flat <- readRDS("corhmm_3State_full_hrm_flat.RDS")
+mod_3state_ARD_EqualRateClass_hrm_flat <- readRDS("corhmm_3State_EqualRate_hrm_flat.RDS")
+mod_3state_ARD_Umbral_hrm_flat <- readRDS("corhmm_3State_Umbral_hrm_flat.RDS")
+
+
+mod_3State_ARD_StdMk_fitz <- readRDS("corHMM_3State_stdMK_ARD_fitz.RDS")
+mod_3state_ARD_full_hrm_fitz <- readRDS("corhmm_3State_full_hrm_fitz.RDS")
+mod_3state_ARD_EqualRateClass_hrm_fitz <- readRDS("corhmm_3State_EqualRate_hrm_flat.RDS")
+mod_3state_ARD_Umbral_hrm_fitz <- readRDS("corhmm_3State_Umbral_hrm_fitz.RDS")
+
+
+# Binary states
+mod_2State_ARD_StdMK_flat <- readRDS("corHMM_2State_stdMK_ARD_flat.RDS")
+mod_2state_ARD_full_hrm_flat <- readRDS("corhmm_2State_full_hrm_flat.RDS")
+mod_2state_ARD_EqualRateClass_hrm_flat <- readRDS("corhmm_2State_EqualRate_hrm_flat.RDS")
+mod_2state_ARD_Umbral_hrm_flat <- readRDS("corhmm_2State_Umbral_hrm_flat.RDS")
+
+mod_2State_ARD_StdMK_fitz <- readRDS("corHMM_2State_stdMK_ARD_fitz.RDS")
+mod_2state_ARD_full_hrm_fitz <- readRDS("corhmm_2State_full_hrm_fitz.RDS")
+mod_2state_ARD_EqualRateClass_hrm_fitz <- readRDS("corhmm_2State_EqualRate_hrm_flat.RDS")
+mod_2state_ARD_Umbral_hrm_fitz <- readRDS("corhmm_2State_Umbral_hrm_fitz.RDS")
+
+```
+
+
+# Table 2:  Assessing model fits- extracting log likelihood and AIC values
+```{r}
+ModelFitHRM <- data.frame(
+  
+  state = rep(c("five", "three", "binary"), times=c(8, 8, 8)),
+  
+  model = rep(c("Std_Mk", "full_HRM", "Equal_rate_class", "Umbral_model"), 2),
+
+  root_prior= rep(c("flat", "maddfitz"), times=c(4, 4)),
+  
+  logLik = c(
+    # five states
+    mod_5State_ARD_StdMK_flat$loglik, 
+    mod_5state_ARD_full_hrm_flat$loglik, 
+    mod_5state_ARD_EqualRateClass_hrm_flat$loglik,
+    mod_5state_ARD_Umbral_hrm_flat$loglik, 
+    
+    mod_5State_ARD_StdMK_fitz$loglik, 
+    mod_5state_ARD_full_hrm_fitz$loglik, 
+    mod_5state_ARD_EqualRateClass_hrm_fitz$loglik,
+    mod_5state_ARD_Umbral_hrm_fitz$loglik,
+    
+    # Three states
+    mod_3State_ARD_StdMK_flat$loglik, 
+    mod_3state_ARD_full_hrm_flat$loglik, 
+    mod_3state_ARD_EqualRateClass_hrm_flat$loglik,
+    mod_3state_ARD_Umbral_hrm_flat$loglik, 
+    
+    mod_3State_ARD_StdMk_fitz$loglik, 
+    mod_3state_ARD_full_hrm_fitz$loglik, 
+    mod_3state_ARD_EqualRateClass_hrm_fitz$loglik,
+    mod_3state_ARD_Umbral_hrm_fitz$loglik,
+    
+    # binary state
+    mod_2State_ARD_StdMK_flat$loglik, 
+    mod_2state_ARD_full_hrm_flat$loglik, 
+    mod_2state_ARD_EqualRateClass_hrm_flat$loglik,
+    mod_2state_ARD_Umbral_hrm_flat$loglik, 
+    
+    mod_2State_ARD_StdMK_fitz$loglik, 
+    mod_2state_ARD_full_hrm_fitz$loglik, 
+    mod_2state_ARD_EqualRateClass_hrm_fitz$loglik,
+    mod_2state_ARD_Umbral_hrm_fitz$loglik),
+  
+  AIC = c(
+    # five states
+    mod_5State_ARD_StdMK_flat$AIC, 
+    mod_5state_ARD_full_hrm_flat$AIC, 
+    mod_5state_ARD_EqualRateClass_hrm_flat$AIC,
+    mod_5state_ARD_Umbral_hrm_flat$AIC, 
+    
+    mod_5State_ARD_StdMK_fitz$AIC, 
+    mod_5state_ARD_full_hrm_fitz$AIC, 
+    mod_5state_ARD_EqualRateClass_hrm_fitz$AIC,
+    mod_5state_ARD_Umbral_hrm_fitz$AIC,
+    
+    
+    # Three states
+    mod_3State_ARD_StdMK_flat$AIC, 
+    mod_3state_ARD_full_hrm_flat$AIC, 
+    mod_3state_ARD_EqualRateClass_hrm_flat$AIC,
+    mod_3state_ARD_Umbral_hrm_flat$AIC, 
+    
+    mod_3State_ARD_StdMk_fitz$AIC, 
+    mod_3state_ARD_full_hrm_fitz$AIC, 
+    mod_3state_ARD_EqualRateClass_hrm_fitz$AIC,
+    mod_3state_ARD_Umbral_hrm_fitz$AIC,
+    
+    # binary state
+    mod_2State_ARD_StdMK_flat$AIC, 
+    mod_2state_ARD_full_hrm_flat$AIC, 
+    mod_2state_ARD_EqualRateClass_hrm_flat$AIC,
+    mod_2state_ARD_Umbral_hrm_flat$AIC, 
+    
+    mod_2State_ARD_StdMK_fitz$AIC, 
+    mod_2state_ARD_full_hrm_fitz$AIC, 
+    mod_2state_ARD_EqualRateClass_hrm_fitz$AIC,
+    mod_2state_ARD_Umbral_hrm_fitz$AIC))
+   
+ModelFitHRM
+
+#write.xlsx(ModelFitHRM, file="corhmm_full_hrm_fits.xlsx")
+```
+
+
+# Plotting transition rates for best fitting hidden rates model (which is 'umbral' hidden rates model)
+In principle, for the five state classification, AIC values between the standard MK and umbral hidden rate model are very close. However, we are still choosing the best fitting hidden rates model to represent transition rates and ancestral states using the hidden rates model
+
+```{r}
+par(mfrow=c(1,1))
+
+#============= Modifying headers of Q matrix of Five state Umbral model =============#
+# Flat root prior
+FiveState_Umbral_flat_qMat <- as.Qmatrix(mod_5state_ARD_Umbral_hrm_flat)
+
+colnames(FiveState_Umbral_flat_qMat) <- c("Adult", "Egg", "Flex", "Larva", "Pupa", 
+                                           "Adult*", "Egg*", "Flex*", "Larva*", "Pupa*")
+
+rownames(FiveState_Umbral_flat_qMat) <- c("Adult", "Egg", "Flex", "Larva", "Pupa", 
+                                           "Adult*", "Egg*", "Flex*", "Larva*", "Pupa*")
+
+# Fitzjohn root prior
+FiveState_Umbral_fitz_qMat <- as.Qmatrix(mod_5state_ARD_Umbral_hrm_fitz)
+
+colnames(FiveState_Umbral_fitz_qMat) <- c("Adult", "Egg", "Flex", "Larva", "Pupa", 
+                                           "Adult*", "Egg*", "Flex*", "Larva*", "Pupa*")
+
+rownames(FiveState_Umbral_fitz_qMat) <- c("Adult", "Egg", "Flex", "Larva", "Pupa", 
+                                           "Adult*", "Egg*", "Flex*", "Larva*", "Pupa*")
+
+# Figure S3a: Plotting rates
+pdf("plotMK_Five_Umbral_flat.pdf", height=7, width=7)
+plot(FiveState_Umbral_flat_qMat, show.zeros=F, color=T, spacer=0.2, cex.rates=0.8, 
+     lwd=3, main= "hrm_FiveState_Umbral_flat_prior")
+dev.off()
+
+
+# Figure S3b: Plotting rates
+pdf("plotMK_Five_Umbral_fitz.pdf", height=7, width=7)
+plot(FiveState_Umbral_fitz_qMat, show.zeros=F, color=T, spacer=0.2, cex.rates=0.8, 
+     lwd=3, main= "hrm_TFiveState_Umbral_fitz_prior")
+dev.off()
+
+
+#============= Modifying headers of Q matrix of Five state Umbral model =============#
+
+# Flat root prior
+ThreeState_Umbral_flat_qMat <- as.Qmatrix(mod_3state_ARD_Umbral_hrm_flat)
+
+colnames(ThreeState_Umbral_flat_qMat) <- c("Adult", "Flex", "Juvenile", 
+                                           "Adult*", "Flex*", "Juvenile*")
+rownames(ThreeState_Umbral_flat_qMat) <- c("Adult", "Flex", "Juvenile", 
+                                           "Adult*", "Flex*", "Juvenile*")
+
+
+# fitzjohn root prior
+ThreeState_Umbral_fitz_qMat <- as.Qmatrix(mod_3state_ARD_Umbral_hrm_fitz)
+colnames(ThreeState_Umbral_fitz_qMat) <- c("Adult", "Flex", "Juvenile", 
+                                           "Adult*", "Flex*", "Juvenile*")
+rownames(ThreeState_Umbral_fitz_qMat) <- c("Adult", "Flex", "Juvenile", 
+                                           "Adult*", "Flex*", "Juvenile*")
+
+# Figure S3c: Plotting rates
+pdf("plotMK_Three_Umbral_flat.pdf", height=7, width=7)
+
+plot(ThreeState_Umbral_flat_qMat, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, 
+     lwd=3, main= "hrm_ThreeState_Umbral_flat_prior")
+
+dev.off()
+
+
+# Figure S3d: Plotting rates
+pdf("plotMK_Three_Umbral_fitz.pdf", height=7, width=7)
+
+plot(ThreeState_Umbral_fitz_qMat, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, 
+     lwd=3, main= "hrm_ThreeState_Umbral_fitz_prior")
+
+dev.off()
+
+
+#============= Modifying headers of Q matrix of binary state Umbral model =============#
+
+# Flat root prior
+BinaryState_Umbral_flat_qMat <- as.Qmatrix(mod_2state_ARD_Umbral_hrm_flat)
+colnames(BinaryState_Umbral_flat_qMat) <- c("Diapause", "Flex", "Diapause*", "Flex*")
+rownames(BinaryState_Umbral_flat_qMat) <- c("Diapause", "Flex", "Diapause*", "Flex*")
+
+# Fitzjohn root prior
+BinaryState_Umbral_fitz_qMat <- as.Qmatrix(mod_2state_ARD_Umbral_hrm_fitz)
+colnames(BinaryState_Umbral_fitz_qMat) <- c("Diapause", "Flex", "Diapause*", "Flex*")
+rownames(BinaryState_Umbral_fitz_qMat) <- c("Diapause", "Flex", "Diapause*", "Flex*")
+
+
+# Figure S3e: Plotting rates
+pdf("plotMK_Binary_Umbral_flat.pdf", height=7, width=7)
+plot(BinaryState_Umbral_flat_qMat, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, 
+     lwd=3, main= "hrm_BinaryState_Umbral_flat_prior")
+
+dev.off()
+
+
+# Figure S3f: Plotting rates
+pdf("plotMK_Binary_Umbral_fitz.pdf", height=7, width=7)
+plot(BinaryState_Umbral_fitz_qMat, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, 
+     lwd=3, main= "hrm_BinaryState_Umbral_fitz_prior")
+
+dev.off()
+```
+
+
+# Ancestral state estimation usin the 'umbral' hidden rates model
+
+##* Extracting marginal reconstructions and then using hide_hidden_state function (see: http://blog.phytools.org/2023/03/ancestral-character-estimation-under.html.)
+
+```{r}
+# Five states- flat prior
+FiveASR_flat <- mod_5state_ARD_Umbral_hrm_flat$states
+
+colnames(FiveASR_flat) <- c("Adult", "Egg", "Flex", "Larva", "Pupa",
+                            "Adult*", "Egg*", "Flex*", "Larva*", "Pupa*")
+rownames(FiveASR_flat) <- 1:nrow(FiveASR_flat)
+
+
+# Five states- fitz prior
+FiveASR_fitz <- mod_5state_ARD_Umbral_hrm_fitz$states
+
+colnames(FiveASR_fitz) <- c("Adult", "Egg", "Flex", "Larva", "Pupa",
+                            "Adult*", "Egg*", "Flex*", "Larva*", "Pupa*")
+rownames(FiveASR_fitz) <- 1:nrow(FiveASR_fitz)
+
+
+# Three states- flat prior
+ThreeASR_flat <- mod_3state_ARD_Umbral_hrm_flat$states
+
+colnames(ThreeASR_flat) <- c("Adult", "Flex", "Juvenile",
+                             "Adult*", "Flex*", "Juvenile*")
+rownames(ThreeASR_flat) <- 1:nrow(ThreeASR_flat)
+
+
+# Three states- fitz prior
+ThreeASR_fitz <- mod_3state_ARD_Umbral_hrm_fitz$states
+
+colnames(ThreeASR_fitz) <- c("Adult", "Flex", "Juvenile",
+                             "Adult*", "Flex*", "Juvenile*")
+rownames(ThreeASR_fitz) <- 1:nrow(ThreeASR_fitz)
+
+
+# Binary states- flat prior
+BinaryASR_flat <- mod_2state_ARD_Umbral_hrm_flat$states
+colnames(BinaryASR_flat) <- c("Diapause", "Flex", "Diapause*", "Flex*")
+rownames(BinaryASR_flat) <- 1:nrow(BinaryASR_flat)
+
+# Binary states- fitz prior
+BinaryASR_fitz <- mod_2state_ARD_Umbral_hrm_fitz$states
+colnames(BinaryASR_fitz) <- c("Diapause", "Flex", "Diapause*", "Flex*")
+rownames(BinaryASR_fitz) <- 1:nrow(BinaryASR_fitz)
+
+
+
+#=========== Using function to hide the hidden states =====================#
+# see here (this function has been slightly modified corHMM output): http://blog.phytools.org/2023/03/ancestral-character-estimation-under.html
+
+# function to hide hidden states 
+hide_hidden<-function(object,...){
+  ss<-colnames(object) # getting column names of ancr object
+  ss<-ss[-grep("*",ss,fixed=TRUE)] # removing columns containing '*'
+  
+  # Makes an empty matrix corresponding to column and row names of the ancr object
+  anc<-matrix(0,nrow(object),length(ss), dimnames=list(rownames(object),ss)) 
+  
+  # Loop to get rowsums   
+  for(i in 1:length(ss)){
+    anc[,ss[i]]<-rowSums(object[,grep(ss[i],
+                                          colnames(object))])
+  }
+  anc
+}
+
+
+# Applying the function
+FiveASR_flat_hidden <- hide_hidden(FiveASR_flat)
+FiveASR_fitz_hidden <- hide_hidden(FiveASR_fitz)
+
+ThreeASR_flat_hidden <- hide_hidden(ThreeASR_flat)
+ThreeASR_fitz_hidden <- hide_hidden(ThreeASR_fitz)
+
+BinaryASR_flat_hidden <- hide_hidden(BinaryASR_flat)
+BinaryASR_fitz_hidden <- hide_hidden(BinaryASR_fitz)
+```
+
+
+# Plotting ancestral state estimates
+
+##* Setting plotting parameters
+```{r}
+# Function for adding concentric showing timepoints on the phylogeny
+add_rings <- function(phylo){
+  
+  T<-max(nodeHeights(phylo))
+  tick.spacing<-10
+  min.tick<-10
+  obj<-axis(1, pos=-3,at=seq(T,min.tick,by=-tick.spacing),cex.axis=2, labels=FALSE)
+  
+  for(i in 1:length(obj)){
+    a1<-0
+    a2<-2*pi
+    draw.arc(0,0,radius=obj[i],a1,a2,lwd=3,
+             col=make.transparent("dodgerblue",0.1))
+  }
+  
+  axis(1,pos=-3,at=seq(T,min.tick,by=-tick.spacing),cex.axis=0.7, labels=FALSE)
+  text(obj,rep(-8.5,length(obj)),T-obj,cex=0.8)
+  text(mean(obj),-12,"time (Mya)",cex=0.8)
+}
+
+
+# Setting colors for states (it seems like the trick is to set the level factor in the same order as the ancr object. or else it seems like the color for tip label and node labels becomes different)
+
+# Five states
+head(FiveASR_flat_hidden)
+
+DiapauseFive <- factor(DiapauseFive, levels= c("Adult", "Egg", "Flex", "Larva", "Pupa"))
+
+cols_five <- setNames(c("black", "#7EB0DF", "grey", "salmon", "#5D9979"),
+                      c("Adult", "Egg", "Flex", "Larva", "Pupa"))
+                      
+                       
+# Three states
+head(ThreeASR_flat_hidden)
+
+DiapauseThree <- factor(DiapauseThree, levels = c("Adult", "Flex", "Juvenile"))
+DiapauseThree
+
+cols_three <- setNames(c("black", "grey", "salmon"), c("Adult", "Flex", "Juvenile"))
+
+
+# Binary states
+head(BinaryASR_flat_hidden)
+
+DiapauseBinary <- factor(DiapauseBinary, levels= c("Diapause", "Flex"))
+
+cols_binary <- setNames(c("salmon", "grey"), c("Diapause", "Flex"))
+                        
+
+
+# Setting colors to butterfly families
+library(viridis)
+
+dat_diapause$family <- as.factor(dat_diapause$family)
+family <- setNames(dat_diapause$family, rownames(dat_diapause))
+
+cols_family <- viridis_pal()(length(levels(family)))
+```
+
+
+##* Plotting reconstructions
+```{r}
+
+#============= Figure S5a: Five states: flat prior =============#
+
+pdf("corhmm_FiveStates_flat_7Feb24.pdf", height=7, width=7)
+
+par(fg="transparent")
+pp_five_flat_ML <- FiveASR_flat_hidden[1:ButterflyPhylo$Nnode,]
+
+plotTree(ButterflyPhylo, ftype="off", type="fan", lwd=1, tips=seq(1, 953, by=919/953),maxY=953)
+         
+obj<-get("last_plot.phylo",envir=.PlotPhyloEnv)
+n<-Ntip(ButterflyPhylo)
+h<-max(nodeHeights(ButterflyPhylo))
+ii<-order(rowSums(pp_five_flat_ML^2), decreasing=TRUE)
+
+par(lend=3)
+for(i in 1:Ntip(ButterflyPhylo)){
+    cc<-if(obj$xx[i]>0) 2 else -2
+    th<-atan(obj$yy[i]/obj$xx[i])
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]-cc*cos(th),
+        obj$yy[i]-cc*sin(th),lwd=4,
+        col=cols_five[DiapauseFive[ButterflyPhylo$tip.label[i]]])
+    
+    # Adding rings according to families
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]+cc*cos(th),
+        obj$yy[i]+cc*sin(th),lwd=4,
+        col=cols_family[family[ButterflyPhylo$tip.label[i]]])
+}
+
+for(i in ii){
+    plotrix::floating.pie(obj$xx[i+Ntip(ButterflyPhylo)],
+        obj$yy[i+Ntip(ButterflyPhylo)],
+        radius=if(max(pp_five_flat_ML[i,])<=0.80) 0.03*h else 0.01*h,
+        x=pp_five_flat_ML[i,],col=cols_five,border="transparent")
+}
+
+par(fg="black")
+add_rings(ButterflyPhylo)
+
+legend(x=0.98*par()$usr[1],y=0.9*par()$usr[4],
+    levels(DiapauseFive),pch=16, col=cols_five,
+    pt.cex=2,bty="n",cex=0.8)
+
+dev.off()
+
+
+
+#============= Figure 4d: Five states: fitz prior =============#
+
+pdf("corhmm_FiveStates_fitz_7Feb24.pdf", height=7, width=7)
+
+par(fg="transparent")
+pp_five_fitz_ML <- FiveASR_fitz_hidden[1:ButterflyPhylo$Nnode,]
+
+plotTree(ButterflyPhylo, ftype="off", type="fan", lwd=1, tips=seq(1, 953, by=919/953),maxY=953)
+         
+obj<-get("last_plot.phylo",envir=.PlotPhyloEnv)
+n<-Ntip(ButterflyPhylo)
+h<-max(nodeHeights(ButterflyPhylo))
+ii<-order(rowSums(pp_five_fitz_ML^2), decreasing=TRUE)
+
+par(lend=3)
+for(i in 1:Ntip(ButterflyPhylo)){
+    cc<-if(obj$xx[i]>0) 2 else -2
+    th<-atan(obj$yy[i]/obj$xx[i])
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]-cc*cos(th),
+        obj$yy[i]-cc*sin(th),lwd=4,
+        col=cols_five[DiapauseFive[ButterflyPhylo$tip.label[i]]])
+    
+    # Adding rings according to families
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]+cc*cos(th),
+        obj$yy[i]+cc*sin(th),lwd=4,
+        col=cols_family[family[ButterflyPhylo$tip.label[i]]])
+}
+
+for(i in ii){
+    plotrix::floating.pie(obj$xx[i+Ntip(ButterflyPhylo)],
+        obj$yy[i+Ntip(ButterflyPhylo)],
+        radius=if(max(pp_five_flat_ML[i,])<=0.80) 0.03*h else 0.01*h,
+        x=pp_five_fitz_ML[i,],col=cols_five,border="transparent")
+}
+
+par(fg="black")
+add_rings(ButterflyPhylo)
+
+legend(x=0.98*par()$usr[1],y=0.9*par()$usr[4],
+    levels(DiapauseFive),pch=16, col=cols_five,
+    pt.cex=2,bty="n",cex=0.8)
+
+dev.off()
+
+
+#============= Figure S5c: Three states: flat prior =============#
+
+pdf("corhmm_ThreeStates_flat_7Feb24.pdf", height=7, width=7)
+
+par(fg="transparent")
+pp_three_flat_ML <- ThreeASR_flat_hidden[1:ButterflyPhylo$Nnode,]
+
+plotTree(ButterflyPhylo, ftype="off", type="fan", lwd=1, tips=seq(1, 953, by=919/953),maxY=953)
+         
+obj<-get("last_plot.phylo",envir=.PlotPhyloEnv)
+n<-Ntip(ButterflyPhylo)
+h<-max(nodeHeights(ButterflyPhylo))
+ii<-order(rowSums(pp_three_flat_ML^2), decreasing=TRUE)
+
+
+par(lend=3)
+for(i in 1:Ntip(ButterflyPhylo)){
+    cc<-if(obj$xx[i]>0) 2 else -2
+    th<-atan(obj$yy[i]/obj$xx[i])
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]-cc*cos(th),
+        obj$yy[i]-cc*sin(th),lwd=4,
+        col=cols_three[DiapauseThree[ButterflyPhylo$tip.label[i]]])
+    
+    # Adding rings according to families
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]+cc*cos(th),
+        obj$yy[i]+cc*sin(th),lwd=4,
+        col=cols_family[family[ButterflyPhylo$tip.label[i]]])
+}
+
+for(i in ii){
+    plotrix::floating.pie(obj$xx[i+Ntip(ButterflyPhylo)],
+        obj$yy[i+Ntip(ButterflyPhylo)],
+        radius=if(max(pp_three_flat_ML[i,])<=0.80) 0.03*h else 0.01*h,
+        x=pp_three_flat_ML[i,],col=cols_three,border="transparent")
+}
+
+par(fg="black")
+add_rings(ButterflyPhylo)
+
+legend(x=0.98*par()$usr[1],y=0.9*par()$usr[4],
+    levels(DiapauseThree),pch=16, col=cols_three,
+    pt.cex=2,bty="n",cex=0.8)
+
+dev.off()
+
+
+#============= Figure 4e: Three states: fitzjohn prior =============#
+
+pdf("corhmm_ThreeStates_fitz_7Feb24.pdf", height=7, width=7)
+
+par(fg="transparent")
+pp_three_fitz_ML <- ThreeASR_fitz_hidden[1:ButterflyPhylo$Nnode,]
+
+plotTree(ButterflyPhylo, ftype="off", type="fan", lwd=1, tips=seq(1, 953, by=919/953),maxY=953)
+         
+obj<-get("last_plot.phylo",envir=.PlotPhyloEnv)
+n<-Ntip(ButterflyPhylo)
+h<-max(nodeHeights(ButterflyPhylo))
+ii<-order(rowSums(pp_three_fitz_ML^2), decreasing=TRUE)
+
+
+par(lend=3)
+for(i in 1:Ntip(ButterflyPhylo)){
+    cc<-if(obj$xx[i]>0) 2 else -2
+    th<-atan(obj$yy[i]/obj$xx[i])
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]-cc*cos(th),
+        obj$yy[i]-cc*sin(th),lwd=4,
+        col=cols_three[DiapauseThree[ButterflyPhylo$tip.label[i]]])
+    
+    # Adding rings according to families
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]+cc*cos(th),
+        obj$yy[i]+cc*sin(th),lwd=4,
+        col=cols_family[family[ButterflyPhylo$tip.label[i]]])
+}
+
+for(i in ii){
+    plotrix::floating.pie(obj$xx[i+Ntip(ButterflyPhylo)],
+        obj$yy[i+Ntip(ButterflyPhylo)],
+        radius=if(max(pp_three_fitz_ML[i,])<=0.80) 0.03*h else 0.01*h,
+        x=pp_three_fitz_ML[i,],col=cols_three,border="transparent")
+}
+
+par(fg="black")
+add_rings(ButterflyPhylo)
+
+legend(x=0.98*par()$usr[1],y=0.9*par()$usr[4],
+    levels(DiapauseThree),pch=16, col=cols_three,
+    pt.cex=2,bty="n",cex=0.8)
+
+dev.off()
+
+
+#============= Figure S5e: Binary states: flat prior =============#
+
+pdf("corhmm_BinaryStates_flat_7Feb24.pdf", height=7, width=7)
+
+par(fg="transparent")
+pp_binary_flat_ML <- BinaryASR_flat_hidden[1:ButterflyPhylo$Nnode,]
+
+plotTree(ButterflyPhylo, ftype="off", type="fan", lwd=1, tips=seq(1, 953, by=919/953),maxY=953)
+         
+obj<-get("last_plot.phylo",envir=.PlotPhyloEnv)
+n<-Ntip(ButterflyPhylo)
+h<-max(nodeHeights(ButterflyPhylo))
+ii<-order(rowSums(pp_binary_flat_ML^2), decreasing=TRUE)
+
+par(lend=3)
+for(i in 1:Ntip(ButterflyPhylo)){
+    cc<-if(obj$xx[i]>0) 2 else -2
+    th<-atan(obj$yy[i]/obj$xx[i])
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]-cc*cos(th),
+        obj$yy[i]-cc*sin(th),lwd=4,
+        col=cols_binary[DiapauseBinary[ButterflyPhylo$tip.label[i]]])
+    
+    # Adding rings according to families
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]+cc*cos(th),
+        obj$yy[i]+cc*sin(th),lwd=4,
+        col=cols_family[family[ButterflyPhylo$tip.label[i]]])
+}
+
+for(i in ii){
+    plotrix::floating.pie(obj$xx[i+Ntip(ButterflyPhylo)],
+        obj$yy[i+Ntip(ButterflyPhylo)],
+        radius=if(max(pp_binary_flat_ML[i,])<=0.80) 0.03*h else 0.01*h,
+        x=pp_binary_flat_ML[i,],col=cols_binary,border="transparent")
+}
+
+par(fg="black")
+add_rings(ButterflyPhylo)
+
+legend(x=0.98*par()$usr[1],y=0.9*par()$usr[4],
+    levels(DiapauseBinary),pch=16, col=cols_binary,
+    pt.cex=2,bty="n",cex=0.8)
+
+dev.off()
+
+
+
+#============= Figure 4f: Binary states: fitzjohn prior =============#
+
+pdf("corhmm_BinaryStates_fitz_7Feb24.pdf", height=7, width=7)
+
+par(fg="transparent")
+pp_binary_fitz_ML <- BinaryASR_fitz_hidden[1:ButterflyPhylo$Nnode,]
+
+plotTree(ButterflyPhylo, ftype="off", type="fan", lwd=1, tips=seq(1, 953, by=919/953),maxY=953)
+         
+obj<-get("last_plot.phylo",envir=.PlotPhyloEnv)
+n<-Ntip(ButterflyPhylo)
+h<-max(nodeHeights(ButterflyPhylo))
+ii<-order(rowSums(pp_binary_fitz_ML^2), decreasing=TRUE)
+
+par(lend=3)
+for(i in 1:Ntip(ButterflyPhylo)){
+    cc<-if(obj$xx[i]>0) 2 else -2
+    th<-atan(obj$yy[i]/obj$xx[i])
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]-cc*cos(th),
+        obj$yy[i]-cc*sin(th),lwd=4,
+        col=cols_binary[DiapauseBinary[ButterflyPhylo$tip.label[i]]])
+    
+    # Adding rings according to families
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]+cc*cos(th),
+        obj$yy[i]+cc*sin(th),lwd=4,
+        col=cols_family[family[ButterflyPhylo$tip.label[i]]])
+}
+
+for(i in ii){
+    plotrix::floating.pie(obj$xx[i+Ntip(ButterflyPhylo)],
+        obj$yy[i+Ntip(ButterflyPhylo)],
+        radius=if(max(pp_binary_fitz_ML[i,])<=0.80) 0.03*h else 0.01*h,
+        x=pp_binary_fitz_ML[i,],col=cols_binary,border="transparent")
+}
+
+par(fg="black")
+add_rings(ButterflyPhylo)
+
+legend(x=0.98*par()$usr[1],y=0.9*par()$usr[4],
+    levels(DiapauseBinary),pch=16, col=cols_binary,
+    pt.cex=2,bty="n",cex=0.8)
+
+dev.off()
+```

@@ -1,0 +1,465 @@
+---
+title: "Counting number of transitions  & rate through time"
+author: "Sridhar Halali"
+date: "2023-10-20"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Importing required libraries
+```{r setup, message=F}
+library(phytools)
+library(ape)
+library(tidyverse)
+library(conflicted)
+library(viridis)
+```
+
+# Setting working directory
+```{r setup, message=F}
+setwd("/Users/sridhar/Library/CloudStorage/OneDrive-LundUniversity/LU box backup/Evolution of diapause/evo of diapause/Updated_diapause_analyses_19_sep_2023")
+```
+
+# Reading stochastic maps saved as .RDS files
+```{r}
+# Reading stochastic simulations RDS file if already not in the R environment
+SimmapFiveState_flat <- readRDS("simmap_5state_1000sim_ARD_flat.RDS")
+SimmapThreeState_flat <- readRDS("simmap_3state_1000sim_ARD_flat.RDS")
+SimmapBinaryState_flat <- readRDS("simmap_Binary_1000sim_ARD_flat.RDS")
+
+SimmapFiveState_fitz <- readRDS("simmap_5state_1000sim_ARD_fitzjohn.RDS")
+SimmapThreeState_fitz <- readRDS("simmap_3state_1000sim_ARD_fitzjohn.RDS")
+SimmapBinaryState_fitz <- readRDS("simmap_Binary_1000sim_ARD_fitzjohn.RDS")
+```
+
+
+# Counting number of transitions
+
+##* Extracting number of transitions on each stochastic maps using countSimmap function
+```{r}
+# Flat prior
+counts_FiveStates_flat <- data.frame(countSimmap(SimmapFiveState_flat)[[1]])
+counts_ThreeStates_flat <- data.frame(countSimmap(SimmapThreeState_flat)[[1]])
+counts_BinaryStates_flat <- data.frame(countSimmap(SimmapBinaryState_flat)[[1]])
+
+# Fitzjohn prior
+counts_FiveStates_fitz <- data.frame(countSimmap(SimmapFiveState_fitz)[[1]])
+counts_ThreeStates_fitz <- data.frame(countSimmap(SimmapThreeState_fitz)[[1]])
+counts_BinaryStates_fitz <- data.frame(countSimmap(SimmapBinaryState_fitz)[[1]])
+```
+
+##* Some data carpentry to get data into shape for plotting
+```{r}
+head(counts_FiveStates_fitz)
+
+# Replacing '.' from the column names to -> & creating a new column showing root_prior
+
+# Flat prior
+names(counts_FiveStates_flat) <- gsub(x = names(counts_FiveStates_flat), pattern = "\\.", replacement = "->")  
+counts_FiveStates_flat <- counts_FiveStates_flat %>% mutate(root_prior = "flat")
+
+names(counts_ThreeStates_flat) <- gsub(x = names(counts_ThreeStates_flat), pattern = "\\.", replacement = "->")  
+counts_ThreeStates_flat <- counts_ThreeStates_flat %>% mutate(root_prior = "flat")
+
+names(counts_BinaryStates_flat) <- gsub(x = names(counts_BinaryStates_flat), pattern = "\\.", replacement = "->")  
+counts_BinaryStates_flat <- counts_BinaryStates_flat %>% mutate(root_prior = "flat")
+
+
+# Fitzjohn prior
+names(counts_FiveStates_fitz) <- gsub(x = names(counts_FiveStates_fitz), pattern = "\\.", replacement = "->")  
+counts_FiveStates_fitz <- counts_FiveStates_fitz %>% mutate(root_prior = "fitzjohn")
+
+names(counts_ThreeStates_fitz) <- gsub(x = names(counts_ThreeStates_fitz), pattern = "\\.", replacement = "->")  
+counts_ThreeStates_fitz <- counts_ThreeStates_fitz %>% mutate(root_prior = "fitzjohn")
+
+names(counts_BinaryStates_fitz) <- gsub(x = names(counts_BinaryStates_fitz), pattern = "\\.", replacement = "->")  
+counts_BinaryStates_fitz <- counts_BinaryStates_fitz %>% mutate(root_prior = "fitzjohn")
+
+
+#============= Combining dataframes according to state classifications==================================#
+# Five states
+counts_FiveStates_final <- rbind(counts_FiveStates_flat, counts_FiveStates_fitz)
+
+# Three states
+counts_ThreeStates_final <- rbind(counts_ThreeStates_flat, counts_ThreeStates_fitz)
+
+# Binary state
+counts_BinaryStates_final <- rbind(counts_BinaryStates_flat, counts_BinaryStates_fitz)
+#==================================================================================================#
+
+
+#================= Converting wide to long data frame ==================================#
+# Five states
+counts_FiveStates_final <- counts_FiveStates_final %>% 
+  select(-N) %>% 
+  pivot_longer(!root_prior, names_to = "transitions", values_to = "count") %>% 
+  mutate(transitions= factor(transitions),
+         root_prior = factor(root_prior))
+
+# Three states
+counts_ThreeStates_final <- counts_ThreeStates_final %>% 
+  select(-N) %>% 
+  pivot_longer(!root_prior, names_to = "transitions", values_to = "count") %>% 
+  mutate(transitions= factor(transitions),
+         root_prior = factor(root_prior))
+
+# Binary states
+counts_BinaryStates_final <- counts_BinaryStates_final %>% 
+  select(-N) %>% 
+  pivot_longer(!root_prior, names_to = "transitions", values_to = "count") %>% 
+  mutate(transitions= factor(transitions),
+         root_prior = factor(root_prior))
+
+
+#================= Removing same transitions ==================================#
+counts_FiveStates_final <- counts_FiveStates_final %>% 
+  dplyr::filter(!transitions %in% c("Adult->Adult", "Egg->Egg", "Larva->Larva", "Pupa->Pupa", "Flex->Flex"))
+
+counts_ThreeStates_final <- counts_ThreeStates_final %>% 
+  dplyr::filter(!transitions %in% c("Adult->Adult", "Juvenile->Juvenile", "Flex->Flex"))
+
+counts_BinaryStates_final <- counts_BinaryStates_final %>% 
+  dplyr::filter(!transitions %in% c("Flex->Flex", "Diapause->Diapause"))
+```
+
+
+##* Calculating average number of transitions
+```{r}
+# Five state
+counts_FiveStates_average <- counts_FiveStates_final %>% 
+  group_by(root_prior, transitions) %>% 
+  summarise(mean_counts = mean(count))
+
+
+# Three state
+counts_ThreeStates_average <- counts_ThreeStates_final %>% 
+  group_by(root_prior, transitions) %>% 
+  summarise(mean_counts = mean(count))
+
+# Binary state
+counts_BinaryStates_average <- counts_BinaryStates_final %>% 
+  group_by(root_prior, transitions) %>% 
+  summarise(mean_counts = mean(count))
+```
+
+
+##* Plotting number of transitions
+```{r}
+# Setting the theme
+theme_counts <- theme_bw() + 
+  theme(panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank())
+
+
+# Figure 2a: Five state
+pdf("transitions_FiveState.pdf", height=6, width=6)
+
+counts_FiveStates_final %>% 
+  ggplot(aes(x=count, y= reorder(transitions, count))) +
+  
+  geom_jitter(aes(fill=root_prior), height=0.2, alpha=0.1, shape=21, stroke=NA) +
+  
+  geom_jitter(data=counts_FiveStates_average,
+             aes(x=mean_counts, y= transitions, fill=root_prior), 
+             height = 0.15, shape=21, stroke=0.5, size=4) +
+ 
+  scale_x_continuous(limits= c(-0.9, 250)) +
+             
+  scale_fill_manual(values = c("flat" = "grey", "fitzjohn" = "salmon")) +
+
+  xlab("Number of transitions") + ylab("Transition between states") +
+  theme_counts 
+
+dev.off()
+
+
+# Figure 2b: Three state
+pdf("transitions_ThreeState.pdf", height=6, width=6)
+
+counts_ThreeStates_final %>% 
+  ggplot(aes(x=count, y= reorder(transitions, count))) +
+  
+  geom_jitter(aes(fill=root_prior), height=0.1, alpha=0.1, shape=21, stroke=NA) +
+  
+  geom_jitter(data=counts_ThreeStates_average,
+             aes(x=mean_counts, y= transitions, fill=root_prior), 
+             height = 0.09, shape=21, stroke=0.5, size=4) +
+  
+  scale_x_continuous(limits=c(-0.9, 150)) +
+             
+  scale_fill_manual(values = c("flat" = "grey", "fitzjohn" = "salmon")) +
+  
+  xlab("Number of transitions") + ylab("Transition between states") +
+  theme_counts 
+
+dev.off()
+
+
+# Figure 2c: Binary state
+pdf("transitions_BinaryState.pdf", height=6, width=6)
+
+counts_BinaryStates_final %>% 
+  ggplot(aes(x=count, y= reorder(transitions, count))) +
+  
+  geom_jitter(aes(fill=root_prior), height=0.07, alpha=0.1, shape=21, stroke=NA) +
+  
+  geom_jitter(data=counts_BinaryStates_average,
+             aes(x=mean_counts, y= transitions, fill=root_prior), 
+             height = 0.05, shape=21, stroke=0.5, size=4) +
+             
+  scale_fill_manual(values = c("flat" = "grey", "fitzjohn" = "salmon")) +
+  
+  xlab("Number of transitions") + ylab("Transition between states") +
+  theme_counts 
+
+dev.off()
+
+```
+
+
+# Calculating Rate Trough time
+Calculating rate through time using 1000 stochastic maps. The rate is calculated by dividing the number transitions by the edge length in a given bin or segment. Here I am dividing the entire phylogeny into 30 bins (i.e. 107.60/30), thus, one bin equals to ~3.58 million years. Type="all" estimates total rates by taking all transitions into account. See Methods section for details. 
+
+##* Loading functions for calculating and plotting rate through time. 
+Only some functions are modified from the original code that can be found here (https://github.com/jakeberv/mammal_arboreality). The original getrates(), rateplot() and segplot() functions were especially modified to able to compute and plot confidence intervals around the rates. Function were modified by Etka Yapar. Please load both source codes. 
+
+```{r}
+
+# Loading original function (can be found here: https://github.com/jakeberv/mammal_arboreality)
+# Original article can be found here:  https://doi.org/10.1002/ece3.8114
+source("source_rate_through_time_Hughes_et_al_2021.R")
+
+# Loading modified function (based on the original function mentioned above) for incorporating confidence bounds on rate through time calculations 
+source("getRates_modified_Etka Yapar.R")
+
+
+# Total age of the tree
+ButterflyPhylo <- read.nexus("butterfly_phylogeny_pruned.trees")
+max(nodeHeights(ButterflyPhylo)) # 107.60
+
+```
+
+##* Binary state diapause clasification
+
+####- flat root prior
+```{r}
+# Calculating rates for each transition
+counts.FD_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapBinaryState_flat, type="Flex->Diapause", uncert = "confint")
+
+counts.DF_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapBinaryState_flat, type="Diapause->Flex", uncert= "confint")
+
+
+# Figure S7: Plotting rate through time for transitions for binary state diapause classification with flat root prior
+pdf("newRate_BinaryState_flat.pdf", height=7, width=7)
+
+rateplot_ey(rates=counts.DF_flat, tree=ButterflyPhylo, ylim=c(0,0.02), spline=T, width=3, alpha=0.2, lty=1, color = "#440154FF", confint = T)
+par(new=T)
+segplot_ey(rates=counts.FD_flat, ylim=c(0,0.02), color= "#7AD151FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+abline(v = 35, col = "grey", lty = 2, lwd=2)
+legend("topleft", 
+       legend=c("diapause->flex", "flex->diapause"),     
+       col = c("#440154FF", "#7AD151FF"), bty = 'n', lty=1, lwd=5)
+       
+dev.off()
+```
+
+
+####- fitzjohn root prior
+```{r}
+# Calculating rates for each transition
+counts.DF_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapBinaryState_fitz, type="Diapause->Flex", uncert="confint")
+counts.FD_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapBinaryState_fitz, type="Flex->Diapause", uncert="confint")
+
+
+# Figure 5c: Plotting rate through time for transitions for binary state diapause classification with fitzjohn root prior
+pdf("newRate_BinaryState_fitz.pdf", height=7, width=7)
+
+rateplot_ey(rates=counts.DF_fitz, tree=ButterflyPhylo, ylim=c(0,0.02), spline=T, width=3, alpha=0.2, lty=1, color = "#440154FF", confint = T)
+par(new=T)
+segplot_ey(rates=counts.FD_fitz, ylim=c(0,0.02), color= "#7AD151FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+abline(v = 35, col = "grey", lty = 2, lwd=2)
+legend("topleft", 
+       legend=c("diapause->flex", "flex->diapause"),     
+       col = c("#440154FF", "#7AD151FF"), bty = 'n', lty=1, lwd=5)
+      
+dev.off()
+```
+
+
+##* Three state dipauase classification
+
+####- flat root prior 
+```{r}
+# Calculating rates for each transition
+counts.AJ_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_flat, type="Adult->Juvenile", uncert = "confint")
+counts.JA_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_flat, type="Juvenile->Adult", uncert = "confint")
+counts.JF_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_flat, type="Juvenile->Flex", uncert = "confint")
+counts.FJ_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_flat, type="Flex->Juvenile", uncert = "confint")
+counts.FA_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_flat, type="Flex->Adult", uncert = "confint")
+counts.AF_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_flat, type="Adult->Flex", uncert = "confint")
+
+# Figure S7: Plotting rates
+pdf("newRate_ThreeState_flat.pdf", height=7, width=7)
+
+rateplot_ey(rates=counts.JF_flat, tree=ButterflyPhylo, ylim=c(0,0.02), spline=T, width=3, alpha=0.2, lty=1, color = "#440154FF", confint=T)
+
+par(new=T)
+segplot_ey(rates=counts.AJ_flat, ylim=c(0,0.02), color= "#414487FF",  spline=T, width=3, ax=F, lty=2, confint=T)
+
+par(new=T)
+segplot_ey(rates=counts.JA_flat, ylim=c(0,0.02), color= "#2A788EFF",  spline=T, width=3, ax=F, lty=2, confint=T)
+
+par(new=T)
+segplot_ey(rates=counts.FJ_flat, ylim=c(0,0.02), color= "#22A884FF",  spline=T, width=3, ax=F, lty=2, confint=T)
+
+par(new=T)
+segplot_ey(rates=counts.FA_flat, ylim=c(0,0.02), color= "#7AD151FF",  spline=T, width=3, ax=F, lty=2, confint=T)
+
+par(new=T)
+segplot_ey(rates=counts.AF_flat, ylim=c(0,0.02), color= "#FDE725FF",  spline=T, width=3, ax=F, lty=1, confint=T)
+
+abline(v = 35, col = "grey", lty = 2, lwd=2)
+
+legend("topleft", 
+       legend=c("Juv->Flex", "Adult->Juv",  "Juv->Adult", "Flex->Juv", "Flex->Adult", "Adult->flex"),
+       col = c("#482878FF", "#414487FF", "#2A788EFF", "#22A884FF", "#7AD151FF", "#FDE725FF"),
+       bty = 'n', lty=1, lwd=4)
+
+dev.off()
+```
+
+
+####- fitzohn root prior
+```{r}
+# Calculating rates for each transition
+counts.AJ_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_fitz, type="Adult->Juvenile", uncert = "confint")
+counts.JA_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_fitz, type="Juvenile->Adult", uncert = "confint")
+counts.JF_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_fitz, type="Juvenile->Flex", uncert = "confint")
+counts.FJ_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_fitz, type="Flex->Juvenile", uncert = "confint")
+counts.FA_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_fitz, type="Flex->Adult", uncert = "confint")
+counts.AF_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapThreeState_fitz, type="Adult->Flex", uncert = "confint")
+
+# Figure 5b: Plot rate through time
+pdf("newRate_ThreeState_fitz.pdf", height=7, width=7)
+
+rateplot_ey(rates=counts.JF_fitz, tree=ButterflyPhylo, ylim=c(0,0.02), spline=T, width=3, alpha=0.2, lty=1, color = "#440154FF", confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.AJ_fitz, ylim=c(0,0.02), color= "#414487FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.JA_fitz, ylim=c(0,0.02), color= "#2A788EFF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.FJ_fitz, ylim=c(0,0.02), color= "#22A884FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.FA_fitz, ylim=c(0,0.02), color= "#7AD151FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.AF_fitz, ylim=c(0,0.02), color= "#FDE725FF",  spline=T, width=3, ax=F, lty=1, confint = T)
+
+abline(v = 35, col = "grey", lty = 2, lwd=2)
+
+legend("topleft", 
+       legend=c("Juv->Flex", "Adult->Juv",  "Juv->Adult", "Flex->Juv", "Flex->Adult", "Adult->flex"),
+       col = c("#482878FF", "#414487FF", "#2A788EFF", "#22A884FF", "#7AD151FF", "#FDE725FF"),
+       bty = 'n', lty=1, lwd=4)
+
+dev.off()
+```
+
+##* Five state diapause classification
+Note that for five state classification, rates are for only the high frequency transitions are calculated (see Figure 2a in the main text for number of transitions between states)
+
+####- flat root prior
+```{r}
+# Calculating rates only for higher frequency transitions
+counts.LF_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_flat, type="Larva->Flex", uncert = "confint")
+counts.FL_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_flat, type="Flex->Larva", uncert = "confint")
+counts.PF_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_flat, type="Pupa->Flex", uncert = "confint")
+counts.PL_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_flat, type="Pupa->Larva", uncert = "confint")
+counts.FP_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_flat, type="Flex->Pupa", uncert = "confint")
+counts.FA_flat <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_flat, type="Flex->Adult", uncert = "confint")
+
+
+# Figure S7: Plotting rate through time for higher frequency shifts
+pdf("newRate_FiveStates_flat.pdf", height=7, width=7)
+
+rateplot_ey(rates=counts.LF_flat, tree=ButterflyPhylo, ylim=c(0,0.02), spline=T, width=3, alpha=0.1, lty=1, color = "#440154FF", confint = T)
+         
+par(new=T)
+segplot_ey(rates=counts.FL_flat, ylim=c(0,0.02), color= "#414487FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.PF_flat, ylim=c(0,0.02), color= "#2A788EFF" ,  spline=T, width=3, ax=F, lty=1, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.PL_flat, ylim=c(0,0.02), color= "#22A884FF",  spline=T, width=3, ax=F, lty = 2, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.FP_flat, ylim=c(0,0.02), color= "#7AD151FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.FA_flat, ylim=c(0,0.02), color= "#FDE725FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+abline(v = 35, col = "grey", lty = 2, lwd=2)
+
+legend("topleft", 
+       legend=c("Larva->Flex",  "Flex->Larva", "Pupa->Flex", "Pupa->Larva", "Flex->Pupa","Flex->Adult"),  
+       col = c("#440154FF", "#482878FF", "#2A788EFF", "#22A884FF", "#7AD151FF", "#FDE725FF"),
+       bty = 'n', lty=1, lwd=4)
+
+dev.off()
+```
+
+
+####- fitzjohn root prior
+```{r}
+# Calculating rates for higher frequency transitions (new function)
+counts.LF_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_fitz, type="Larva->Flex", uncert = "confint")
+counts.FL_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_fitz, type="Flex->Larva", uncert = "confint")
+counts.PF_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_fitz, type="Pupa->Flex", uncert = "confint")
+counts.PL_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_fitz, type="Pupa->Larva", uncert = "confint")
+counts.FP_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_fitz, type="Flex->Pupa", uncert = "confint")
+counts.FA_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_fitz, type="Flex->Adult", uncert = "confint")
+
+
+# Figure 5a: Plotting rate through time for higher frequency shifts
+pdf("newRate_FiveStates_fitz.pdf", height=7, width=7)
+
+rateplot_ey(rates=counts.LF_fitz, tree=ButterflyPhylo, ylim=c(0,0.02), spline=T, width=3, alpha=0.1, lty=1, color = "#440154FF", confint = T)
+         
+par(new=T)
+segplot_ey(rates=counts.FL_fitz, ylim=c(0,0.02), color= "#414487FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.PF_fitz, ylim=c(0,0.02), color= "#2A788EFF" ,  spline=T, width=3, ax=F, lty=1, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.PL_fitz, ylim=c(0,0.02), color= "#22A884FF",  spline=T, width=3, ax=F, lty = 2, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.FP_fitz, ylim=c(0,0.02), color= "#7AD151FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+par(new=T)
+segplot_ey(rates=counts.FA_fitz, ylim=c(0,0.02), color= "#FDE725FF",  spline=T, width=3, ax=F, lty=2, confint = T)
+
+abline(v = 35, col = "grey", lty = 2, lwd=2)
+
+legend("topleft", 
+       legend=c("Larva->Flex",  "Flex->Larva", "Pupa->Flex", "Pupa->Larva", "Flex->Pupa","Flex->Adult"),  
+       col = c("#440154FF", "#482878FF", "#2A788EFF", "#22A884FF", "#7AD151FF", "#FDE725FF"),
+       bty = 'n', lty=1, lwd=4)
+
+dev.off()
+```
+
+
+
+
+
+

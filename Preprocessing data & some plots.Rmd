@@ -1,0 +1,262 @@
+---
+title: "Preprocessing data & making some basic plots"
+author: "Sridhar Halali"
+date: "2023-10-19"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Import required libraries
+
+```{r setup, message=F}
+library(tidyverse)
+library(ape)
+library(openxlsx)
+library(geiger)
+library(viridis)
+library(conflicted)
+library(phytools)
+```
+
+# Setting the working directory
+```{r}
+setwd("/Users/sridhar/Library/CloudStorage/OneDrive-LundUniversity/LU box backup/Evolution of diapause/evo of diapause/Updated_diapause_analyses_19_sep_2023/Manuscript/GitHub_uploading_codes_8 Mar 2024")
+
+```
+
+
+# Importing diapause data and doing some preprocessing
+```{r}
+# Importing the raw data which contains diapause data 
+dat_diapause <- read.xlsx("diapause_classification_data_RAW.xlsx")
+head(dat_diapause)
+
+# Choosing only required columns
+dat_pruned <- dat_diapause %>% 
+  select(tree_label, tree_species, species_names, family, 
+         diapause_5_state_revised, diapause_3_state_revised, diapause_2_state_revised) 
+         
+
+# Convert all character columns to factor
+dat_pruned <- dat_pruned %>% mutate_if(is.character, as.factor)
+
+
+# Remove 'skip' & 'skip high altitude' factor from 5, 3 and 2 state diapause  classification and remove from the data
+conflicted::conflicts_prefer(dplyr::filter)
+
+dat_pruned_skip <- dat_pruned %>% 
+  filter(!diapause_5_state_revised  %in%  c("skip", "skip_high altitude"))
+
+```
+
+
+# Recoding some diapause states
+Some taxa in the data can diapause in both larval and pupal stage. We're recoding these taxa as 'larval' diapause (see Methods in the main for details). Also, recoding none/flexible state as 'Flex' for simplicity. 
+Also, for one of the taxa (tip label = UK78_Iliana_sp_) the family is wrongly defined so this will mistake will be corrected in this chunk.
+
+```{r}
+dat_recoded <- dat_pruned_skip %>% 
+  
+  mutate(diapause_five_state = case_when(
+    diapause_5_state_revised == "LP" ~ "Larva",
+    diapause_5_state_revised == "none/flexible" ~ "Flex",
+    TRUE~diapause_5_state_revised), 
+    
+    diapause_three_state = case_when(
+      diapause_3_state_revised == "none/flexible" ~ "Flex",
+      TRUE~diapause_3_state_revised), 
+    
+    diapause_binary = case_when(
+      diapause_2_state_revised == "true_diapause" ~ "Diapause",
+      diapause_2_state_revised == "none/flexible" ~ "Flex",
+      TRUE~diapause_2_state_revised))
+      
+
+# Change the family of this one tree label which is wrongly assigned in the original data. Changing family of "UK78_Iliana_sp_" tree label from Riodinidae to Hesperiidae
+row_number <- which(dat_recoded$tree_label == "UK78_Iliana_sp_")
+
+dat_recoded$family[dat_recoded$tree_label=="UK78_Iliana_sp_"] <- "Hesperiidae"
+print(dat_recoded[row_number, ])
+
+# Factorising all characters to factors
+dat_recoded <- dat_recoded %>% mutate_if(is.character, as.factor)
+glimpse(dat_recoded)
+
+
+# Number of taxa in each family
+dat_recoded %>% group_by(family) %>%  count()
+
+# Counting number of taxa in each state
+dat_recoded %>% group_by(diapause_five_state) %>%  count()
+dat_recoded %>% group_by(diapause_three_state) %>%  count()
+dat_recoded %>% group_by(diapause_binary) %>%  count()
+
+```
+
+
+# Making some basic plots
+```{r}
+# Reordering levels of factors
+dat_recoded$diapause_five_state <- factor(dat_recoded$diapause_five_state, 
+                                          levels= c("Egg", "Larva", "Pupa", "Adult", "Flex"))
+
+dat_recoded$diapause_three_state <- factor(dat_recoded$diapause_three_state, 
+                                          levels= c("Juvenile", "Adult", "Flex"))
+
+dat_recoded$diapause_binary <- factor(dat_recoded$diapause_binary, 
+                                          levels= c("Diapause", "Flex"))
+
+
+#================== Plotting number of taxa in each diapause state across classifications =================================#
+
+# Figure 1a: number of taxa in each state for the five state classification  
+pdf("genera_number_five_state.pdf", height=5, width=5)
+
+dat_recoded %>% group_by(diapause_five_state) %>% count() %>%
+  ggplot(aes(diapause_five_state, n)) +
+  geom_bar(stat= "identity", fill="cadetblue", color="black", lwd=0.2) +
+  xlab("") +  ylab("Number of taxa") + 
+  theme_bw()
+    
+dev.off()
+
+
+# Figure  S1: number of taxa in each state for the three state classification  
+pdf("genera_number_three_state.pdf", height=5, width=5)
+
+dat_recoded %>% group_by(diapause_three_state) %>% count() %>%
+  ggplot(aes(diapause_three_state, n)) +
+  geom_bar(stat= "identity", fill="cadetblue", color="black", lwd=0.2, width=0.5) +
+  xlab("") +  ylab("Number of genera") + 
+  theme_bw()
+  
+dev.off()
+
+
+# Figure  S1: number of taxa in each state for the binary state classification  
+pdf("genera_number_binary_state.pdf", height=5, width=5)
+
+dat_recoded %>% group_by(diapause_binary) %>% count() %>%
+  ggplot(aes(diapause_binary, n)) +
+  geom_bar(stat= "identity", fill="cadetblue", color="black", lwd=0.2, width=0.5) +
+  xlab("") +  ylab("Number of genera") + 
+  theme_bw()
+  
+dev.off()
+
+
+#======= Calculating relative proportion of each diapausing state per family ===============#
+# Note that family Hedylidae is removed as this was represented by only two taxa in our phylogenetic tree
+
+# Five state classification
+DatPropFive <- dat_recoded %>%
+  filter(!family=="Hedylidae") %>% 
+  group_by(family, diapause_five_state) %>%
+  summarise(n = n()) %>%
+  mutate(prop = (n / sum(n))*100)
+
+# Three states
+DatPropThree <- dat_recoded %>%
+  filter(!family=="Hedylidae") %>% 
+  group_by(family, diapause_three_state) %>%
+  summarise(n = n()) %>%
+  mutate(prop = (n / sum(n))*100)
+DatPropThree
+
+# Binary state
+DatPropBinary <- dat_recoded %>%
+  filter(!family=="Hedylidae") %>% 
+  group_by(family, diapause_binary) %>%
+  summarise(n = n()) %>%
+  mutate(prop = (n / sum(n))*100)
+
+DatPropBinary
+
+
+# Setting levels for families for plotting
+unique(DatPropFive$family)
+
+DatPropFive$family <- factor(DatPropFive$family, 
+                             levels= c("Papilionidae", "Pieridae", "Nymphalidae",
+                                       "Lycaenidae", "Hesperiidae", "Riodinidae"))
+                                       
+
+DatPropThree$family <- factor(DatPropThree$family, 
+                             levels= c("Papilionidae", "Pieridae", "Nymphalidae",
+                                       "Lycaenidae", "Hesperiidae", "Riodinidae"))
+
+DatPropBinary$family <- factor(DatPropBinary$family, 
+                             levels= c("Papilionidae", "Pieridae", "Nymphalidae",
+                                       "Lycaenidae", "Hesperiidae", "Riodinidae")
+                                       
+
+# Figure 1b: relative proportion of diapause states per family for five state classification
+pdf("proportion_5_state.pdf", height=6, width=6)
+
+DatPropFive %>% 
+  ggplot(aes(x= family, y= prop, fill= diapause_five_state)) + 
+  geom_bar(stat="identity") +
+  ylab("Proportion of diapausing strategies") + xlab("") + 
+  scale_fill_viridis(discrete = TRUE) +
+  geom_text(aes(label=sprintf("%0.1f", prop)), 
+            position = position_stack(vjust = 0.5), size = 3)+
+  theme_bw() + theme(legend.position="bottom")
+
+dev.off()
+
+
+# Figure S2: relative proportion of diapause states per family for three state classification
+pdf("proportion_3_state.pdf", height=6, width=6)
+
+DatPropThree %>% 
+  ggplot(aes(x= family, y= prop, fill= diapause_three_state)) + 
+  geom_bar(stat="identity") +
+  ylab("Proportion of diapausing strategies") + xlab("") + 
+  scale_fill_viridis(discrete = TRUE) +
+  geom_text(aes(label=sprintf("%0.1f", prop)), 
+            position = position_stack(vjust = 0.5), size = 3)+
+  theme_bw() + theme(legend.position="bottom")
+
+dev.off()
+
+
+# Figure S2: relative proportion of diapause states per family for binary state classification
+pdf("proportion_2_state.pdf", height=6, width=6)
+
+DatPropBinary %>% 
+  ggplot(aes(x= family, y= prop, fill= diapause_binary)) + 
+  geom_bar(stat="identity") +
+  ylab("Proportion of diapausing strategies") + xlab("") + 
+  scale_fill_viridis(discrete = TRUE) +
+  geom_text(aes(label=sprintf("%0.1f", prop)), 
+            position = position_stack(vjust = 0.5), size = 3)+
+  theme_bw() + theme(legend.position="bottom")
+
+dev.off()
+```
+
+
+# Starting with phylogenetic analyses- first preprocessing the data & phylogeny
+```{r}
+# Assigning first column as a row names
+dat_diapause <- data.frame(dat_recoded, row.names = 1)
+head(dat_diapause)
+length(dat_diapause$tree_genus)  # 952 tips
+
+# Importing phylogeny from Chazot et al. (2019). Systematic Biology. 68(5), 797-813 
+phylo_genera <- read.nexus("butterfly_phylogeny_Chazot_et_al_2019.tre")
+plotTree(phylo_genera, type="fan", ftype='off')
+
+# Pruning the phylogeny based on the data
+phylo_check1 <- name.check(phylo_genera, dat_diapause)
+phylo_check1
+
+# Dropping these list of tips which are in the tree but not in the data
+ButterflyPhylo <- drop.tip(phylo_genera, phylo_check1$tree_not_data)
+ButterflyPhylo
+
+plotTree(ButterflyPhylo, type="fan", ftype= "off")
+
+#write.nexus(ButterflyPhylo, file= "butterfly_phylogeny_pruned.trees")
+```

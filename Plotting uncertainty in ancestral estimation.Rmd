@@ -1,0 +1,379 @@
+---
+title: "plotting_uncertainties_recons"
+author: "Sridhar Halali & Etka Yapar"
+date: "2023-12-19"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Importing libraries
+```{r, message=FALSE}
+library(phytools)
+library(ape)
+
+# Setting working directory
+setwd("/Users/sridhar/Library/CloudStorage/OneDrive-LundUniversity/LU box backup/Evolution of diapause/evo of diapause/Updated_diapause_analyses_19_sep_2023")
+
+# Importing the pruned tree
+tree <- read.nexus("butterfly_phylogeny_pruned.trees")
+```
+
+
+A simple metric to highlight nodes which have ambiguous reconstructions across ancestral reconstructions methods. I am using three different reconstruction methods (max likelihood, stochastic mapping and hidden rates models) across flat and fitzjohn root prior to see how much reconstructions differ. The general observation was the some nodes show same patterns while some nodes (especially at the deeper nodes) are highly uncertainties across methods/root priors. So we needed a simple metric to summarise these uncertainties in the ancestral state estimation for the same node across methods/root priors. We did this by calculating total sum of squares using kmeans clustering. The higher the sum of squares, higher the uncertainty and vice versa
+
+
+# Visualizing uncertainty for five state classification
+
+##* function for summarising uncertainty for ancestral estimations using five state classification (function written by Etka Yapar)
+```{r}
+plot_uncertain_recons_5 <- function(recons_obj_names, phy){ 
+  # recons_obj_names = 'ace' element from different reconstructions
+  
+  Nnodes = Nnode(phy) # total number of nodes in the phylogeny
+  
+  calc_var <- function(df){
+    # N X 2 df/matrix where N is number of states and columns are two recons.
+    df <- t(df) # transpose the dataframe
+    totss <- kmeans(df, 2)$totss # getting total sum of squared, 2 arbitrary clusters are used
+    return(totss)
+  }
+  
+  # function to apply calc_var function independently for all nodes 
+  six_rec_vars <- sapply(1:Nnodes, function(node) {
+    this_node <- sapply(recons_objs_five, function(rec){
+      this_recons <- get(rec)
+      return(this_recons[node,])
+    })
+    return(calc_var(this_node))
+  })
+  
+  # creating a gradient of colors, more redder = more uncertain nodes
+  cscale <- scales::gradient_n_pal(c("white","red"),c(min(six_rec_vars), max(six_rec_vars)))
+  cols = sapply(six_rec_vars, function(x){cscale(x)})
+  leg_cols = sapply(seq(min(six_rec_vars), max(six_rec_vars), length.out=1000), cscale)
+  
+  # plotting nodes on phylogeny
+  plotTree(phy, ftype='off', type='fan')
+  nodelabels(pch=21, bg=cols, col='black',cex=1.2)
+  add.color.bar(x= -110, y= 100, leg=50, cols=leg_cols, lims=round(range(six_rec_vars),3), 
+                title="Tot. Sum.Sq.", subtitle="", prompt=F)
+}
+```
+
+
+##* Importing ancestral estimation objects as .RDS files using different methods (maximum likelihood, stochastic mapping, hidden rates)
+```{r}
+#=========== Importing Maximum likelihood estimation of transition rates (from phytools) ====================#
+five_fitz_ML <- readRDS("fitMK_ARD_Diapausefive_fitz.RDS")
+five_flat_ML <- readRDS("fitMK_ARD_Diapausefive_flat.RDS")
+
+# Computing marginal state ancestral estimation
+anc_five_flat <- ancr(five_flat_ML)$ace
+anc_five_fitz <- ancr(five_fitz_ML)$ace
+
+
+#=========== Importing summary of stochastic maps object (from phytools) ====================#
+summary_five_flat <- readRDS("summary_5state_ARD_flat.RDS")
+summary_five_fitz <- readRDS("summary_5state_ARD_fitz.RDS")
+
+# Extracting marginal state ancestral states
+simmap_five_flat <- summary_five_flat$ace
+simmap_five_fitz <- summary_five_fitz$ace
+
+
+#=============== Importing hidden rates objects (from corHMM) =============================#
+hmm_five_flat <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_5State_RealUmbral_hrm_fitz.RDS")
+hmm_five_fitz <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_5State_RealUmbral_hrm_flat.RDS")
+
+# Slightly modified function to hide hidden states (see here: )
+hide_hidden<-function(object,...){
+  ss<-colnames(object) # getting column names of ancr object
+  ss<-ss[-grep("*",ss,fixed=TRUE)] # removing columns containing '*'
+  
+  # Makes an empty matrix corresponding to column and row names of the ancr object
+  anc<-matrix(0,nrow(object),length(ss), dimnames=list(rownames(object),ss)) 
+  
+  # Loop to get rowsums   
+  for(i in 1:length(ss)){
+    anc[,ss[i]]<-rowSums(object[,grep(ss[i],
+                                          colnames(object))])
+  }
+  anc
+}
+
+# Extracting states and prepping the data frame (by renaming column names)
+
+# Five states- flat prior
+hmm_five_flat_states <- hmm_five_flat$states 
+colnames(hmm_five_flat_states) <- c("Adult", "Egg", "Flex", "Larva", "Pupa",
+                            "Adult*", "Egg*", "Flex*", "Larva*", "Pupa*")
+
+# Five states-fitz prior
+hmm_five_fitz_states <- hmm_five_fitz$states 
+colnames(hmm_five_fitz_states) <- c("Adult", "Egg", "Flex", "Larva", "Pupa",
+                            "Adult*", "Egg*", "Flex*", "Larva*", "Pupa*")
+
+# Applying the hide_hidden function
+anc_five_hmm_flat <- hide_hidden(hmm_five_flat_states)
+anc_five_hmm_fitz <- hide_hidden(hmm_five_fitz_states)
+```
+
+
+##* Shaping the data before fitting the function**
+```{r}
+# list of the ancestral reconstructions
+recons_objs_five <- grep("^hmm", grep("summary", grep("_five", ls(), val=T), 
+                                      invert=T, val=T), perl=T, invert=T, val=T)
+recons_objs_five
+
+
+# The column order (i.e. states) can sometimes be different for different methods which the affects later calculations. So first sorting columns in alphabetical orders across reconstructions
+col_order <- sort(colnames(anc_five_fitz))
+col_order
+
+this_node <- sapply(recons_objs_five, function(rec){
+  this_recons <- get(rec)
+  this_recons <- this_recons[, col_order]
+  assign(rec, this_recons, envir=.GlobalEnv)
+  return(NULL)
+})
+
+this_node
+
+this_node <- sapply(recons_objs_five, function(rec){
+  this_recons <- get(rec)
+  print(colnames(this_recons))
+  return(NULL)
+})
+
+
+# Figure S6: Plotting uncertainty
+pdf("uncertain_five_state.pdf", height=8, width = 8)
+plot_uncertain_recons_5(recons_objs_five, tree)
+dev.off()
+
+```
+
+
+# Visualizing uncertainty for three state classification
+Repeating same steps as before
+```{r}
+#=========== Importing Maximum likelihood estimation of transition rates (from phytools) ====================#
+# importing RDS files
+three_fitz <- readRDS("fitMK_ARD_Diapausethree_fitz.RDS")
+three_flat <- readRDS("fitMK_ARD_Diapausethree_flat.RDS")
+
+# Computing marginal state ancestral estimation
+anc_three_flat <- ancr(three_flat)$ace
+anc_three_fitz <- ancr(three_fitz)$ace
+
+#=========== Importing summary of stochastic maps object (from phytools) ====================#
+summary_three_flat <- readRDS("summary_3state_ARD_flat.RDS")
+summary_three_fitz <- readRDS("summary_3state_ARD_flat.RDS")
+
+# Extracting marginal state ancestral states
+simmap_three_flat <- summary_three_flat$ace
+simmap_three_fitz <- summary_three_fitz$ace
+
+
+#=============== Importing hidden rates objects (from corHMM) =============================#
+
+# importing hidden rate fitted RDS file
+hmm_three_flat <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_3State_RealUmbral_hrm_fitz.RDS")
+hmm_three_fitz <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_3State_RealUmbral_hrm_flat.RDS")
+
+
+# Extracting states and prepping the dataframe
+
+# Three states- flat prior
+hmm_three_flat_states <- hmm_three_flat$states 
+
+colnames(hmm_three_flat_states) <- c("Adult", "Flex", "Juvenile",
+                                    "Adult*", "Flex*", "Juvenile*")
+                                    
+# Five states-fitz prior
+hmm_three_fitz_states <- hmm_three_fitz$states 
+colnames(hmm_three_fitz_states) <- c("Adult", "Flex", "Juvenile",
+                                    "Adult*", "Flex*", "Juvenile*")
+
+# Applying the hide_hidden function
+anc_three_hmm_flat <- hide_hidden(hmm_three_flat_states)
+anc_three_hmm_fitz <- hide_hidden(hmm_three_fitz_states)
+```
+
+
+##* Shaping the data before fitting the function & plotting uncertainty
+```{r}
+# list of the ancestral reconstructions
+recons_objs_three <- grep("^hmm", grep("summary", grep("_three", ls(), val=T), 
+                                      invert=T, val=T), perl=T, invert=T, val=T)
+recons_objs_three
+
+
+# the column order (i.e. states) seems to be different for different methods which the affects later calculations. So first sorting columns in alphabetical orders across reconstructions
+col_order <- sort(colnames(anc_three_fitz))
+col_order
+
+this_node <- sapply(recons_objs_three, function(rec){
+  this_recons <- get(rec)
+  this_recons <- this_recons[, col_order]
+  assign(rec, this_recons, envir=.GlobalEnv)
+  return(NULL)
+})
+```
+
+##* Function for summarising uncertainty for three state classification
+```{r}
+plot_uncertain_recons_3 <- function(recons_objs_names, phy){ 
+  # recons_obj_names = 'ace' element from different reconstructions
+  
+  Nnodes = Nnode(phy) # total number of nodes in the phylogeny
+  
+  calc_var <- function(df){
+    # N X 2 df/matrix where N is number of states and columns are two recons.
+    df <- t(df) # transpose the dataframe
+    totss <- kmeans(df, 2)$totss # getting total sum of squared, 2 arbitrary clusters are used
+    return(totss)
+  }
+  
+  # function to apply calc_var function independently for all nodes 
+  six_rec_vars <- sapply(1:Nnodes, function(node) {
+    this_node <- sapply(recons_objs_three, function(rec){
+      this_recons <- get(rec)
+      return(this_recons[node,])
+    })
+    return(calc_var(this_node))
+  })
+  
+  # creating a gradient of colors, more redder = more uncertain nodes
+  cscale <- scales::gradient_n_pal(c("white","red"),c(min(six_rec_vars), max(six_rec_vars)))
+  cols = sapply(six_rec_vars, function(x){cscale(x)})
+  leg_cols = sapply(seq(min(six_rec_vars), max(six_rec_vars), length.out=1000), cscale)
+  
+  # plotting nodes on phylogeny
+  plotTree(phy, ftype='off', type='fan')
+  nodelabels(pch=21, bg=cols, col='black',cex=1.2)
+  add.color.bar(x= -110, y= 100, leg=50, cols=leg_cols, lims=round(range(six_rec_vars),3), 
+                title="Tot. Sum.Sq.", subtitle="", prompt=F)
+}
+
+# Figure S6: Plotting
+pdf("uncertainty_three_state.pdf", height=8, width=8)
+
+plot_uncertain_recons_3(recons_objs_three, tree)
+
+dev.off()
+
+```
+
+
+# Visualizing uncertainty for two state classification
+
+```{r}
+#=========== Importing Maximum likelihood estimation of transition rates (from phytools) ====================#
+# Importing .RDS files
+binary_fitz <- readRDS("fitMK_ARD_DiapauseBinary_fitz.RDS")
+binary_flat <- readRDS("fitMK_ARD_DiapauseBinary_flat.RDS")
+
+# Computing marginal state ancestral estimation
+anc_binary_flat <- ancr(binary_flat)$ace
+anc_binary_fitz <- ancr(binary_fitz)$ace
+
+
+#=========== Importing summary of stochastic maps object (from phytools) ====================#
+summary_binary_flat <- readRDS("summary_Binary_ARD_flat.RDS")
+summary_binary_fitz <- readRDS("summary_Binary_ARD_fitz.RDS")
+
+# Extracting marginal state ancestral states
+simmap_binary_flat <- summary_binary_flat$ace
+simmap_binary_fitz <- summary_binary_fitz$ace
+
+
+#=============== Importing hidden rates objects (from corHMM) =============================#
+
+# importing hidden rate fitted RDS file
+hmm_binary_flat <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_2State_RealUmbral_hrm_fitz.RDS")
+hmm_binary_fitz <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_2State_RealUmbral_hrm_flat.RDS")
+
+# Extracting states and prepping the dataframe
+
+# Binary states- flat prior
+hmm_binary_flat_states <- hmm_binary_flat$states 
+colnames(hmm_binary_flat_states) <- c("Diapause", "Flex", "Diapause*", "Flex*")
+
+# Binary states-fitz prior
+hmm_binary_fitz_states <- hmm_binary_fitz$states 
+colnames(hmm_binary_fitz_states) <- c("Diapause", "Flex", "Diapause*", "Flex*")
+
+# Applying the hide_hidden function
+anc_binary_hmm_flat <- hide_hidden(hmm_binary_flat_states)
+anc_binary_hmm_fitz <- hide_hidden(hmm_binary_fitz_states)
+```
+
+
+##* Shaping the data before fitting the function
+```{r}
+# list of the ancestral reconstructions
+recons_objs_binary <- grep("^hmm", grep("summary", grep("_binary", ls(), val=T), 
+                                      invert=T, val=T), perl=T, invert=T, val=T)
+recons_objs_binary
+
+
+# the column order (i.e. states) seems to be different for different methods which the affects later calculations. So first sorting columns in alphabetical orders across reconstructions
+col_order <- sort(colnames(anc_binary_fitz))
+col_order
+
+this_node <- sapply(recons_objs_binary, function(rec){
+  this_recons <- get(rec)
+  this_recons <- this_recons[, col_order]
+  assign(rec, this_recons, envir=.GlobalEnv)
+  return(NULL)
+})
+
+this_node
+```
+
+##* Function for summarising uncertainty for three state classification & plotting uncertainty
+```{r}
+plot_uncertain_recons_2 <- function(recons_objs_names, phy){ 
+  # recons_obj_names = 'ace' element from different reconstructions
+  
+  Nnodes = Nnode(phy) # total number of nodes in the phylogeny
+  
+  calc_var <- function(df){
+    # N X 2 df/matrix where N is number of states and columns are two recons.
+    df <- t(df) # transpose the dataframe
+    totss <- kmeans(df, 2)$totss # getting total sum of squared, 2 arbitrary clusters are used
+    return(totss)
+  }
+  
+  # function to apply calc_var function independently for all nodes 
+  six_rec_vars <- sapply(1:Nnodes, function(node) {
+    this_node <- sapply(recons_objs_binary, function(rec){
+      this_recons <- get(rec)
+      return(this_recons[node,])
+    })
+    return(calc_var(this_node))
+  })
+  
+  # creating a gradient of colors, more redder = more uncertain nodes
+  cscale <- scales::gradient_n_pal(c("white","red"),c(min(six_rec_vars), max(six_rec_vars)))
+  cols = sapply(six_rec_vars, function(x){cscale(x)})
+  leg_cols = sapply(seq(min(six_rec_vars), max(six_rec_vars), length.out=1000), cscale)
+  
+  # plotting nodes on phylogeny
+  plotTree(phy, ftype='off', type='fan')
+  nodelabels(pch=21, bg=cols, col='black',cex=1.2)
+  add.color.bar(x= -110, y= 100, leg=50, cols=leg_cols, lims=round(range(six_rec_vars),3), 
+                title="Tot. Sum.Sq.", subtitle="", prompt=F)
+}
+
+
+# Figure S6: Plotting uncertainty
+pdf("uncertain_binary_state.pdf", height=8, width = 8)
+
+plot_uncertain_recons_2(recons_objs_binary, tree)
+
+dev.off()
+```
