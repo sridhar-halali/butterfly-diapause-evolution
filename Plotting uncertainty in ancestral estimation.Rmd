@@ -13,10 +13,12 @@ library(phytools)
 library(ape)
 
 # Setting working directory
-setwd("/Users/sridhar/Library/CloudStorage/OneDrive-LundUniversity/LU box backup/Evolution of diapause/evo of diapause/Updated_diapause_analyses_19_sep_2023")
+setwd("")
 
 # Importing the pruned tree
 tree <- read.nexus("butterfly_phylogeny_pruned.trees")
+tree
+
 ```
 
 
@@ -83,8 +85,8 @@ simmap_five_fitz <- summary_five_fitz$ace
 
 
 #=============== Importing hidden rates objects (from corHMM) =============================#
-hmm_five_flat <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_5State_RealUmbral_hrm_fitz.RDS")
-hmm_five_fitz <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_5State_RealUmbral_hrm_flat.RDS")
+hmm_five_flat <- readRDS("corhmm_5State_Umbral_hrm_flat.RDS")
+hmm_five_fitz <- readRDS("corhmm_5State_Umbral_hrm_fitz.RDS")
 
 # Slightly modified function to hide hidden states (see here: )
 hide_hidden<-function(object,...){
@@ -106,17 +108,18 @@ hide_hidden<-function(object,...){
 
 # Five states- flat prior
 hmm_five_flat_states <- hmm_five_flat$states 
-colnames(hmm_five_flat_states) <- c("Adult", "Egg", "Flex", "Larva", "Pupa",
-                            "Adult*", "Egg*", "Flex*", "Larva*", "Pupa*")
+colnames(hmm_five_flat_states) <- c("Adult", "Egg", "Larva", "no_diapause", "Pupa", 
+                                    "Adult*", "Egg*", "Larva*", "no_diapause*", "Pupa*")
 
 # Five states-fitz prior
 hmm_five_fitz_states <- hmm_five_fitz$states 
-colnames(hmm_five_fitz_states) <- c("Adult", "Egg", "Flex", "Larva", "Pupa",
-                            "Adult*", "Egg*", "Flex*", "Larva*", "Pupa*")
+colnames(hmm_five_fitz_states) <- c("Adult", "Egg", "Larva", "no_diapause", "Pupa", 
+                                    "Adult*", "Egg*", "Larva*", "no_diapause*", "Pupa*")
 
 # Applying the hide_hidden function
 anc_five_hmm_flat <- hide_hidden(hmm_five_flat_states)
 anc_five_hmm_fitz <- hide_hidden(hmm_five_fitz_states)
+
 ```
 
 
@@ -180,8 +183,8 @@ simmap_three_fitz <- summary_three_fitz$ace
 #=============== Importing hidden rates objects (from corHMM) =============================#
 
 # importing hidden rate fitted RDS file
-hmm_three_flat <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_3State_RealUmbral_hrm_fitz.RDS")
-hmm_three_fitz <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_3State_RealUmbral_hrm_flat.RDS")
+hmm_three_flat <- readRDS("corhmm_3State_Umbral_hrm_flat.RDS")
+hmm_three_fitz <- readRDS("corhmm_3State_Umbral_hrm_fitz.RDS")
 
 
 # Extracting states and prepping the dataframe
@@ -189,17 +192,18 @@ hmm_three_fitz <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_3St
 # Three states- flat prior
 hmm_three_flat_states <- hmm_three_flat$states 
 
-colnames(hmm_three_flat_states) <- c("Adult", "Flex", "Juvenile",
-                                    "Adult*", "Flex*", "Juvenile*")
+colnames(hmm_three_flat_states) <- c("Adult", "Juvenile", "no_diapause",
+                                      "Adult*", "Juvenile*", "no_diapause*")
                                     
 # Five states-fitz prior
 hmm_three_fitz_states <- hmm_three_fitz$states 
-colnames(hmm_three_fitz_states) <- c("Adult", "Flex", "Juvenile",
-                                    "Adult*", "Flex*", "Juvenile*")
+colnames(hmm_three_fitz_states) <- c("Adult", "Juvenile", "no_diapause",
+                                      "Adult*", "Juvenile*", "no_diapause*")
 
 # Applying the hide_hidden function
 anc_three_hmm_flat <- hide_hidden(hmm_three_flat_states)
 anc_three_hmm_fitz <- hide_hidden(hmm_three_fitz_states)
+
 ```
 
 
@@ -221,6 +225,7 @@ this_node <- sapply(recons_objs_three, function(rec){
   assign(rec, this_recons, envir=.GlobalEnv)
   return(NULL)
 })
+
 ```
 
 ##* Function for summarising uncertainty for three state classification
@@ -293,22 +298,23 @@ simmap_binary_fitz <- summary_binary_fitz$ace
 #=============== Importing hidden rates objects (from corHMM) =============================#
 
 # importing hidden rate fitted RDS file
-hmm_binary_flat <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_2State_RealUmbral_hrm_fitz.RDS")
-hmm_binary_fitz <- readRDS("fitHRM_Rstudio_server_RDS files_4Dec2023_1/corhmm_2State_RealUmbral_hrm_flat.RDS")
+hmm_binary_flat <- readRDS("corhmm_2State_Umbral_hrm_flat.RDS")
+hmm_binary_fitz <- readRDS("corhmm_2State_Umbral_hrm_fitz.RDS")
 
 # Extracting states and prepping the dataframe
 
 # Binary states- flat prior
 hmm_binary_flat_states <- hmm_binary_flat$states 
-colnames(hmm_binary_flat_states) <- c("Diapause", "Flex", "Diapause*", "Flex*")
+colnames(hmm_binary_flat_states) <- c("Diapause", "no_diapause", "Diapause*", "no_diapause*")
 
 # Binary states-fitz prior
 hmm_binary_fitz_states <- hmm_binary_fitz$states 
-colnames(hmm_binary_fitz_states) <- c("Diapause", "Flex", "Diapause*", "Flex*")
+colnames(hmm_binary_fitz_states) <- c("Diapause", "no_diapause", "Diapause*", "no_diapause*")
 
 # Applying the hide_hidden function
 anc_binary_hmm_flat <- hide_hidden(hmm_binary_flat_states)
 anc_binary_hmm_fitz <- hide_hidden(hmm_binary_fitz_states)
+
 ```
 
 

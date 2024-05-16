@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Import required libraries
+# Import required libraries 
 
 ```{r setup, message=F}
 library(phytools) # Make sure that most recent version of phytools is installed
@@ -26,22 +26,22 @@ library(conflicted)
 # remotes::install_github("liamrevell/phytools")
 
 packageVersion("phytools") # 2.2.0
-```
 
-# Setting the working directory
-```{r}
-setwd("/Users/sridhar/Library/CloudStorage/OneDrive-LundUniversity/LU box backup/Evolution of diapause/evo of diapause/Updated_diapause_analyses_19_sep_2023/Manuscript/GitHub_uploading_codes_8 Mar 2024")
+# Setting working directory
+setwd("")
+
 ```
 
 
 # Importing processed diapause data & pruned phylogeny (see 'preprocessing data & some plots' script for pre-processing steps)
-
 ```{r}
 diapause_processed_dat <- read.xlsx("diapause_classification_data_PROCESSED.xlsx")
 
 # Assigning first column as a row names
 dat_diapause <- data.frame(diapause_processed_dat, row.names = 1)
 
+# Factorising all columns
+dat_diapause <- dat_diapause %>% mutate_if(is.character,as.factor)
 
 # Importing pruned phylogeny
 ButterflyPhylo <- read.nexus("butterfly_phylogeny_pruned.trees")
@@ -56,6 +56,7 @@ dat_diapause <- dat_diapause[ButterflyPhylo$tip.label,]
 DiapauseFive <- setNames(dat_diapause$diapause_five_state, rownames(dat_diapause)) 
 DiapauseThree <- setNames(dat_diapause$diapause_three_state, rownames(dat_diapause)) 
 DiapauseBinary <- setNames(dat_diapause$diapause_binary, rownames(dat_diapause)) 
+
 ```
 
 
@@ -155,6 +156,7 @@ ARD_DiapauseThree_fitz <- readRDS("fitMK_ARD_DiapauseThree_fitz.RDS")
 
 ER_DiapauseBinary_fitz <-  readRDS("fitMK_ER_DiapauseBinary_fitz.RDS")
 ARD_DiapauseBinary_fitz <- readRDS("fitMK_ARD_DiapauseBinary_fitz.RDS")
+
 ```
 
 
@@ -203,7 +205,8 @@ rownames(model_fit_fitz) <- NULL
 model_fit_fitMK <- rbind(model_fit_flat, model_fit_fitz)
 model_fit_fitMK
 
-#write.xlsx(model_fit_fitMK, file= "phytools_fitMK_AIC & logLik.xlsx")
+#write.xlsx(model_fit_fitMK, file= "phytools_fitMK_AIC & logLik_30Apr2024.xlsx")
+
 ```
 
 
@@ -245,6 +248,7 @@ pdf("fitMk_Binary_ARD_flat.pdf", height=7, width=7)
 plot(ARD_DiapauseBinary_flat, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, lwd=3,  
      main= "fitMk_Binary_Flat")
 dev.off()
+
 ```
 
 
@@ -302,7 +306,7 @@ transition_rates <- transition_rates %>%
 
   mutate(transitions = paste(Var1, Var2, sep="-")) %>% 
   
-  filter(!transitions %in%  c("Adult-Adult", "Egg-Egg", "Flex-Flex", "Larva-Larva",
+  filter(!transitions %in%  c("Adult-Adult", "Egg-Egg", "no_diapause-no_diapause", "Larva-Larva",
                               "Pupa-Pupa", "Juvenile-Juvenile", "Diapause-Diapause")) %>% 
   rename(transition_rates = Freq)
          
@@ -318,14 +322,15 @@ pdf("Rates_5states_flat_vs_fitz.pdf", height=5, width=6)
 transition_rates %>% 
   filter(model %in% c("ARD_5states_flat", "ARD_5states_fitzjohn")) %>% 
   ggplot(aes(transition_rates, reorder(transitions,transition_rates), fill=model)) +
-  geom_jitter(shape=21, size=4, alpha= 0.7, height=0.07) +
+  geom_jitter(shape=21, size=4, alpha= 0.8, height=0.07) +
   scale_fill_viridis(discrete = TRUE) +
   scale_x_continuous(limits=c(-0.001, 0.06), breaks = seq(0, 0.06, 0.01)) +
   xlab("Transition rates") + ylab("Transitions between states") +
   theme_bw() +
   theme(panel.grid.minor.x = element_blank(),
         legend.position.inside = c(0.8, .1),
-        legend.title = element_blank())
+        legend.title = element_blank(), 
+        legend.position = "none") 
 
 dev.off()
 
@@ -336,15 +341,15 @@ pdf("Rates_3states_flat_vs_fitz.pdf", height=5, width=6)
 transition_rates %>% 
   filter(model %in% c("ARD_3states_flat", "ARD_3states_fitzjohn")) %>% 
   ggplot(aes(transition_rates, reorder(transitions,transition_rates), fill=model)) +
-  geom_jitter(shape=21, size=5, alpha= 0.7, height=0.07) +
-  #geom_point(shape=21, size=4, alpha= 0.7) +
+  geom_jitter(shape=21, size=5, alpha= 0.8, height=0.07) +
   scale_fill_viridis(discrete = TRUE) +
   scale_x_continuous(limits=c(-0.001, 0.07), breaks = seq(0, 0.07, 0.01)) +
   xlab("Transition rates") + ylab("Transitions between states") +
   theme_bw() +
   theme(panel.grid.minor.x = element_blank(),
         legend.position.inside = c(0.8, .1),
-        legend.title = element_blank())
+        legend.title = element_blank(),
+        legend.position = "none")
 
 dev.off()
 
@@ -355,17 +360,18 @@ pdf("Rates_2states_flat_vs_fitz.pdf", height=5, width=6)
 transition_rates %>% 
   filter(model %in% c("ARD_2states_flat", "ARD_2states_fitzjohn")) %>% 
   ggplot(aes(transition_rates, reorder(transitions,transition_rates), fill=model)) +
-  geom_jitter(shape=21, size=5, alpha= 0.7, height=0.05) +
-  #geom_point(shape=21, size=4, alpha= 0.7) +
+  geom_jitter(shape=21, size=5, alpha= 0.8, height=0.05) +
   scale_fill_viridis(discrete = TRUE) +
   scale_x_continuous(limits=c(-0.001, 0.03), breaks = seq(0, 0.03, 0.01)) +
   xlab("Transition rates") + ylab("Transitions between states") +
   theme_bw() +
   theme(panel.grid.minor.x = element_blank(),
         legend.position.inside = c(0.8, .1),
-        legend.title = element_blank())
+        legend.title = element_blank(),
+        legend.position = "none")
 
 dev.off()
+
 ```
 
 
@@ -430,25 +436,29 @@ add_rings <- function(phylo){
 }
 
 
-# Setting colors for states (its weird: it seems like the trick is to set the level factor in the same order as the ancr object or else it seems like the color for tip label and node labels becomes different)
+# Setting colors for states (it seems like the trick is to set the level factor in the same order as the ancr object or else it seems like the color for tip label and node labels becomes different)
 
 # Five states
-DiapauseFive <- factor(DiapauseFive, levels= c("Egg", "Larva", "Pupa", "Adult", "Flex"))
+DiapauseFive <- factor(DiapauseFive, levels= c( "Adult", "Egg", "Larva", "no_diapause", "Pupa"))
 
-cols_five <- setNames(c("#7EB0DF", "salmon", "#5D9979", "black", "grey"),
-                       c("Egg", "Larva", "Pupa", "Adult", "Flex"))
+cols_five <- setNames(c("black", "#7EB0DF", "salmon", "grey", "#5D9979"),
+                      c("Adult", "Egg", "Larva", "no_diapause", "Pupa"))
+
+
+#DiapauseFive <- factor(DiapauseFive, levels= c("Egg", "Larva", "Pupa", "Adult", "no_diapause"))
+# cols_five <- setNames(c("#7EB0DF", "salmon", "#5D9979", "black", "grey"),
+#                        c("Egg", "Larva", "Pupa", "Adult", "no_diapause"))
 
 # Three states
-DiapauseThree <- factor(DiapauseThree, levels = "Adult", "Flex", "Juvenile")
+DiapauseThree <- factor(DiapauseThree, levels = c("Adult", "Juvenile", "no_diapause"))
 
-cols_three <- setNames(c("black", "grey", "salmon"), 
-                       c("Adult", "Flex", "Juvenile")) # following order of ancr object
-
+cols_three <- setNames(c("black", "salmon", "grey"), 
+                       c("Adult", "Juvenile", "no_diapause")) 
 
 # Binary states
-DiapauseBinary <- factor(DiapauseBinary, levels= c("Diapause", "Flex"))
+DiapauseBinary <- factor(DiapauseBinary, levels= c("Diapause", "no_diapause"))
 
-cols_binary <- setNames(c("salmon", "grey"), c("Diapause", "Flex"))
+cols_binary <- setNames(c("salmon", "grey"), c("Diapause", "no_diapause"))
                         
 
 # Setting colors to butterfly families using viridis
@@ -456,6 +466,7 @@ dat_diapause$family <- as.factor(dat_diapause$family)
 family <- setNames(dat_diapause$family, rownames(dat_diapause))
 
 cols_family <- viridis_pal()(length(levels(family)))
+
 ```
 
 ####- Estimations for flat root prior
@@ -512,7 +523,6 @@ dev.off()
 
 
 # Figure S4c: Three states
-
 pdf("ML_ASR_3State_flat.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -611,6 +621,7 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
     pt.cex=2,bty="n",cex=0.8)
 
 dev.off()
+
 ```
 
 
@@ -765,6 +776,7 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
     pt.cex=2,bty="n",cex=0.8)
 
 dev.off()
+
 ```
 
 
@@ -786,6 +798,7 @@ simmap_Binary_flat <- make.simmap(ButterflyPhylo, DiapauseBinary, model= "ARD", 
 saveRDS(simmap_FiveState_flat, file= "simmap_5state_1000sim_ARD_flat.RDS")
 saveRDS(simmap_ThreeState_flat, file= "simmap_3state_1000sim_ARD_flat.RDS")
 saveRDS(simmap_Binary_flat, file= "simmap_Binary_1000sim_ARD_flat.RDS")
+
 ```
 
 ##* Using fitzjohn root prior
@@ -804,6 +817,7 @@ simmap_Binary_fitzjohn <- make.simmap(ButterflyPhylo, DiapauseBinary, model= "AR
 saveRDS(simmap_FiveState_fitzjohn, file= "simmap_5state_1000sim_ARD_fitzjohn.RDS")
 saveRDS(simmap_ThreeState_fitzjohn, file= "simmap_3state_1000sim_ARD_fitzjohn.RDS")
 saveRDS(simmap_Binary_fitzjohn, file= "simmap_Binary_1000sim_ARD_fitzjohn.RDS")
+
 ```
 
 
@@ -836,6 +850,7 @@ saveRDS(summary_BinaryState_flat, file= "summary_Binary_ARD_flat.RDS")
 saveRDS(summary_FiveState_fitz, file= "summary_5state_ARD_fitz.RDS")
 saveRDS(summary_ThreeState_fitz, file= "summary_3state_ARD_fitz.RDS")
 saveRDS(summary_BinaryState_fitz, file= "summary_Binary_ARD_fitz.RDS")
+
 ```
 
 ##* Reading summarised simmap files
@@ -852,6 +867,7 @@ summary_BinaryState_fitz <- readRDS("summary_Binary_ARD_fitz.RDS")
 
 # Reading phylogeny as well if often need to be in the R environment for some functions to work
 ButterflyPhylo <- read.nexus("butterfly_phylogeny_pruned.trees")
+ButterflyPhylo
 
 ```
 
@@ -861,22 +877,23 @@ ButterflyPhylo <- read.nexus("butterfly_phylogeny_pruned.trees")
 # Setting factor levels according to the summary$ace column order
 
 # Five states
-DiapauseFive <- factor(DiapauseFive, levels= c("Adult", "Egg", "Flex", "Larva", "Pupa"))
+DiapauseFive <- factor(DiapauseFive, levels= c("Adult", "Egg", "Larva", "no_diapause", "Pupa"))
 
-cols_five <- setNames(c("black", "#7EB0DF", "grey", "salmon", "#5D9979"),
-                       c("Adult", "Egg", "Flex", "Larva", "Pupa"))
+cols_five <- setNames(c("black", "#7EB0DF", "salmon", "grey", "#5D9979"),
+                      c("Adult", "Egg", "Larva", "no_diapause", "Pupa"))
+
 
 # Three states
-DiapauseThree <- factor(DiapauseThree, levels = c("Adult", "Flex", "Juvenile"))
+DiapauseThree <- factor(DiapauseThree, levels = c("Adult", "Juvenile", "no_diapause"))
 
-cols_three <- setNames(c("black", "grey", "salmon"), 
-                       c("Adult", "Flex", "Juvenile")) # following order of ancr object
+cols_three <- setNames(c("black", "salmon", "grey"), 
+                       c("Adult", "Juvenile", "no_diapause")) 
 
 
 # Binary states (needs to be processed)
-DiapauseBinary <- factor(DiapauseBinary, levels= c("Diapause", "Flex"))
+DiapauseBinary <- factor(DiapauseBinary, levels= c("Diapause", "no_diapause"))
 
-cols_binary <- setNames(c("salmon", "grey"), c("Diapause", "Flex"))
+cols_binary <- setNames(c("salmon", "grey"), c("Diapause", "no_diapause"))
               
 # Setting colors to butterfly families
 dat_diapause$family <- as.factor(dat_diapause$family)
@@ -1043,6 +1060,7 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
     pt.cex=2,bty="n",cex=0.8)
 
 dev.off()
+
 ```
 
 
@@ -1149,7 +1167,6 @@ legend(x=0.98*par()$usr[1],y=0.95*par()$usr[4],
 legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
     levels(family),pch=16, col=cols_family,
     pt.cex=2,bty="n",cex=0.8)
-
 
 dev.off()
 

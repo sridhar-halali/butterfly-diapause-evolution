@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Import required libraries
+# Import required libraries & set working directory
 
 ```{r setup, message=F}
 library(tidyverse)
@@ -17,14 +17,11 @@ library(geiger)
 library(viridis)
 library(conflicted)
 library(phytools)
-```
 
-# Setting the working directory
-```{r}
-setwd("/Users/sridhar/Library/CloudStorage/OneDrive-LundUniversity/LU box backup/Evolution of diapause/evo of diapause/Updated_diapause_analyses_19_sep_2023/Manuscript/GitHub_uploading_codes_8 Mar 2024")
+# set working directory
+setwd("")
 
 ```
-
 
 # Importing diapause data and doing some preprocessing
 ```{r}
@@ -32,9 +29,10 @@ setwd("/Users/sridhar/Library/CloudStorage/OneDrive-LundUniversity/LU box backup
 dat_diapause <- read.xlsx("diapause_classification_data_RAW.xlsx")
 head(dat_diapause)
 
+
 # Choosing only required columns
 dat_pruned <- dat_diapause %>% 
-  select(tree_label, tree_species, species_names, family, 
+  select(tree_label, tree_genus, tree_species, family, 
          diapause_5_state_revised, diapause_3_state_revised, diapause_2_state_revised) 
          
 
@@ -52,26 +50,24 @@ dat_pruned_skip <- dat_pruned %>%
 
 
 # Recoding some diapause states
-Some taxa in the data can diapause in both larval and pupal stage. We're recoding these taxa as 'larval' diapause (see Methods in the main for details). Also, recoding none/flexible state as 'Flex' for simplicity. 
-Also, for one of the taxa (tip label = UK78_Iliana_sp_) the family is wrongly defined so this will mistake will be corrected in this chunk.
+Some taxa in the data can diapause in both larval and pupal stage. We're recoding these taxa as 'larval' diapause (see Methods in the main for details). Also, for one of the taxa (tip label = UK78_Iliana_sp_) the family is wrongly defined so this will mistake will be corrected in this chunk.
 
 ```{r}
+head(dat_pruned_skip)
+
 dat_recoded <- dat_pruned_skip %>% 
   
   mutate(diapause_five_state = case_when(
     diapause_5_state_revised == "LP" ~ "Larva",
-    diapause_5_state_revised == "none/flexible" ~ "Flex",
     TRUE~diapause_5_state_revised), 
     
     diapause_three_state = case_when(
-      diapause_3_state_revised == "none/flexible" ~ "Flex",
       TRUE~diapause_3_state_revised), 
     
     diapause_binary = case_when(
       diapause_2_state_revised == "true_diapause" ~ "Diapause",
-      diapause_2_state_revised == "none/flexible" ~ "Flex",
       TRUE~diapause_2_state_revised))
-      
+  
 
 # Change the family of this one tree label which is wrongly assigned in the original data. Changing family of "UK78_Iliana_sp_" tree label from Riodinidae to Hesperiidae
 row_number <- which(dat_recoded$tree_label == "UK78_Iliana_sp_")
@@ -92,6 +88,11 @@ dat_recoded %>% group_by(diapause_five_state) %>%  count()
 dat_recoded %>% group_by(diapause_three_state) %>%  count()
 dat_recoded %>% group_by(diapause_binary) %>%  count()
 
+dat_recoded %>% group_by(family) %>%  count()
+
+# exporting processed data file
+#write.xlsx(dat_recoded, file= "diapause_classification_data_PROCESSED.xlsx")
+
 ```
 
 
@@ -99,13 +100,13 @@ dat_recoded %>% group_by(diapause_binary) %>%  count()
 ```{r}
 # Reordering levels of factors
 dat_recoded$diapause_five_state <- factor(dat_recoded$diapause_five_state, 
-                                          levels= c("Egg", "Larva", "Pupa", "Adult", "Flex"))
+                                          levels= c("Egg", "Larva", "Pupa", "Adult", "no_diapause"))
 
 dat_recoded$diapause_three_state <- factor(dat_recoded$diapause_three_state, 
-                                          levels= c("Juvenile", "Adult", "Flex"))
+                                          levels= c("Juvenile", "Adult", "no_diapause"))
 
 dat_recoded$diapause_binary <- factor(dat_recoded$diapause_binary, 
-                                          levels= c("Diapause", "Flex"))
+                                          levels= c("Diapause", "no_diapause"))
 
 
 #================== Plotting number of taxa in each diapause state across classifications =================================#
@@ -234,6 +235,7 @@ DatPropBinary %>%
   theme_bw() + theme(legend.position="bottom")
 
 dev.off()
+
 ```
 
 
@@ -245,7 +247,9 @@ head(dat_diapause)
 length(dat_diapause$tree_genus)  # 952 tips
 
 # Importing phylogeny from Chazot et al. (2019). Systematic Biology. 68(5), 797-813 
+
 phylo_genera <- read.nexus("butterfly_phylogeny_Chazot_et_al_2019.tre")
+
 plotTree(phylo_genera, type="fan", ftype='off')
 
 # Pruning the phylogeny based on the data
@@ -258,5 +262,8 @@ ButterflyPhylo
 
 plotTree(ButterflyPhylo, type="fan", ftype= "off")
 
+# exporting pruned phylogeny
 #write.nexus(ButterflyPhylo, file= "butterfly_phylogeny_pruned.trees")
+
+
 ```
