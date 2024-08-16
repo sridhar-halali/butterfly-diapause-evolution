@@ -123,7 +123,7 @@ anc_five_hmm_fitz <- hide_hidden(hmm_five_fitz_states)
 ```
 
 
-##* Shaping the data before fitting the function**
+##* Shaping the data before fitting the function
 ```{r}
 # list of the ancestral reconstructions
 recons_objs_five <- grep("^hmm", grep("summary", grep("_five", ls(), val=T), 
@@ -151,7 +151,7 @@ this_node <- sapply(recons_objs_five, function(rec){
 })
 
 
-# Figure S6: Plotting uncertainty
+# Figure S9A: Plotting uncertainty
 pdf("uncertain_five_state.pdf", height=8, width = 8)
 plot_uncertain_recons_5(recons_objs_five, tree)
 dev.off()
@@ -263,7 +263,7 @@ plot_uncertain_recons_3 <- function(recons_objs_names, phy){
                 title="Tot. Sum.Sq.", subtitle="", prompt=F)
 }
 
-# Figure S6: Plotting
+# Figure S9B: Plotting
 pdf("uncertainty_three_state.pdf", height=8, width=8)
 
 plot_uncertain_recons_3(recons_objs_three, tree)
@@ -376,7 +376,7 @@ plot_uncertain_recons_2 <- function(recons_objs_names, phy){
 }
 
 
-# Figure S6: Plotting uncertainty
+# Figure S9C: Plotting uncertainty
 pdf("uncertain_binary_state.pdf", height=8, width = 8)
 
 plot_uncertain_recons_2(recons_objs_binary, tree)

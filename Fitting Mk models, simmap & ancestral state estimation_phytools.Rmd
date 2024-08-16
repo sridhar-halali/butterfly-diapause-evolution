@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Import required libraries 
+# Import required libraries
 
 ```{r setup, message=F}
 library(phytools) # Make sure that most recent version of phytools is installed
@@ -160,7 +160,7 @@ ARD_DiapauseBinary_fitz <- readRDS("fitMK_ARD_DiapauseBinary_fitz.RDS")
 ```
 
 
-##* Table1: Assessing model fits using log likelihoods & AIC
+##* Table S3: Assessing model fits using log likelihoods & AIC
 ```{r}
 # For flat prior
 model_fit_flat= data.frame(
@@ -201,7 +201,7 @@ model_fit_fitz
 model_fit_fitz$fitMk_model <- rownames(model_fit_fitz)
 rownames(model_fit_fitz) <- NULL
 
-# Combining both data frames
+# Combining both data frames (Table S3)
 model_fit_fitMK <- rbind(model_fit_flat, model_fit_fitz)
 model_fit_fitMK
 
@@ -212,19 +212,19 @@ model_fit_fitMK
 
 ##* Plotting transition rates for the best fitting model
 ```{r}
-# Figure 3a: Five states with fitzjohn root
+# Figure 3A: Five states with fitzjohn root
 pdf("fitMk_5States_ARD_FitzJohn.pdf", height=7, width=7)
 plot(ARD_DiapauseFive_fitz, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, lwd=3,  
      main= "fitMk_5States_ARD_FitzJohn")
 dev.off()
 
-# Figure 3c: Three states with fitzjohn root
+# Figure 3C: Three states with fitzjohn root
 pdf("fitMk_3States_ARD_FitzJohn.pdf", height=7, width=7)
 plot(ARD_DiapauseThree_fitz, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, lwd=3,  
      main= "fitMk_3States_FitzJohn")
 dev.off()
 
-# Figure 3e: Binary states with fitzjohn root
+# Figure 3E: Binary states with fitzjohn root
 pdf("fitMk_Binary_ARD_FitzJohn.pdf", height=7, width=7)
 plot(ARD_DiapauseBinary_fitz, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, lwd=3,  
      main= "fitMk_Binary_FitzJohn")
@@ -316,7 +316,7 @@ transition_rates$model <- as.factor(transition_rates$model)
 
 #======= Plotting transition rates across root prior  ======================#
 
-# Figure  3b: Transition rates for five state classification
+# Figure  3B: Transition rates for five state classification
 pdf("Rates_5states_flat_vs_fitz.pdf", height=5, width=6)
 
 transition_rates %>% 
@@ -335,7 +335,7 @@ transition_rates %>%
 dev.off()
 
 
-# Figure  3d: Transition rates for three state classification
+# Figure  3D: Transition rates for three state classification
 pdf("Rates_3states_flat_vs_fitz.pdf", height=5, width=6)
 
 transition_rates %>% 
@@ -354,7 +354,7 @@ transition_rates %>%
 dev.off()
 
 
-# Figure  3f: Transition rates for the binary state classification
+# Figure  3F: Transition rates for the binary state classification
 pdf("Rates_2states_flat_vs_fitz.pdf", height=5, width=6)
 
 transition_rates %>% 
@@ -374,6 +374,61 @@ dev.off()
 
 ```
 
+
+# Fitting fitmultiMk()
+using fitmultiMk() we test if transition rates are different across two time regimes: 0-35MY and from 35MY to present. 
+see here for e.g. http://blog.phytools.org/2018/11/testing-for-differences-in-rate-or.html
+ 
+```{r}
+# Creating time regime (0-35MYA)
+ButterflyPhylo_time_map <- make.era.map(ButterflyPhylo, c(0,35))
+ButterflyPhylo_time_map
+
+# Five state
+ER_DiapauseFive_multimk <- fitmultiMk(ButterflyPhylo_time_map, DiapauseFive, model= "ER")
+SYM_DiapauseFive_multimk <- fitmultiMk(ButterflyPhylo_time_map, DiapauseFive, model= "SYM")
+ARD_DiapauseFive_multimk <- fitmultiMk(ButterflyPhylo_time_map, DiapauseFive, model= "ARD")
+
+# Three state
+ER_DiapauseThree_multimk <- fitmultiMk(ButterflyPhylo_time_map, DiapauseThree, model= "ER")
+SYM_DiapauseThree_multimk <- fitmultiMk(ButterflyPhylo_time_map, DiapauseThree, model= "SYM")
+ARD_DiapauseThree_multimk <- fitmultiMk(ButterflyPhylo_time_map, DiapauseThree, model= "ARD")
+
+# Binary state
+ER_DiapauseBinary_multimk <- fitmultiMk(ButterflyPhylo_time_map, DiapauseBinary, model= "ER")
+ARD_DiapauseBinary_multimk <- fitmultiMk(ButterflyPhylo_time_map, DiapauseBinary, model= "ARD")
+
+# save RDS
+# saveRDS(ER_DiapauseFive_multimk, file="multiMK_ER_DiapauseFive_fitz.RDS")
+# saveRDS(SYM_DiapauseFive_multimk, file="multiMK_SYM_DiapauseFive_fitz.RDS")
+# saveRDS(ARD_DiapauseFive_multimk, file="multiMK_ARD_DiapauseFive_fitz.RDS")
+# saveRDS(ER_DiapauseThree_multimk, file="multiMK_ER_DiapauseThree_fitz.RDS")
+# saveRDS(SYM_DiapauseThree_multimk, file="multiMK_SYM_DiapauseThree_fitz.RDS")
+# saveRDS(ARD_DiapauseThree_multimk, file="multiMK_ARD_DiapauseThree_fitz.RDS")
+# saveRDS(ER_DiapauseBinary_multimk, file="multiMK_ER_DiapauseBinary_fitz.RDS")
+# saveRDS(ARD_DiapauseBinary_multimk, file="multiMK_ARD_DiapauseBinary_fitz.RDS")
+
+
+# Table S4: Assessing model fits
+model_fit_multiMk= data.frame(
+  states= rep(c("five", "three", "binary"), times=c(3,3,2)),
+  model = c("ER", "SYM", "ARD", "ER", "SYM", "ARD", "ER", "ARD"),
+  #root_prior = rep("flat", 8),
+  
+  logLik= c(ER_DiapauseFive_multimk$logLik, SYM_DiapauseFive_multimk$logLik, ARD_DiapauseFive_multimk$logLik, 
+            ER_DiapauseThree_multimk$logLik, SYM_DiapauseThree_multimk$logLik, ARD_DiapauseThree_multimk$logLik,
+            ER_DiapauseBinary_multimk$logLik, ARD_DiapauseBinary_multimk$logLik),
+  
+  AIC= AIC(ER_DiapauseFive_multimk, SYM_DiapauseFive_multimk, ARD_DiapauseFive_multimk, 
+           ER_DiapauseThree_multimk, SYM_DiapauseThree_multimk, ARD_DiapauseThree_multimk,
+           ER_DiapauseBinary_multimk, ARD_DiapauseBinary_multimk))
+
+model_fit_multiMk
+
+model_fit_multiMk$fitmultiMk_model <- rownames(model_fit_multiMk)
+rownames(model_fit_multiMk) <- NULL
+
+```
 
 
 # Marginal maximum likelihood ancestral state estimation for the best fitting all rates different (ARD) model
@@ -471,7 +526,7 @@ cols_family <- viridis_pal()(length(levels(family)))
 
 ####- Estimations for flat root prior
 ```{r}
-# Figure S4a: Five states
+# Figure S7A: Five states
 pdf("ML_ASR_5State_flat.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -522,7 +577,7 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
 dev.off()
 
 
-# Figure S4c: Three states
+# Figure S7B: Three states
 pdf("ML_ASR_3State_flat.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -573,7 +628,7 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
 dev.off()
 
 
-# Figure S4e: Binary states
+# Figure S7C: Binary states
 pdf("ML_ASR_Binary_flat.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -627,7 +682,7 @@ dev.off()
 
 ####- Estimations for fitzjohn root prior
 ```{r}
-# Figure S5b: Five states
+# Figure S8D: Five states
 pdf("ML_ASR_5State_fitz.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -678,7 +733,7 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
 dev.off()
 
 
-# Figure S5d: Three states
+# Figure S8E: Three states
 pdf("ML_ASR_3State_fitz.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -728,7 +783,7 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
 dev.off()
 
 
-# Figure S5f: Binary states
+# Figure S8F: Binary states
 pdf("ML_ASR_Binary_fitz.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -822,7 +877,6 @@ saveRDS(simmap_Binary_fitzjohn, file= "simmap_Binary_1000sim_ARD_fitzjohn.RDS")
 
 
 ##* Summarizing SIMMAP's
-
 ```{r}
 # Five state- flat prior
 summary_FiveState_flat <- summary(simmap_FiveState_flat)
@@ -907,7 +961,7 @@ cols_family <- viridis_pal()(length(levels(family)))
 
 ####- Ancestral estimation using flat prior
 ```{r}
-# Figure S4b: Five states
+# Figure S7D: Five states
 pdf("ASR_simmap_5State_Flat.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -958,8 +1012,7 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
 dev.off()
 
 
-# Figure S4d: Three state
-
+# Figure S7E: Three state
 pdf("ASR_simmap_3State_Flat.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -1011,8 +1064,7 @@ dev.off()
 
 
 
-# Figure S4f: Binary state
-
+# Figure S7F: Binary state
 pdf("ASR_simmap_BinaryState_Flat.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -1068,7 +1120,7 @@ dev.off()
 ####- Ancestral estimation using fitzjohn prior
 
 ```{r}
-# Figure 4a: Five state
+# Figure 4A: Five state
 pdf("ASR_simmap_5State_fitzjohn.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -1120,7 +1172,7 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
 dev.off()
 
 
-# Figure 4b: Three state
+# Figure 4B: Three state
 pdf("ASR_simmap_3State_fitzjohn.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -1171,7 +1223,7 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
 dev.off()
 
 
-# Figure 4c: Binary state
+# Figure 4C: Binary state
 pdf("ASR_simmap_BinaryState_Fitz.pdf", height=7, width=7)
 
 par(fg="transparent")
@@ -1221,3 +1273,317 @@ legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
 dev.off()
 
 ```
+
+
+# Ancestral estimation under the gamma rate model for pi="fitzjohn"
+see here for phytools blog on the details and fitting of the model: 
+http://blog.phytools.org/2023/12/reconstructing-ancestral-states-of.html
+http://blog.phytools.org/2023/12/a-variable-rate-discrete-trait.html
+
+```{r}
+# Five state
+ER_DiapauseFive_fitz_gamma <- fitgammaMk(ButterflyPhylo, DiapauseFive, model= "ER",
+                                           pi= "fitzjohn", rand_start=TRUE, min.alpha=0.01)
+
+SYM_DiapauseFive_fitz_gamma <- fitgammaMk(ButterflyPhylo, DiapauseFive, model= "SYM",  
+                                          pi= "fitzjohn", rand_start=TRUE, min.alpha=0.01)
+
+ARD_DiapauseFive_fitz_gamma <- fitgammaMk(ButterflyPhylo, DiapauseFive, model= "ARD",  
+                                          pi= "fitzjohn", rand_start=TRUE, min.alpha=0.01)
+
+
+# Three state
+ER_DiapauseThree_fitz_gamma <- fitgammaMk(ButterflyPhylo, DiapauseThree, model= "ER",
+                                          pi= "fitzjohn", rand_start=TRUE, min.alpha=0.01)
+
+SYM_DiapauseThree_fitz_gamma <- fitgammaMk(ButterflyPhylo, DiapauseThree, model= "SYM",  
+                                           pi= "fitzjohn", rand_start=TRUE, min.alpha=0.01)
+
+ARD_DiapauseThree_fitz_gamma <- fitgammaMk(ButterflyPhylo, DiapauseThree, model= "ARD",  
+                                           pi= "fitzjohn", rand_start=TRUE, min.alpha=0.01)
+
+
+# Binary state
+ER_DiapauseBinary_fitz_gamma <- fitgammaMk(ButterflyPhylo, DiapauseBinary, model= "ER",
+                                            pi= "fitzjohn", rand_start=TRUE, min.alpha=0.01)
+
+ARD_DiapauseBinary_fitz_gamma <- fitgammaMk(ButterflyPhylo, DiapauseBinary, model= "ARD",  
+                                           pi= "fitzjohn", rand_start=TRUE, min.alpha=0.01)
+
+
+
+# saving RDS files
+# saveRDS(ER_DiapauseFive_fitz_gamma, file="fitgamma_ER_DiapauseFive_fitz.RDS")
+# saveRDS(SYM_DiapauseFive_fitz_gamma, file="fitgamma_SYM_DiapauseFive_fitz.RDS")
+# saveRDS(ARD_DiapauseFive_fitz_gamma, file="fitgamma_ARD_DiapauseFive_fitz.RDS")
+# #saveRDS(ER_DiapauseThree_fitz_gamma, file="fitgamma_ER_DiapauseThree_fitz.RDS")
+# saveRDS(SYM_DiapauseThree_fitz_gamma, file="fitgamma_SYM_DiapauseThree_fitz.RDS")
+# saveRDS(ARD_DiapauseThree_fitz_gamma, file="fitgamma_ARD_DiapauseThree_fitz.RDS")
+# saveRDS(ER_DiapauseBinary_fitz_gamma, file="fitgamma_ER_DiapauseBinary_fitz.RDS")
+# saveRDS(ARD_DiapauseBinary_fitz_gamma, file="fitgamma_ARD_DiapauseBinary_fitz.RDS")
+
+
+
+# Table S6: Assessing model fits
+model_fit_gamma = data.frame(
+  states= rep(c("five", "three", "binary"), times=c(3,3,2)),
+  model = c("ER", "SYM", "ARD", "ER", "SYM", "ARD", "ER", "ARD"),
+  
+  logLik= c(ER_DiapauseFive_fitz_gamma$logLik, SYM_DiapauseFive_fitz_gamma$logLik, ARD_DiapauseFive_fitz_gamma$logLik, 
+            ER_DiapauseThree_fitz_gamma$logLik, SYM_DiapauseThree_fitz_gamma$logLik, ARD_DiapauseThree_fitz_gamma$logLik,
+            ER_DiapauseBinary_fitz_gamma$logLik, ARD_DiapauseBinary_fitz_gamma$logLik),
+  
+  AIC= AIC(ER_DiapauseFive_fitz_gamma, SYM_DiapauseFive_fitz_gamma, ARD_DiapauseFive_fitz_gamma, 
+            ER_DiapauseThree_fitz_gamma, SYM_DiapauseThree_fitz_gamma, ARD_DiapauseThree_fitz_gamma,
+            ER_DiapauseBinary_fitz_gamma, ARD_DiapauseBinary_fitz_gamma))
+
+model_fit_gamma
+
+model_fit_flat$fitMk_model <- rownames(model_fit_gamma)
+rownames(model_fit_gamma) <- NULL
+```
+
+
+##* Plotting transition rates for the best fitting ARD gamma rate model
+```{r}
+# Figure S6A: Five states with fitzjohn root
+pdf("gamma_fitMk_5States_ARD_FitzJohn.pdf", height=7, width=7)
+plot(as.Qmatrix(ARD_DiapauseFive_fitz_gamma), show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, lwd=3,  
+     main= "gamma_fitMk_5States_ARD_FitzJohn")
+dev.off()
+
+# Figure S6B: Three states with fitzjohn root
+pdf("gamma_fitMk_3States_ARD_FitzJohn.pdf", height=7, width=7)
+plot(as.Qmatrix(ARD_DiapauseThree_fitz_gamma), show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, lwd=3,  
+     main= "gamma_fitMk_3States_FitzJohn")
+dev.off()
+
+# Figure S6C: Binary states with fitzjohn root
+pdf("gamma_fitMk_Binary_ARD_FitzJohn.pdf", height=7, width=7)
+plot(as.Qmatrix(ARD_DiapauseBinary_fitz_gamma), show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, lwd=3,  
+     main= "gamma_fitMk_Binary_FitzJohn")
+dev.off()
+
+```
+
+
+##* ML ancestral estimation using gamma rate model
+```{r}
+# Five states
+asrFitzFive_gamma_ML <- ancr(ARD_DiapauseFive_fitz_gamma)
+
+# Three states
+asrFitzThree_gamma_ML <- ancr(ARD_DiapauseThree_fitz_gamma)
+
+# Binary states
+asrFitzBinary_gamma_ML <- ancr(ARD_DiapauseBinary_fitz_gamma)
+
+```
+
+##* Plotting marginal ancestral state estimation 
+```{r}
+# Function for adding concentric showing time points on the phylogeny
+add_rings <- function(phylo){
+  
+  T<-max(nodeHeights(phylo))
+  tick.spacing<-10
+  min.tick<-10
+  obj<-axis(1, pos=-3,at=seq(T,min.tick,by=-tick.spacing),cex.axis=2, labels=FALSE)
+  
+  for(i in 1:length(obj)){
+    a1<-0
+    a2<-2*pi
+    draw.arc(0,0,radius=obj[i],a1,a2,lwd=3,
+             col=make.transparent("dodgerblue",0.1))
+  }
+  
+  axis(1,pos=-3,at=seq(T,min.tick,by=-tick.spacing),cex.axis=0.7, labels=FALSE)
+  text(obj,rep(-8.5,length(obj)),T-obj,cex=0.8)
+  text(mean(obj),-12,"time (Mya)",cex=0.8)
+}
+
+
+# Setting colors for states (it seems like the trick is to set the level factor in the same order as the ancr object or else it seems like the color for tip label and node labels becomes different)
+
+# Five states
+DiapauseFive <- factor(DiapauseFive, levels= c( "Adult", "Egg", "Larva", "no_diapause", "Pupa"))
+
+cols_five <- setNames(c("black", "#7EB0DF", "salmon", "grey", "#5D9979"),
+                      c("Adult", "Egg", "Larva", "no_diapause", "Pupa"))
+
+
+# Three states
+DiapauseThree <- factor(DiapauseThree, levels = c("Adult", "Juvenile", "no_diapause"))
+
+cols_three <- setNames(c("black", "salmon", "grey"), 
+                       c("Adult", "Juvenile", "no_diapause")) 
+
+# Binary states
+DiapauseBinary <- factor(DiapauseBinary, levels= c("Diapause", "no_diapause"))
+
+cols_binary <- setNames(c("salmon", "grey"), c("Diapause", "no_diapause"))
+                        
+
+# Setting colors to butterfly families using viridis
+dat_diapause$family <- as.factor(dat_diapause$family)
+family <- setNames(dat_diapause$family, rownames(dat_diapause))
+
+cols_family <- viridis_pal()(length(levels(family)))
+
+
+
+# Figure S6D: Five states
+pdf("gamma_ML_ASR_5State_fitz.pdf", height=7, width=7)
+
+par(fg="transparent")
+gamma_pp_five_Fitz_ML <- asrFitzFive_gamma_ML$ace[1:ButterflyPhylo$Nnode,]
+
+plotTree(ButterflyPhylo, ftype="off", type="fan", lwd=1, tips=seq(1, 953, by=919/953),maxY=953)
+         
+obj<-get("last_plot.phylo",envir=.PlotPhyloEnv)
+n<-Ntip(ButterflyPhylo)
+h<-max(nodeHeights(ButterflyPhylo))
+ii<-order(rowSums(gamma_pp_five_Fitz_ML^2), decreasing=TRUE)
+
+
+par(lend=3)
+for(i in 1:Ntip(ButterflyPhylo)){
+    cc<-if(obj$xx[i]>0) 2 else -2
+    th<-atan(obj$yy[i]/obj$xx[i])
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]-cc*cos(th),
+        obj$yy[i]-cc*sin(th),lwd=4,
+        col=cols_five[DiapauseFive[ButterflyPhylo$tip.label[i]]])
+    
+    # Adding rings according to families
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]+cc*cos(th),
+        obj$yy[i]+cc*sin(th),lwd=4,
+        col=cols_family[family[ButterflyPhylo$tip.label[i]]])
+}
+
+for(i in ii){
+    plotrix::floating.pie(obj$xx[i+Ntip(ButterflyPhylo)],
+        obj$yy[i+Ntip(ButterflyPhylo)],
+        radius=if(max(gamma_pp_five_Fitz_ML[i,])<=0.80) 0.03*h else 0.01*h,
+        x=gamma_pp_five_Fitz_ML[i,],col=cols_five,border="transparent")
+}
+
+par(fg="black")
+add_rings(ButterflyPhylo)
+
+legend(x=0.98*par()$usr[1],y=0.95*par()$usr[4],
+    levels(DiapauseFive),pch=16, col=cols_five,
+    pt.cex=2,bty="n",cex=0.8)
+
+legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
+    levels(family),pch=16, col=cols_family,
+    pt.cex=2,bty="n",cex=0.8)
+
+dev.off()
+
+
+# Figure S6E: Three states
+pdf("gamma_ML_ASR_3State_fitz.pdf", height=7, width=7)
+
+par(fg="transparent")
+gamma_pp_three_Fitz_ML <- asrFitzThree_gamma_ML$ace[1:ButterflyPhylo$Nnode,]
+
+plotTree(ButterflyPhylo, ftype="off", type="fan", lwd=1, tips=seq(1, 953, by=919/953),maxY=953)
+         
+obj<-get("last_plot.phylo",envir=.PlotPhyloEnv)
+n<-Ntip(ButterflyPhylo)
+h<-max(nodeHeights(ButterflyPhylo))
+ii<-order(rowSums(gamma_pp_three_Fitz_ML^2), decreasing=TRUE)
+
+par(lend=3)
+for(i in 1:Ntip(ButterflyPhylo)){
+    cc<-if(obj$xx[i]>0) 2 else -2
+    th<-atan(obj$yy[i]/obj$xx[i])
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]-cc*cos(th),
+        obj$yy[i]-cc*sin(th),lwd=4,
+        col=cols_three[DiapauseThree[ButterflyPhylo$tip.label[i]]])
+    
+    # Adding rings according to families
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]+cc*cos(th),
+        obj$yy[i]+cc*sin(th),lwd=4,
+        col=cols_family[family[ButterflyPhylo$tip.label[i]]])
+}
+
+for(i in ii){
+    plotrix::floating.pie(obj$xx[i+Ntip(ButterflyPhylo)],
+        obj$yy[i+Ntip(ButterflyPhylo)],
+        radius=if(max(gamma_pp_three_Fitz_ML[i,])<=0.80) 0.03*h else 0.01*h,
+        x=gamma_pp_three_Fitz_ML[i,],col=cols_three,border="transparent")
+}
+
+par(fg="black")
+add_rings(ButterflyPhylo)
+
+legend(x=0.98*par()$usr[1],y=0.9*par()$usr[4],
+    levels(DiapauseThree),pch=16, col=cols_three,
+    pt.cex=2,bty="n",cex=0.8)
+
+legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
+    levels(family),pch=16, col=cols_family,
+    pt.cex=2,bty="n",cex=0.8)
+
+dev.off()
+
+
+# Figure S6F: Binary states
+pdf("gamma_ML_ASR_Binary_fitz.pdf", height=7, width=7)
+
+par(fg="transparent")
+gamma_pp_binary_Fitz_ML <- asrFitzBinary_gamma_ML$ace[1:ButterflyPhylo$Nnode,]
+
+plotTree(ButterflyPhylo, ftype="off", type="fan", lwd=1, tips=seq(1, 953, by=919/953),maxY=953)
+         
+obj<-get("last_plot.phylo",envir=.PlotPhyloEnv)
+n<-Ntip(ButterflyPhylo)
+h<-max(nodeHeights(ButterflyPhylo))
+ii<-order(rowSums(gamma_pp_binary_Fitz_ML^2), decreasing=TRUE)
+
+par(lend=3)
+for(i in 1:Ntip(ButterflyPhylo)){
+    cc<-if(obj$xx[i]>0) 2 else -2
+    th<-atan(obj$yy[i]/obj$xx[i])
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]-cc*cos(th),
+        obj$yy[i]-cc*sin(th),lwd=4,
+        col=cols_binary[DiapauseBinary[ButterflyPhylo$tip.label[i]]])
+    
+    # Adding rings according to families
+    segments(obj$xx[i],obj$yy[i],
+        obj$xx[i]+cc*cos(th),
+        obj$yy[i]+cc*sin(th),lwd=4,
+        col=cols_family[family[ButterflyPhylo$tip.label[i]]])
+}
+
+for(i in ii){
+    plotrix::floating.pie(obj$xx[i+Ntip(ButterflyPhylo)],
+        obj$yy[i+Ntip(ButterflyPhylo)],
+        radius=if(max(gamma_pp_binary_Fitz_ML[i,])<=0.80) 0.03*h else 0.01*h,
+        x=gamma_pp_binary_Fitz_ML[i,],col=cols_binary,border="transparent")
+}
+
+par(fg="black")
+add_rings(ButterflyPhylo)
+
+legend(x=0.98*par()$usr[1],y=0.95*par()$usr[4],
+    levels(DiapauseBinary),pch=16, col=cols_binary,
+    pt.cex=2,bty="n",cex=0.8)
+
+legend(x= -0.5*par()$usr[1],y=0.95*par()$usr[4],
+    levels(family),pch=16, col=cols_family,
+    pt.cex=2,bty="n",cex=0.8)
+
+dev.off()
+
+```
+
+
+
+

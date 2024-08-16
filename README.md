@@ -12,7 +12,7 @@ Summary of the contents
 
 
 ## Phylogenies
-- `butterfly_phylogeny_Chazot_et_al_2019.tre`: Global genus-level phylogeny obtained from from Chazot et al. (2019):10.1093/sysbio/syz002 
+- `S_3b_core_analysis_median_ages.tre`: Global genus-level phylogeny obtained from from Chazot et al. (2019):10.1093/sysbio/syz002 
 - `butterfly_phylogeny_pruned.trees`: This is a pruned phylogeny consisting of 952 tips ready for running the comparative analyses. 
 
 ## Code

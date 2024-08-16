@@ -8,7 +8,6 @@ editor_options:
 ---
 
 # Import required libraries & set working directory
-
 ```{r setup, message=F}
 library(tidyverse)
 library(ape)
@@ -21,6 +20,8 @@ library(phytools)
 # set working directory
 setwd("")
 
+setwd("/Users/sridhar/Library/CloudStorage/OneDrive-LundUniversity/LU box backup/Evolution of diapause/evo of diapause/Updated_diapause_analyses_19_sep_2023/diapause_reanalyses_Mar 2024/GitHub_uploading_codes_EvoLett_22 July 2024")
+list.files()
 ```
 
 # Importing diapause data and doing some preprocessing
@@ -50,11 +51,10 @@ dat_pruned_skip <- dat_pruned %>%
 
 
 # Recoding some diapause states
-Some taxa in the data can diapause in both larval and pupal stage. We're recoding these taxa as 'larval' diapause (see Methods in the main for details). Also, for one of the taxa (tip label = UK78_Iliana_sp_) the family is wrongly defined so this will mistake will be corrected in this chunk.
+Some taxa in the data can diapause in both larval and pupal stage. We're recoding these taxa as 'larval' diapause (see Methods in the main for details). Also, recoding none/flexible state as 'Flex' for simplicity. 
+Also, for one of the taxa (tip label = UK78_Iliana_sp_) the family is wrongly defined so this will mistake will be corrected in this chunk.
 
 ```{r}
-head(dat_pruned_skip)
-
 dat_recoded <- dat_pruned_skip %>% 
   
   mutate(diapause_five_state = case_when(
@@ -67,7 +67,6 @@ dat_recoded <- dat_pruned_skip %>%
     diapause_binary = case_when(
       diapause_2_state_revised == "true_diapause" ~ "Diapause",
       TRUE~diapause_2_state_revised))
-  
 
 # Change the family of this one tree label which is wrongly assigned in the original data. Changing family of "UK78_Iliana_sp_" tree label from Riodinidae to Hesperiidae
 row_number <- which(dat_recoded$tree_label == "UK78_Iliana_sp_")
@@ -123,7 +122,7 @@ dat_recoded %>% group_by(diapause_five_state) %>% count() %>%
 dev.off()
 
 
-# Figure  S1: number of taxa in each state for the three state classification  
+# Figure  S2: number of taxa in each state for the three state classification  
 pdf("genera_number_three_state.pdf", height=5, width=5)
 
 dat_recoded %>% group_by(diapause_three_state) %>% count() %>%
@@ -135,7 +134,7 @@ dat_recoded %>% group_by(diapause_three_state) %>% count() %>%
 dev.off()
 
 
-# Figure  S1: number of taxa in each state for the binary state classification  
+# Figure  S2: number of taxa in each state for the binary state classification  
 pdf("genera_number_binary_state.pdf", height=5, width=5)
 
 dat_recoded %>% group_by(diapause_binary) %>% count() %>%
@@ -189,10 +188,10 @@ DatPropThree$family <- factor(DatPropThree$family,
 
 DatPropBinary$family <- factor(DatPropBinary$family, 
                              levels= c("Papilionidae", "Pieridae", "Nymphalidae",
-                                       "Lycaenidae", "Hesperiidae", "Riodinidae")
+                                       "Lycaenidae", "Hesperiidae", "Riodinidae"))
                                        
 
-# Figure 1b: relative proportion of diapause states per family for five state classification
+# Figure S4: relative proportion of diapause states per family for five state classification
 pdf("proportion_5_state.pdf", height=6, width=6)
 
 DatPropFive %>% 
@@ -207,7 +206,7 @@ DatPropFive %>%
 dev.off()
 
 
-# Figure S2: relative proportion of diapause states per family for three state classification
+# Figure S4: relative proportion of diapause states per family for three state classification
 pdf("proportion_3_state.pdf", height=6, width=6)
 
 DatPropThree %>% 
@@ -222,7 +221,7 @@ DatPropThree %>%
 dev.off()
 
 
-# Figure S2: relative proportion of diapause states per family for binary state classification
+# Figure S4: relative proportion of diapause states per family for binary state classification
 pdf("proportion_2_state.pdf", height=6, width=6)
 
 DatPropBinary %>% 
@@ -247,8 +246,9 @@ head(dat_diapause)
 length(dat_diapause$tree_genus)  # 952 tips
 
 # Importing phylogeny from Chazot et al. (2019). Systematic Biology. 68(5), 797-813 
+#phylo_genera <- read.nexus("butterfly_phylogeny_Chazot_et_al_2019.tre")
 
-phylo_genera <- read.nexus("butterfly_phylogeny_Chazot_et_al_2019.tre")
+phylo_genera <- read.nexus("S_3b_core_analysis_median_ages.tre")
 
 plotTree(phylo_genera, type="fan", ftype='off')
 
@@ -265,5 +265,69 @@ plotTree(ButterflyPhylo, type="fan", ftype= "off")
 # exporting pruned phylogeny
 #write.nexus(ButterflyPhylo, file= "butterfly_phylogeny_pruned.trees")
 
+```
+
+
+# Missing species
+Investigating how missing species (for which diapause data could not be collected) are distributed across the phylogeny and check the distribution of branch lengths for these species
+
+```{r}
+# data frame for missing species
+dat_missing_species <- dat_pruned %>% 
+  filter(diapause_5_state_revised  %in%  c("skip", "skip_high altitude"))
+
+dat_missing_species
+
+# creating vector of the missing species
+missing_species_list <- as.vector(dat_missing_species$tree_label)
+
+# Figure S1: Highlighting the missing species on the phylogeny using add.arrow function from phytools
+pdf("missing_species.pdf", height=7, width = 7)
+plotTree(phylo_genera, type="fan", ftype='off', color="grey", lwd=1)
+add.arrow(phylo_genera, tip= missing_species_list, 
+          lwd=1, arrl=5, col="red")
+dev.off()
+
+
+#================ Extracting branch lengths ==================#
+# extracting tip names
+tips <- phylo_genera$tip.label
+tips
+
+# first get the node numbers of the tips
+nodes<-sapply(tips,function(x,y) which(y==x),y=phylo_genera$tip.label)
+nodes
+
+ # Then get the edge lengths for those nodes
+edge.lengths<-setNames(phylo_genera$edge.length[sapply(nodes,
+    function(x,y) which(y==x),y=phylo_genera$edge[,2])],names(nodes))
+
+edge.lengths <- data.frame(edge.lengths)
+edge.lengths
+
+# rowname to columns
+edge.lengths <- edge.lengths %>% rownames_to_column("tip_label")
+head(edge.lengths)
+
+ 
+# subsetting to the list of missing species
+missing_species_edges <- edge.lengths %>% 
+  filter(tip_label %in% dat_missing_species$tree_label)
+
+missing_species_edges
+
+
+# Figure S1: plotting edge lenghts of missing species on top of entire distribution of edge lengths
+pdf("missing_species_histogram_new.pdf", height=5, width=6)
+edge.lengths %>% 
+  ggplot(aes(x=edge.lengths)) +
+  geom_histogram(bins=60, alpha=0.7, color="black", size=0.05) +
+  geom_segment(data = data.frame(x = missing_species_edges$edge.lengths, y = -2, yend = 1), 
+                      aes(x = x, xend = x, y = y, yend = yend), 
+                      linetype = "solid", color = "red", size = 0.4) +
+  xlab("Edge lenghts (in millions of years)") + ylab("Count") +
+  theme_bw()
+dev.off()
 
 ```
+

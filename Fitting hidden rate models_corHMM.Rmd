@@ -74,7 +74,7 @@ dat_BinaryState$DiapauseBinaryState <- as.numeric(dat_BinaryState$DiapauseBinary
 ```
 
 
-# Fitting standard Mk (just compare with phytools) hidden rates models only the all rates different models since this was overwhelmingly best fitting model 
+# Fitting standard Mk (just compare with phytools) hidden rates models only the all rates different models since this was the best fitting model 
 Note that 'root.p' argument is for choosing the root prior. Similar to the analyses carried out in phytools, we are fitting both 'flat' (which is NULL in corHMM) and 'fitzjohn' (which is maddfitz in corHMM)
 
 
@@ -382,7 +382,7 @@ mod_2state_ARD_Umbral_hrm_fitz <- readRDS("corhmm_2State_Umbral_hrm_fitz.RDS")
 ```
 
 
-# Table 2:  Assessing model fits- extracting log likelihood and AIC values
+# Table S5:  Assessing model fits- extracting log likelihood and AIC values
 ```{r}
 ModelFitHRM <- data.frame(
   
@@ -481,14 +481,14 @@ colnames(FiveState_Umbral_fitz_qMat) <- c("Adult", "Egg", "Larva", "no_diapause"
 rownames(FiveState_Umbral_fitz_qMat) <- c("Adult", "Egg", "Larva", "no_diapause", "Pupa", 
                                            "Adult*", "Egg*", "Larva*", "no_diapause*", "Pupa*")
 
-# Figure S3a: Plotting rates
+# Figure S5A: Plotting rates
 pdf("plotMK_Five_Umbral_flat.pdf", height=7, width=7)
 plot(FiveState_Umbral_flat_qMat, show.zeros=F, color=T, spacer=0.2, cex.rates=0.8, 
      lwd=3, main= "hrm_FiveState_Umbral_flat_prior")
 dev.off()
 
 
-# Figure S3b: Plotting rates
+# Figure S5D: Plotting rates
 pdf("plotMK_Five_Umbral_fitz.pdf", height=7, width=7)
 plot(FiveState_Umbral_fitz_qMat, show.zeros=F, color=T, spacer=0.2, cex.rates=0.8, 
      lwd=3, main= "hrm_TFiveState_Umbral_fitz_prior")
@@ -516,7 +516,7 @@ colnames(ThreeState_Umbral_fitz_qMat) <- c("Adult", "Juvenile", "no_diapause",
 rownames(ThreeState_Umbral_fitz_qMat) <- c("Adult", "Juvenile", "no_diapause",
                                            "Adult*", "Juvenile*", "no_diapause*")
 
-# Figure S3c: Plotting rates
+# Figure S5B: Plotting rates
 pdf("plotMK_Three_Umbral_flat.pdf", height=7, width=7)
 
 plot(ThreeState_Umbral_flat_qMat, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, 
@@ -525,7 +525,7 @@ plot(ThreeState_Umbral_flat_qMat, show.zeros=T, color=T, spacer=0.2, cex.rates=0
 dev.off()
 
 
-# Figure S3d: Plotting rates
+# Figure S5E: Plotting rates
 pdf("plotMK_Three_Umbral_fitz.pdf", height=7, width=7)
 
 plot(ThreeState_Umbral_fitz_qMat, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, 
@@ -549,7 +549,7 @@ colnames(BinaryState_Umbral_fitz_qMat) <- c("Diapause", "no_diapause", "Diapause
 rownames(BinaryState_Umbral_fitz_qMat) <- c("Diapause", "no_diapause", "Diapause*", "no_diapause*")
 
 
-# Figure S3e: Plotting rates
+# Figure S5C: Plotting rates
 pdf("plotMK_Binary_Umbral_flat.pdf", height=7, width=7)
 plot(BinaryState_Umbral_flat_qMat, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, 
      lwd=3, main= "hrm_BinaryState_Umbral_flat_prior")
@@ -557,7 +557,7 @@ plot(BinaryState_Umbral_flat_qMat, show.zeros=T, color=T, spacer=0.2, cex.rates=
 dev.off()
 
 
-# Figure S3f: Plotting rates
+# Figure S5F: Plotting rates
 pdf("plotMK_Binary_Umbral_fitz.pdf", height=7, width=7)
 plot(BinaryState_Umbral_fitz_qMat, show.zeros=T, color=T, spacer=0.2, cex.rates=0.9, 
      lwd=3, main= "hrm_BinaryState_Umbral_fitz_prior")
@@ -714,8 +714,7 @@ cols_family <- viridis_pal()(length(levels(family)))
 
 ##* Plotting reconstructions
 ```{r}
-
-#============= Figure S5a: Five states: flat prior =============#
+#============= Figure S8A: Five states: flat prior =============#
 
 pdf("corhmm_FiveStates_flat_7Feb24.pdf", height=7, width=7)
 
@@ -763,7 +762,7 @@ dev.off()
 
 
 
-#============= Figure 4d: Five states: fitz prior =============#
+#============= Figure 4D: Five states: fitz prior =============#
 
 pdf("corhmm_FiveStates_fitz_7Feb24.pdf", height=7, width=7)
 
@@ -810,7 +809,7 @@ legend(x=0.98*par()$usr[1],y=0.9*par()$usr[4],
 dev.off()
 
 
-#============= Figure S5c: Three states: flat prior =============#
+#============= Figure S8B: Three states: flat prior =============#
 
 pdf("corhmm_ThreeStates_flat_7Feb24.pdf", height=7, width=7)
 
@@ -858,7 +857,7 @@ legend(x=0.98*par()$usr[1],y=0.9*par()$usr[4],
 dev.off()
 
 
-#============= Figure 4e: Three states: fitzjohn prior =============#
+#============= Figure 4E: Three states: fitzjohn prior =============#
 
 pdf("corhmm_ThreeStates_fitz_7Feb24.pdf", height=7, width=7)
 
@@ -906,7 +905,7 @@ legend(x=0.98*par()$usr[1],y=0.9*par()$usr[4],
 dev.off()
 
 
-#============= Figure S5e: Binary states: flat prior =============#
+#============= Figure S8C: Binary states: flat prior =============#
 
 pdf("corhmm_BinaryStates_flat_7Feb24.pdf", height=7, width=7)
 
@@ -954,7 +953,7 @@ dev.off()
 
 
 
-#============= Figure 4f: Binary states: fitzjohn prior =============#
+#============= Figure 4F: Binary states: fitzjohn prior =============#
 
 pdf("corhmm_BinaryStates_fitz_7Feb24.pdf", height=7, width=7)
 

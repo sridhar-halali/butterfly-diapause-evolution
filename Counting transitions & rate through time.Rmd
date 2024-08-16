@@ -24,7 +24,7 @@ setwd("")
 
 # Reading stochastic maps saved as .RDS files
 ```{r}
-# Reading stochastic simulations RDS file if already not in the R environment
+# Reading stochastic maps (RDS files) if already not in the R environment
 SimmapFiveState_flat <- readRDS("simmap_5state_1000sim_ARD_flat.RDS")
 SimmapThreeState_flat <- readRDS("simmap_3state_1000sim_ARD_flat.RDS")
 SimmapBinaryState_flat <- readRDS("simmap_Binary_1000sim_ARD_flat.RDS")
@@ -52,7 +52,7 @@ counts_BinaryStates_fitz <- data.frame(countSimmap(SimmapBinaryState_fitz)[[1]])
 
 ```
 
-##* Some data carpentry to get data into shape for plotting
+##* Getting data into shape for plotting
 ```{r}
 head(counts_FiveStates_fitz)
 
@@ -224,20 +224,18 @@ dev.off()
 
 
 # Calculating Rate Trough time
-Calculating rate through time using 1000 stochastic maps. The rate is calculated by dividing the number transitions by the edge length in a given bin or segment. Here I am dividing the entire phylogeny into 30 bins (i.e. 107.60/30), thus, one bin equals to ~3.58 million years. Type="all" estimates total rates by taking all transitions into account. See Methods section for details. 
+Calculating rate through time using 1000 stochastic maps. The rate is calculated by dividing the number transitions by the edge length in a given bin or segment. Here the phylogeny is divided into 30 bins (i.e. 107.60/30), thus, one bin equals to ~3.58 million years. 
 
 ##* Loading functions for calculating and plotting rate through time. 
-Only some functions are modified from the original code that can be found here (https://github.com/jakeberv/mammal_arboreality). The original getrates(), rateplot() and segplot() functions were especially modified to able to compute and plot confidence intervals around the rates. Function were modified by Etka Yapar. Please load both source codes. 
+Only some functions are modified from the original code that can be found here (https://github.com/jakeberv/mammal_arboreality). The original getrates(), rateplot() and segplot() functions were especially modified to able to compute and plot confidence intervals for the rates. Please load both source codes. 
 
 ```{r}
-
 # Loading original function (can be found here: https://github.com/jakeberv/mammal_arboreality)
 # Original article can be found here:  https://doi.org/10.1002/ece3.8114
 source("source_rate_through_time_Hughes_et_al_2021.R")
 
 # Loading modified function (based on the original function mentioned above) for incorporating confidence bounds on rate through time calculations 
 source("getRates_modified_Etka_Yapar.R")
-
 
 # Total age of the tree
 ButterflyPhylo <- read.nexus("butterfly_phylogeny_pruned.trees")
@@ -339,6 +337,7 @@ legend("topleft",
        bty = 'n', lty=1, lwd=4)
 
 dev.off()
+
 ```
 
 
@@ -437,7 +436,7 @@ dev.off()
 
 ####- fitzjohn root prior
 ```{r}
-# Calculating rates for higher frequency transitions (new function)
+# Calculating rates for higher frequency shifts
 counts.LF_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_fitz, type="Larva->no_diapause", uncert = "confint")
 counts.FL_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_fitz, type="no_diapause->Larva", uncert = "confint")
 counts.PF_fitz <- getrates_ey(tree=ButterflyPhylo, bins=30, maps=SimmapFiveState_fitz, type="Pupa->no_diapause", uncert = "confint")
@@ -481,7 +480,308 @@ dev.off()
 ```
 
 
+# Calculating rates across posterior trees
+
+##* Importing 200 pruned posterior trees
+```{r}
+# Import pruned multiphylo from Chazot et al. (2019)
+ButterflyMultiPruned <- read.nexus("ButterflyPhyloMulti_pruned.trees")
 
 
+# Calculating maximum node height across trees
+max_node_height <- function(tree) {
+  node_heights <- nodeHeights(tree)
+  return(max(node_heights))
+}
+
+# Apply the function to each tree in the set of posterior trees
+max_node_heights <- sapply(ButterflyMultiPruned, max_node_height)
+max_node_heights <- data.frame(max_node_heights)
+max_node_heights
+
+# Figure S11
+png("variation_max_nodeheight.png", height=6, width=6, units='in', res=300)
+max_node_heights %>% 
+  ggplot(aes(x=max_node_heights)) + 
+  geom_histogram() +
+  theme_bw()
+dev.off()
+
+```
+
+
+##* Preparing data for stochastic mapping 
+```{r}
+# Importing processed diapause data & pruned phylogeny (see 'preprocessing data & some plots' script for pre-processing steps)
+diapause_processed_dat <- read.xlsx("diapause_classification_data_PROCESSED.xlsx")
+
+# Assigning first column as a row names
+dat_diapause <- data.frame(diapause_processed_dat, row.names = 1)
+
+# Factorising all columns
+dat_diapause <- dat_diapause %>% mutate_if(is.character,as.factor)
+
+# Extracting diapause classification columns and assigning to rownames
+DiapauseFive <- setNames(dat_diapause$diapause_five_state, rownames(dat_diapause)) 
+DiapauseThree <- setNames(dat_diapause$diapause_three_state, rownames(dat_diapause)) 
+DiapauseBinary <- setNames(dat_diapause$diapause_binary, rownames(dat_diapause)) 
+
+```
+
+##* Fitting make.simmap generating 100 stochastic maps per 200 posterior trees only for ARD model with fittzjohn prior
+```{r}
+# Parallelising make.simmap for running five states as fitting this model takes a lot of time
+library(parallel)
+
+detectCores()
+cl <- makeCluster(14)
+clusterExport(cl=cl, varlist=c("make.simmap", "DiapauseFive"))
+
+par_simmap_FiveStates_fitz <- parLapply(
+  cl=cl, 
+  ButterflyMultiPruned, 
+  function(tree){
+    result<-make.simmap(tree = tree, x=DiapauseFive, model="ARD", nsim=100, pi="fitzjohn")
+  })
+
+saveRDS(par_simmap_FiveStates_fitz, file="FiveState_200Trees_100sim_ARD_fitz.RDS")
+
+
+# Three state
+simmap_ThreeState_fitzjohn <- make.simmap(ButterflyMultiPruned, DiapauseThree, model= "ARD", 
+                                         nsim= 100, pi= "fitzjohn")
+saveRDS(simmap_ThreeState_fitzjohn, file= "simmap_3state_100sim_ARD_fitzjohn.RDS")
+
+
+# Binary state
+simmap_Binary_fitzjohn <- make.simmap(ButterflyMultiPruned, DiapauseBinary, model= "ARD", 
+                                          nsim= 100, pi= "fitzjohn")
+saveRDS(simmap_Binary_fitzjohn, file= "simmap_Binary_200Tree_100Sim_ARD_fitzjohn.RDS")
+
+```
+
+
+##* Calculating Rate Trough time across posterior trees (20000 stochastic maps in total)
+The procedure is same as above but using looped version of the functions (available here: https://github.com/jakeberv/mammal_arboreality). 
+
+###- Binary state diapause clasification 
+```{r}
+# Reading stochastic maps ran on posterior trees
+#SimmapBinaryState_fitz_multi <- readRDS("simmap_Binary_200Tree_100Sim_ARD_fitzjohn.RDS")
+
+# grouping stochastic based on posterior tree identity (splitter function is imported from Hughes et al. (2021) source code
+RatesSplitter_binary <- splitter(SimmapBinaryState_fitz_multi, length = 100)
+RatesSplitter_binary
+
+
+# Calculating rates for each transition across posterior trees
+counts.DF_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = RatesSplitter_binary, type="Diapause->no_diapause", log=F)
+
+counts.FD_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = RatesSplitter_binary, type="no_diapause->Diapause", log=F)
+
+
+# Figure S12C
+# plotting rates for posterior trees
+png("Binary_Rates_posterior.png", height=7, width=7, res=300, units='in')
+# Plotting rates for all posterior trees
+segplotloop(counts.DF_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#440154FF", 0.2),
+            spline=T, width=0.2, ax=T, lty = 1)
+
+segplotloop(counts.FD_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#7AD151FF", 0.2),
+            spline=T, width=0.5, ax=T, lty = 1)
+
+
+# Overlaying rates calculated for single consensus tree
+par(new=T)
+segplot(rates=counts.DF_fitz, ylim=c(0,0.03), color= "#440154FF",  spline=T, width=3, ax=F, lty=1)
+par(new=T)
+segplot(rates=counts.FD_fitz, ylim=c(0,0.03), color= "#7AD151FF",  spline=T, width=3, ax=F, lty=2)
+
+abline(v = 35, col = "grey", lty = 2, lwd=2)
+legend("topleft",
+       legend=c("diapause -> no diapause", "no diapause -> diapause"),
+       col = c("#440154FF", "#7AD151FF"), bty = 'n', lty=1, lwd=5)
+      
+dev.off()
+```
+
+###- Three state diapause clasification
+```{r}
+# Reading stochastic maps ran on posterior trees
+#SimmapThreeState_fitz_multi <- readRDS("simmap_3state_200Tree_100Sim_ARD_fitzjohn.RDS")
+
+
+# grouping stochastic based on posterior tree identity
+RatesSplitter_three <- splitter(SimmapThreeState_fitz_multi, length = 100)
+head(RatesSplitter_three)
+
+
+# Calculating rates
+counts.AJ_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = RatesSplitter_three, type="Adult->Juvenile", log=F)
+
+counts.JA_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = RatesSplitter_three, type="Juvenile->Adult", log=F)
+
+counts.JF_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = RatesSplitter_three, type="Juvenile->no_diapause", log=F)
+
+counts.FJ_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = RatesSplitter_three, type="no_diapause->Juvenile", log=F)
+
+counts.FA_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = RatesSplitter_three, type="no_diapause->Adult", log=F)
+
+counts.AF_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = RatesSplitter_three, type="Adult->no_diapause", log=F)
+
+
+# Figure S12B
+# plotting rates for posterior trees
+png("3States_Rates_posterior.png", height=7, width=7, res=300, units='in')
+
+segplotloop(counts.JF_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#440154FF", 0.2),
+            spline=T, width=0.2, ax=T, lty = 1)
+
+segplotloop(counts.AJ_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("salmon", 0.2),
+            spline=T, width=0.5, ax=T, lty = 1)
+
+segplotloop(counts.JA_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#2A788EFF", 0.2),
+            spline=T, width=0.2, ax=T, lty = 1)
+
+segplotloop(counts.FJ_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#22A884FF", 0.2),
+            spline=T, width=0.5, ax=T, lty = 1)
+
+segplotloop(counts.FA_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#7AD151FF", 0.2),
+            spline=T, width=0.2, ax=T, lty = 1)
+
+segplotloop(counts.AF_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#FDE725FF", 0.2),
+            spline=T, width=0.5, ax=T, lty = 1)
+
+
+# Overlaying rates calculated for single consensus tree
+par(new=T)
+segplot(rates=counts.JF_fitz, ylim = c(0,0.03), color= "#440154FF",  spline=T, width=3, ax=F, lty=1)
+
+par(new=T)
+segplot(rates=counts.AJ_fitz, ylim = c(0,0.03), color= "salmon",  spline=T, width=3, ax=F, lty=2)
+
+par(new=T)
+segplot(rates=counts.JA_fitz, ylim = c(0,0.03), color= "#2A788EFF",  spline=T, width=3, ax=F, lty=2)
+
+par(new=T)
+segplot(rates=counts.FJ_fitz, ylim = c(0,0.03), color= "#22A884FF",  spline=T, width=3, ax=F, lty=2)
+
+par(new=T)
+segplot(rates=counts.FA_fitz, ylim = c(0,0.03), color= "#7AD151FF",  spline=T, width=3, ax=F, lty=2)
+
+par(new=T)
+segplot(rates=counts.AF_fitz, ylim = c(0,0.03), color= "#FDE725FF",  spline=T, width=3, ax=F, lty=1)
+
+abline(v = 35, col = "grey", lty = 2, lwd=2)
+
+legend("topleft", 
+       legend=c("juvenile -> no diapause", 
+                "adult -> juvenile",  
+                "juvenile -> adult",
+                "no diapause -> juvenile",
+                "no diapause -> adult",
+                "adult -> no diapause"),
+       col = c("#440154FF", "salmon", "#2A788EFF", "#22A884FF", "#7AD151FF", "#FDE725FF"),
+       bty = 'n', lty=1, lwd=4)
+
+dev.off()
+
+```
+
+###- Five state diapause clasification
+```{r}
+# Reading stochastic maps ran on posterior trees
+#SimmapThreeState_fitz_multi <- readRDS("simmap_3state_200Tree_100Sim_ARD_fitzjohn.RDS")
+
+
+# applying splitter() function is not needed as the object is already in the required format (because the make.simmap for five states is ran differently, that is, by parallelizing the run)
+
+# Calculating rates
+counts.LF_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = SimmapFiveState_fitz_multi, type= "Larva->no_diapause", log=F)
+
+counts.FL_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = SimmapFiveState_fitz_multi, type= "no_diapause->Larva", log=F)
+
+counts.PF_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = SimmapFiveState_fitz_multi, type= "Pupa->no_diapause", log=F)
+
+counts.PL_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = SimmapFiveState_fitz_multi, type= "Pupa->Larva", log=F)
+
+counts.FP_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = SimmapFiveState_fitz_multi, type= "no_diapause->Pupa", log=F)
+
+counts.FA_fitz_loop <- getratesloop(ButterflyMultiPruned, bins = 30, 
+                          splitmaps = SimmapFiveState_fitz_multi, type= "no_diapause->Adult", log=F)
+
+
+# Figure S12A
+# plotting rates for posterior trees
+
+png("5States_Rates_posterior.png", height=7, width=7, res=300, units='in')
+
+segplotloop(counts.LF_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#440154FF", 0.2),
+            spline=T, width=0.2, ax=T, lty = 1)
+
+segplotloop(counts.FL_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("salmon", 0.2),
+            spline=T, width=0.5, ax=T, lty = 1)
+
+segplotloop(counts.PF_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#2A788EFF", 0.2),
+            spline=T, width=0.2, ax=T, lty = 1)
+
+segplotloop(counts.PL_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#22A884FF", 0.2),
+            spline=T, width=0.5, ax=T, lty = 1)
+
+segplotloop(counts.FP_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#7AD151FF", 0.2),
+            spline=T, width=0.2, ax=T, lty = 1)
+
+segplotloop(counts.FA_fitz_loop, ylim = c(0,0.03), xlim= c(110, 0), color = alpha("#FDE725FF", 0.2),
+            spline=T, width=0.5, ax=T, lty = 1)
+
+
+# Overlaying rates calculated for single consensus tree
+par(new=T)
+segplot(rates=counts.LF_fitz, ylim = c(0,0.03), color= "#440154FF",  spline=T, width=3, ax=F, lty=1)
+
+par(new=T)
+segplot(rates=counts.FL_fitz, ylim = c(0,0.03), color= "salmon",  spline=T, width=3, ax=F, lty=2)
+
+par(new=T)
+segplot(rates=counts.PF_fitz, ylim = c(0,0.03), color= "#2A788EFF",  spline=T, width=3, ax=F, lty=1)
+
+par(new=T)
+segplot(rates=counts.PL_fitz, ylim = c(0,0.03), color= "#22A884FF",  spline=T, width=3, ax=F, lty=2)
+
+par(new=T)
+segplot(rates=counts.FP_fitz, ylim = c(0,0.03), color= "#7AD151FF",  spline=T, width=3, ax=F, lty=2)
+
+par(new=T)
+segplot(rates=counts.FA_fitz, ylim = c(0,0.03), color= "#FDE725FF",  spline=T, width=3, ax=F, lty=1)
+
+abline(v = 35, col = "grey", lty = 2, lwd=2)
+
+
+legend("topleft", 
+       legend=c("larva -> no diapause",  
+                "no diapause -> larva", 
+                "pupa -> no diapause", 
+                "pupa -> larva", 
+                "no diapause -> pupa", 
+                "no diapause -> adult"),  
+       col = c("#440154FF", "salmon", "#2A788EFF", "#22A884FF", "#7AD151FF", "#FDE725FF"),
+       bty = 'n', lty=1, lwd=4)
+
+dev.off()
+
+```
 
 
